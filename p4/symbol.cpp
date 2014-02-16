@@ -1,30 +1,37 @@
 # include "symbol.h"
   
-void Symbol::set(string type, string name, string value)
+void Symbol::set(string name, string type, int int_val, double double_val, string string_val)
 {
-  symbol_type = type;
-  symbol_name = name;
-  symbol_value = value;
+  m_name = name;
+  m_type = INT;
+  m_int = int_val;
+  m_string = string_val;
+  m_double = double_val;
 }
 Symbol::Symbol()
 {
-  symbol_type = "NULL";
-  symbol_name= "NULL";
-  symbol_value= "NULL";
+  m_name= "NULL";
+  m_int = 0;
+  m_double = 0;
 }
-string Symbol::return_type()
+Gpl_type Symbol::return_type()
 {
-  return symbol_type;
+  return m_type;
 }
 string Symbol::return_name()
 {
-  return symbol_name;
+  return m_name;
 }
-string Symbol::return_value()
+int Symbol::return_int()
 {
-  return symbol_value;
+  return m_int;
+}
+double Symbol::return_double()
+{
+  return m_double;
 }
 void Symbol::print(ostream &os)
 {
-  os << symbol_type << " " << symbol_name << " " << symbol_type;
+  cout << m_type;
+  //os << m_type << " " << m_name << " " << m_int << m_double << endl;
 }

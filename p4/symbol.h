@@ -3,19 +3,21 @@
 # include <iostream>
 using namespace std;
 # include <string>
-# include <map>
+# include "gpl_type.h"
 class Symbol{
   private:
-    map<string, string> s_map;
-    string symbol_type;
-    string symbol_name;
-    string symbol_value;
+    Gpl_type m_type;
+    string m_name;
+    int m_int;
+    double m_double;
+    string m_string;
   public: 
-    void set (string type, string name, string value);
+    void set (string name,string type, int int_val, double double_val, string string_val);
     Symbol();
-    string return_type();
+    Gpl_type return_type();
     string return_name();
-    string return_value();
+    int return_int();
+    double return_double();
     void print(ostream &os);
 };
 

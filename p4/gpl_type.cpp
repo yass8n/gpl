@@ -16,7 +16,7 @@ string gpl_type_to_string(Gpl_type gpl_type)
 
   return "error";  // this keeps compiler happy
 }
-
+/*
 ostream &operator<<(ostream &os, const Gpl_type &gpl_type)
 {
   switch (gpl_type)
@@ -31,6 +31,7 @@ ostream &operator<<(ostream &os, const Gpl_type &gpl_type)
 
   return os;
 }
+*/
 
 string status_to_string(Status status)
 {

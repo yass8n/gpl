@@ -23,7 +23,7 @@ enum Gpl_type {INT = 1,
 
 std::string gpl_type_to_string(Gpl_type gpl_type);
 
-std::ostream &operator<<(std::ostream &os, const Gpl_type &gpl_type);
+//std::ostream &operator<<(std::ostream &os, const Gpl_type &gpl_type);
 
 enum Status {OK,
              MEMBER_NOT_OF_GIVEN_TYPE,
