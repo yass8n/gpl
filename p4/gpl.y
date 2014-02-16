@@ -173,24 +173,51 @@ declaration:
 variable_declaration:
     simple_type  T_ID  optional_initializer
 {
-Symbol_table *sym_table = Symbol_table::instance();
-     if ($1 == INT){}//put into symbol table
-     if ($1 == DOUBLE){}//put into symbol table
-     if ($1 == STRING){}//put into symbol table
- 
+ Symbol_table *sym_table = Symbol_table::instance();
+ string id = *$2;
+     if (sym_table->lookup(id))
+     {
+          if ($1 == INT)//put into symbol table
+          {
+cout << "heres the array " << *$2 << " "<< id << endl;
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "INT", 42, 3.145, "Hello World");
+           sym_table->set(id, *sym);
+          }
+           if ($1 == DOUBLE)//put into symbol table
+          {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "DOUBLE", 42, 3.145, "Hello World");
+           sym_table->set(id, *sym);
+          }
+           if ($1 == STRING)//put into symbol table
+          {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "STRING", 42, 3.145, "Hello world");
+           sym_table->set(id, *sym);
+          }
+     }
 }
     | 
 simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
 
 {
-for (int i = 0; i < $4; i++)
-  {
+ Symbol_table *sym_table = Symbol_table::instance();
+cout << "here is the array " << *$2 << "    " << "$4" << endl;
+ string id = *$2;
+     if (sym_table->lookup(id))
+     {
+       for (int i = 0; i < $4; i++)
+       {
+        Symbol * sym = new Symbol();
+        (*sym).set(id, "INT", 42, 3.145, "Hello world");
      //if $2 == NUMS ... $4 == 3..
      //create T_INT_CONSTANT amount of integars
      //that will look like this
       //nums[0] = 42... all into the symbol table
       //nums[1]
       //nums[2]
+       }
 
   }
 }

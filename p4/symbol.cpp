@@ -3,7 +3,13 @@
 void Symbol::set(string name, string type, int int_val, double double_val, string string_val)
 {
   m_name = name;
-  m_type = INT;
+  if (type == "INT")
+    m_type = INT;
+  if (type == "DOUBLE")
+    m_type = DOUBLE;
+  if (type == "STRING")
+    m_type = STRING;
+
   m_int = int_val;
   m_string = string_val;
   m_double = double_val;
@@ -32,6 +38,10 @@ double Symbol::return_double()
 }
 void Symbol::print(ostream &os)
 {
-  cout << m_type;
-  //os << m_type << " " << m_name << " " << m_int << m_double << endl;
+  if (m_type == 1)
+    os << "int " << m_name << " " << m_int << endl;
+  if (m_type == 2)
+    os << "double "<< m_name << " " << m_double << endl;
+  if (m_type == 4)
+    os << "string " << m_name << " \"" << m_string << "\""<<endl;
 }

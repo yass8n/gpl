@@ -10,8 +10,8 @@ class Symbol_table {
   public:
     static Symbol_table *instance();
     void print(ostream &os);
-    void set(string, Symbol);
-    void lookup(string name);
+    void set(string, Symbol&);
+    bool lookup(string name);
   private:
     map <string, Symbol*> m_map;
     Symbol_table(){};

@@ -659,19 +659,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   156,   156,   161,   162,   167,   168,   169,   174,   183,
-     201,   206,   211,   219,   220,   225,   226,   231,   232,   233,
-     234,   235,   240,   241,   246,   247,   252,   257,   262,   263,
-     268,   269,   270,   275,   280,   280,   285,   290,   291,   292,
-     293,   294,   299,   304,   305,   306,   307,   308,   309,   310,
-     311,   312,   313,   314,   315,   316,   317,   318,   319,   320,
-     321,   322,   323,   324,   325,   326,   331,   332,   337,   341,
-     346,   352,   353,   358,   359,   360,   361,   362,   367,   368,
-     373,   378,   383,   388,   389,   390,   395,   396,   397,   398,
-     403,   404,   405,   406,   407,   408,   409,   410,   411,   412,
-     413,   414,   415,   416,   417,   418,   419,   420,   425,   426,
-     427,   428,   429,   430,   431,   436,   437,   442,   443,   444,
-     445,   446,   447,   448,   449,   450,   451,   455
+       0,   156,   156,   161,   162,   167,   168,   169,   174,   202,
+     228,   233,   238,   246,   247,   252,   253,   258,   259,   260,
+     261,   262,   267,   268,   273,   274,   279,   284,   289,   290,
+     295,   296,   297,   302,   307,   307,   312,   317,   318,   319,
+     320,   321,   326,   331,   332,   333,   334,   335,   336,   337,
+     338,   339,   340,   341,   342,   343,   344,   345,   346,   347,
+     348,   349,   350,   351,   352,   353,   358,   359,   364,   368,
+     373,   379,   380,   385,   386,   387,   388,   389,   394,   395,
+     400,   405,   410,   415,   416,   417,   422,   423,   424,   425,
+     430,   431,   432,   433,   434,   435,   436,   437,   438,   439,
+     440,   441,   442,   443,   444,   445,   446,   447,   452,   453,
+     454,   455,   456,   457,   458,   463,   464,   469,   470,   471,
+     472,   473,   474,   475,   476,   477,   478,   482
 };
 #endif
 
@@ -1782,59 +1782,86 @@ yyreduce:
         case 8:
 #line 175 "gpl.y"
     {
-Symbol_table *sym_table = Symbol_table::instance();
-     if ((yyvsp[(1) - (3)].union_gpl_type) == INT){}//put into symbol table
-     if ((yyvsp[(1) - (3)].union_gpl_type) == DOUBLE){}//put into symbol table
-     if ((yyvsp[(1) - (3)].union_gpl_type) == STRING){}//put into symbol table
- 
+ Symbol_table *sym_table = Symbol_table::instance();
+ string id = *(yyvsp[(2) - (3)].union_string);
+     if (sym_table->lookup(id))
+     {
+          if ((yyvsp[(1) - (3)].union_gpl_type) == INT)//put into symbol table
+          {
+cout << "heres the array " << *(yyvsp[(2) - (3)].union_string) << " "<< id << endl;
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "INT", 42, 3.145, "Hello World");
+           sym_table->set(id, *sym);
+          }
+           if ((yyvsp[(1) - (3)].union_gpl_type) == DOUBLE)//put into symbol table
+          {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "DOUBLE", 42, 3.145, "Hello World");
+           sym_table->set(id, *sym);
+          }
+           if ((yyvsp[(1) - (3)].union_gpl_type) == STRING)//put into symbol table
+          {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "STRING", 42, 3.145, "Hello world");
+           sym_table->set(id, *sym);
+          }
+     }
 }
     break;
 
   case 9:
-#line 185 "gpl.y"
+#line 204 "gpl.y"
     {
-for (int i = 0; i < (yyvsp[(4) - (5)].union_int); i++)
-  {
+ Symbol_table *sym_table = Symbol_table::instance();
+cout << "here is the array " << *(yyvsp[(2) - (5)].union_string) << "    " << "$4" << endl;
+ string id = *(yyvsp[(2) - (5)].union_string);
+     if (sym_table->lookup(id))
+     {
+       for (int i = 0; i < (yyvsp[(4) - (5)].union_int); i++)
+       {
+        Symbol * sym = new Symbol();
+        (*sym).set(id, "INT", 42, 3.145, "Hello world");
      //if $2 == NUMS ... $4 == 3..
      //create T_INT_CONSTANT amount of integars
      //that will look like this
       //nums[0] = 42... all into the symbol table
       //nums[1]
       //nums[2]
+       }
 
   }
 }
     break;
 
   case 10:
-#line 202 "gpl.y"
+#line 229 "gpl.y"
     {
      (yyval.union_gpl_type) = INT;
     }
     break;
 
   case 11:
-#line 207 "gpl.y"
+#line 234 "gpl.y"
     {
      (yyval.union_gpl_type) = DOUBLE;
     }
     break;
 
   case 12:
-#line 212 "gpl.y"
+#line 239 "gpl.y"
     {
      (yyval.union_gpl_type) = STRING;
     }
     break;
 
   case 34:
-#line 280 "gpl.y"
+#line 307 "gpl.y"
     { }
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1838 "y.tab.c"
+#line 1865 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
