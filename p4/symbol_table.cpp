@@ -27,6 +27,7 @@ void Symbol_table::set (string name, Symbol &symbol)
 }
 bool Symbol_table::lookup(string name)
 {
+  id_vect.push_back(name);
   std::map<string, Symbol*>::iterator it;
   for (it = m_map.begin(); it != m_map.end(); it ++)
   {

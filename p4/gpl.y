@@ -7,6 +7,7 @@ extern int line_count;      // the current line in the input; from array.l
 
 #include "error.h"      // class for printing errors (used by gpl)
 #include "gpl_assert.h" // function version of standard assert.h
+#include <sstream>
 #include "parser.h"
 #include "gpl_type.h"
 #include "symbol_table.h"
@@ -179,7 +180,6 @@ variable_declaration:
      {
           if ($1 == INT)//put into symbol table
           {
-cout << "heres the array " << *$2 << " "<< id << endl;
            Symbol *sym = new Symbol();
            (*sym).set(id, "INT", 42, 3.145, "Hello World");
            sym_table->set(id, *sym);
@@ -197,29 +197,37 @@ cout << "heres the array " << *$2 << " "<< id << endl;
            sym_table->set(id, *sym);
           }
      }
+     else {
+      Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
+     }
 }
     | 
 simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
 
 {
  Symbol_table *sym_table = Symbol_table::instance();
-cout << "here is the array " << *$2 << "    " << "$4" << endl;
  string id = *$2;
+
      if (sym_table->lookup(id))
      {
        for (int i = 0; i < $4; i++)
        {
+        ostringstream name;
+        name << id  << '[' << i << ']';
         Symbol * sym = new Symbol();
-        (*sym).set(id, "INT", 42, 3.145, "Hello world");
-     //if $2 == NUMS ... $4 == 3..
-     //create T_INT_CONSTANT amount of integars
-     //that will look like this
-      //nums[0] = 42... all into the symbol table
-      //nums[1]
-      //nums[2]
+        if ($1 == INT)
+        (*sym).set(name.str(), "INT", 42, 3.145, "Hello world");
+        if ($1 == DOUBLE)
+        (*sym).set(name.str(), "DOUBLE", 42, 3.145, "Hello world");
+        if ($1 == STRING)
+        (*sym).set(name.str(), "STRING", 42, 3.145, "Hello world");
+        sym_table->set(name.str(), *sym);
        }
-
-  }
+      sym_table->insert_in_vector(id);
+     }
+     else {
+      Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
+     }
 }
     ;
 

@@ -264,6 +264,7 @@ extern int line_count;      // the current line in the input; from array.l
 
 #include "error.h"      // class for printing errors (used by gpl)
 #include "gpl_assert.h" // function version of standard assert.h
+#include <sstream>
 #include "parser.h"
 #include "gpl_type.h"
 #include "symbol_table.h"
@@ -298,7 +299,7 @@ using namespace std;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 24 "gpl.y"
+#line 25 "gpl.y"
 {
  int                  union_int;
  std::string         *union_string;  // MUST be a pointer to a string (this sucks!)
@@ -306,7 +307,7 @@ typedef union YYSTYPE
  Gpl_type             union_gpl_type;
 }
 /* Line 193 of yacc.c.  */
-#line 310 "y.tab.c"
+#line 311 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -319,7 +320,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 323 "y.tab.c"
+#line 324 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -659,19 +660,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   156,   156,   161,   162,   167,   168,   169,   174,   202,
-     228,   233,   238,   246,   247,   252,   253,   258,   259,   260,
-     261,   262,   267,   268,   273,   274,   279,   284,   289,   290,
-     295,   296,   297,   302,   307,   307,   312,   317,   318,   319,
-     320,   321,   326,   331,   332,   333,   334,   335,   336,   337,
-     338,   339,   340,   341,   342,   343,   344,   345,   346,   347,
-     348,   349,   350,   351,   352,   353,   358,   359,   364,   368,
-     373,   379,   380,   385,   386,   387,   388,   389,   394,   395,
-     400,   405,   410,   415,   416,   417,   422,   423,   424,   425,
-     430,   431,   432,   433,   434,   435,   436,   437,   438,   439,
-     440,   441,   442,   443,   444,   445,   446,   447,   452,   453,
-     454,   455,   456,   457,   458,   463,   464,   469,   470,   471,
-     472,   473,   474,   475,   476,   477,   478,   482
+       0,   157,   157,   162,   163,   168,   169,   170,   175,   205,
+     236,   241,   246,   254,   255,   260,   261,   266,   267,   268,
+     269,   270,   275,   276,   281,   282,   287,   292,   297,   298,
+     303,   304,   305,   310,   315,   315,   320,   325,   326,   327,
+     328,   329,   334,   339,   340,   341,   342,   343,   344,   345,
+     346,   347,   348,   349,   350,   351,   352,   353,   354,   355,
+     356,   357,   358,   359,   360,   361,   366,   367,   372,   376,
+     381,   387,   388,   393,   394,   395,   396,   397,   402,   403,
+     408,   413,   418,   423,   424,   425,   430,   431,   432,   433,
+     438,   439,   440,   441,   442,   443,   444,   445,   446,   447,
+     448,   449,   450,   451,   452,   453,   454,   455,   460,   461,
+     462,   463,   464,   465,   466,   471,   472,   477,   478,   479,
+     480,   481,   482,   483,   484,   485,   486,   490
 };
 #endif
 
@@ -1780,7 +1781,7 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 175 "gpl.y"
+#line 176 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (3)].union_string);
@@ -1788,7 +1789,6 @@ yyreduce:
      {
           if ((yyvsp[(1) - (3)].union_gpl_type) == INT)//put into symbol table
           {
-cout << "heres the array " << *(yyvsp[(2) - (3)].union_string) << " "<< id << endl;
            Symbol *sym = new Symbol();
            (*sym).set(id, "INT", 42, 3.145, "Hello World");
            sym_table->set(id, *sym);
@@ -1806,62 +1806,70 @@ cout << "heres the array " << *(yyvsp[(2) - (3)].union_string) << " "<< id << en
            sym_table->set(id, *sym);
           }
      }
+     else {
+      Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
+     }
 }
     break;
 
   case 9:
-#line 204 "gpl.y"
+#line 207 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
-cout << "here is the array " << *(yyvsp[(2) - (5)].union_string) << "    " << "$4" << endl;
  string id = *(yyvsp[(2) - (5)].union_string);
+
      if (sym_table->lookup(id))
      {
        for (int i = 0; i < (yyvsp[(4) - (5)].union_int); i++)
        {
+        ostringstream name;
+        name << id  << '[' << i << ']';
         Symbol * sym = new Symbol();
-        (*sym).set(id, "INT", 42, 3.145, "Hello world");
-     //if $2 == NUMS ... $4 == 3..
-     //create T_INT_CONSTANT amount of integars
-     //that will look like this
-      //nums[0] = 42... all into the symbol table
-      //nums[1]
-      //nums[2]
+        if ((yyvsp[(1) - (5)].union_gpl_type) == INT)
+        (*sym).set(name.str(), "INT", 42, 3.145, "Hello world");
+        if ((yyvsp[(1) - (5)].union_gpl_type) == DOUBLE)
+        (*sym).set(name.str(), "DOUBLE", 42, 3.145, "Hello world");
+        if ((yyvsp[(1) - (5)].union_gpl_type) == STRING)
+        (*sym).set(name.str(), "STRING", 42, 3.145, "Hello world");
+        sym_table->set(name.str(), *sym);
        }
-
-  }
+      sym_table->insert_in_vector(id);
+     }
+     else {
+      Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
+     }
 }
     break;
 
   case 10:
-#line 229 "gpl.y"
+#line 237 "gpl.y"
     {
      (yyval.union_gpl_type) = INT;
     }
     break;
 
   case 11:
-#line 234 "gpl.y"
+#line 242 "gpl.y"
     {
      (yyval.union_gpl_type) = DOUBLE;
     }
     break;
 
   case 12:
-#line 239 "gpl.y"
+#line 247 "gpl.y"
     {
      (yyval.union_gpl_type) = STRING;
     }
     break;
 
   case 34:
-#line 307 "gpl.y"
+#line 315 "gpl.y"
     { }
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1865 "y.tab.c"
+#line 1873 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

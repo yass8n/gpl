@@ -16,7 +16,7 @@ void Symbol::set(string name, string type, int int_val, double double_val, strin
 }
 Symbol::Symbol()
 {
-  m_name= "NULL";
+  m_string= "NULL";
   m_int = 0;
   m_double = 0;
 }

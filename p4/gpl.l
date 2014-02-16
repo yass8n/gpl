@@ -226,5 +226,5 @@ The right-hand-side (RHS) gives an action (code to execute)
 [0-9]+               return emit_int(T_INT_CONSTANT);
 
 
-[a-zA-z_0-9]+       return emit_string(T_ID);
+[a-zA-Z_0-9]+       return emit_string(T_ID);
 .                   return emit_error(T_ERROR);
