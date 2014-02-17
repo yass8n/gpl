@@ -21,17 +21,26 @@ void Symbol_table::print(ostream &os)
   it->second->print(os);
   }
 }
+void Symbol_table::insert_in_vector(string id)
+{
+  id_vect.push_back(id);
+}
 void Symbol_table::set (string name, Symbol &symbol)
 {
   m_map[name]=&symbol;
 }
 bool Symbol_table::lookup(string name)
 {
-  id_vect.push_back(name);
   std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
   for (it = m_map.begin(); it != m_map.end(); it ++)
   {
     if (name == it->first)
+      return false;
+  }
+  for (iter = id_vect.begin(); iter != id_vect.end(); iter ++)
+  {
+    if (name == *iter)
       return false;
   }
   return true;
