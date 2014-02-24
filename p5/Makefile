@@ -42,9 +42,9 @@ CPPFLAGS = -g -I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers
 # list, and also put a .o version in the C++OBJ list
 # Use a \ at the end of the line to continue on next line
 
-C++SRC = error.cpp gpl_assert.cpp gpl.cpp indent.cpp symbol_table.cpp symbol.cpp gpl_type.cpp
+C++SRC = error.cpp gpl_assert.cpp gpl.cpp indent.cpp symbol_table.cpp symbol.cpp gpl_type.cpp expression.cpp variable.cpp
 	 
-C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o
+C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o expression.o variable.h
 
 # command to compile the gpl executable
 gpl: y.tab.o lex.yy.o $(C++OBJ)
