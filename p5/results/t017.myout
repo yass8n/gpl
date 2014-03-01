@@ -9,35 +9,35 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
-340
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
+2 matched an int   1
 
 gpl.cpp::main() after call to yyparse().
 
@@ -45,35 +45,35 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
-int r01 42
-int r02 42
-int r03 42
-int r04 42
-int r05 42
-int r06 42
-int r07 42
-int r08 42
-int r09 42
-int r10 42
-int r11 42
-int r12 42
-int r13 42
-int r14 42
-int r15 42
-int r16 42
-int r17 42
-int r18 42
-int r19 42
-int r20 42
-int r21 42
-int r22 42
-int r23 42
-int r24 42
-int r25 42
-int r26 42
-int r27 42
-int r28 42
-int r29 42
+int r01 2
+int r02 2
+int r03 2
+int r04 2
+int r05 2
+int r06 2
+int r07 2
+int r08 2
+int r09 2
+int r10 2
+int r11 2
+int r12 2
+int r13 2
+int r14 2
+int r15 2
+int r16 2
+int r17 2
+int r18 2
+int r19 2
+int r20 2
+int r21 2
+int r22 2
+int r23 2
+int r24 2
+int r25 2
+int r26 2
+int r27 2
+int r28 2
+int r29 2
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

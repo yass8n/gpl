@@ -14,6 +14,7 @@ class Symbol_table {
     void set(string, Symbol&);
     bool lookup(string id);
     void insert_in_vector(string id);
+    Symbol* get(string id);
   private:
     map <string, Symbol*> m_map;
     vector <string> id_vect;

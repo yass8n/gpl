@@ -9,7 +9,9 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-340
+i is the name of the variable and 0x7fed3ac11fa0 is the same as below 
+0x7fed3ac11fa0 is variable
+42 matched an int   1
 
 gpl.cpp::main() after call to yyparse().
 
@@ -17,7 +19,7 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
-int a 42
+int a 1
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

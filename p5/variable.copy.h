@@ -12,4 +12,4 @@ class Variable{
   private:
     Symbol *sym;
 };
-#endif
+#ifndef

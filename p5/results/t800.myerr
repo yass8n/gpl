@@ -1,0 +1,3 @@
+Semantic error on line 7: Incorrect type for initial value of variable 'g'.
+Semantic error on line 9: Incorrect type for initial value of variable 'i'.
+Semantic error on line 11: Incorrect type for initial value of variable 'k'.

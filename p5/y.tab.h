@@ -228,16 +228,17 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 26 "gpl.y"
+#line 28 "gpl.y"
 {
  int                  union_int;
  std::string         *union_string;  // MUST be a pointer to a string (this sucks!)
  double               union_double;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
+ //Variable            *union_variable_type;
 }
 /* Line 1529 of yacc.c.  */
-#line 241 "y.tab.h"
+#line 242 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

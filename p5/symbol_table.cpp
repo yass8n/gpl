@@ -12,7 +12,17 @@ Symbol_table *Symbol_table::instance()
  
   return m_instance;
 }
-
+Symbol* Symbol_table::get(string id)
+{
+  std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
+  for (it = m_map.begin(); it != m_map.end(); it ++)
+  {
+    if (id == it->first)
+      return it->second;
+  }
+  return NULL;
+}
 void Symbol_table::print(ostream &os)
 {
   std::map<string, Symbol*>::iterator it;

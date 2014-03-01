@@ -12,9 +12,11 @@ extern int line_count;      // the current line in the input; from array.l
 #include "gpl_type.h"
 #include "symbol_table.h"
 #include <iostream>
+# include "variable.h"
 #include <string>
 #include <vector>
 # include "expression.h"
+# include <assert.h>
 using namespace std;
 
 // use this global variable to store all the values in the array
@@ -29,6 +31,7 @@ using namespace std;
  double               union_double;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
+ //Variable            *union_variable_type;
 }
 
 // each token in the language is defined here
@@ -135,6 +138,7 @@ using namespace std;
 %type <union_expression_type> primary_expression
 %type <union_expression_type> expression
 %type <union_expression_type> optional_initializer
+%type <union_expression_type> variable
 
 %token <union_int> T_INT_CONSTANT // this token has a int value associated w/it
 %token <union_string> T_ID // this token has a string value associated w/it
@@ -185,23 +189,49 @@ variable_declaration:
      {
           if ($1 == INT)//put into symbol table
           {
-           Symbol *sym = new Symbol();
-           (*sym).set(id, "INT", 42, 3.145, "Hello World");
-           sym_table->set(id, *sym);
+           int initial_value = 0;
+           if ($3 != NULL)
+           {
+             if ($3->get_type() != 1)
+              {
+               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+              }
+             else 
+              {
+               initial_value = $3->eval_int();
+              }
+           }
+            Symbol *sym = new Symbol();
+            (*sym).set(id, "INT", initial_value, 0, "");
+            sym_table->set(id, *sym);
           }
            if ($1 == DOUBLE)//put into symbol table
           {
+/*
+           double initial_value = 0.0;
+           if ($3 != NULL)
+           {      
+             if ($3->get_type() != DOUBLE)
+               {
+                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+               }
+             else 
+               {
+                initial_value = $3->eval_double();
+               }
+           }
            Symbol *sym = new Symbol();
-           (*sym).set(id, "DOUBLE", 42, 3.145, "Hello World");
+           (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
+*/
           }
            if ($1 == STRING)//put into symbol table
           {
            Symbol *sym = new Symbol();
-           (*sym).set(id, "STRING", 42, 3.145, "Hello world");
+           (*sym).set(id, "STRING", 0, 0, "");
            sym_table->set(id, *sym);
           }
-     }
+       }
      else {
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
@@ -436,6 +466,15 @@ assign_statement:
 //---------------------------------------------------------------------
 variable:
     T_ID
+    {
+cout << *$1 << " is the name of the variable and " << $1 << " is the same as below " << endl;
+/*
+      Variable *var  = new Variable(*$1);
+      $$ = new Expression(var);
+      $$ = new Variable(*$1);
+*/
+      
+    }
     | T_ID T_LBRACKET expression T_RBRACKET
     | T_ID T_PERIOD T_ID
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
@@ -483,8 +522,8 @@ primary_expression:
 }
     | variable
 {
-
-    $$ = new Expression();
+    $$ = new Expression(*$1);
+cout << $1 << " is variable" << endl;
 }
     | T_INT_CONSTANT
 {
