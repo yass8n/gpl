@@ -1,5 +1,2 @@
 int i = 86;
 int j = i;
-int q = j;
-int x = j;
-int z = x;

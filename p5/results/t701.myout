@@ -9,6 +9,23 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+ST
+creating a new T INT CONSTANT with value 1
+if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on i
+ returning m_int value ->1
+ST
+creating a new T INT CONSTANT with value 2
+if the lookup results in false, insert j in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on j
+ returning m_int value ->2
+ST
+creating a new T INT CONSTANT with value 4
+if the lookup results in false, insert k in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on k
+ returning m_int value ->4
+ST
+creating a new T INT CONSTANT with value 8
+if the lookup results in false, insert l in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on l
+ returning m_int value ->8
+ST
 
 gpl.cpp::main() after call to yyparse().
 

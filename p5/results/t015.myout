@@ -11,31 +11,19 @@ gpl.cpp::main() Calling yyparse()
 
 ST
 creating a new T INT CONSTANT with value 42
-if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table
-if the lookup results in false, insert b in symbol table after creating the symbol for it ...it wasnt in the table
-if the lookup results in false, insert c in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert a in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on a
+ returning m_int value ->42
+ST
+if the lookup results in false, insert b in symbol table after creating the symbol for it.. its type is 2
+ ...it wasnt in the table3.5 is the value of teh double 
+ST
+if the lookup results in false, insert c in symbol table after creating the symbol for it.. its type is 2
+ ...it wasnt in the table12.1 is the value of teh double 
+ST
 making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
+ its a variable 
+ TYPE is 1
  created an expression Node of type variable  -> a
-if the lookup results in false, insert q in symbol table after creating the symbol for it ...it wasnt in the table
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-if the lookup results in false, insert r in symbol table after creating the symbol for it ...it wasnt in the table
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-if the lookup results in false, insert s in symbol table after creating the symbol for it ...it wasnt in the table
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-if the lookup results in false, insert w in symbol table after creating the symbol for it ...it wasnt in the table
-creating a new T INT CONSTANT with value 1
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-if the lookup results in false, insert y in symbol table after creating the symbol for it ...it wasnt in the table
-making a new variable in gpl.y and passing in b
+if the lookup results in false, insert q in symbol table after creating the symbol for it.. its type is 2
+ ...it wasnt in the table

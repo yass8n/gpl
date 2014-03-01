@@ -11,91 +11,149 @@ gpl.cpp::main() Calling yyparse()
 
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r01 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r01 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r01
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r02 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r02 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r02
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r03 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r03 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r03
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r04 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r04 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r04
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r05 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r05 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r05
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r06 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r06 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r06
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r07 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r07 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r07
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r08 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r08 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r08
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r09 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r09 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r09
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r10 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r10 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r10
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r11 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r11 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r11
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r12 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r12 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r12
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r13 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r13 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r13
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r14 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r14 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r14
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r15 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r15 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r15
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r16 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r16 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r16
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r17 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r17 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r17
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r18 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r18 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r18
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r19 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r19 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r19
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r20 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r20 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r20
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r21 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r21 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r21
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r22 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r22 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r22
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r23 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r23 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r23
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r24 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r24 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r24
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r25 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r25 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r25
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r26 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r26 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r26
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r27 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r27 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r27
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r28 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r28 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r28
+ returning m_int value ->2
 ST
 creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r29 in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r29 in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on r29
+ returning m_int value ->2
 
 gpl.cpp::main() after call to yyparse().
 

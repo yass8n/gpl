@@ -1,1 +1,1 @@
-Assertion failed: (!sym_table->lookup(id)), function Variable, file variable.cpp, line 5.
+Assertion failed: (m_gpl_type == 1), function eval_int, file expression.cpp, line 117.

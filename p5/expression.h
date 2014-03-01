@@ -11,15 +11,22 @@ class Expression {
     Expression(Operator_type, Expression*, Expression*);
     Expression(Variable *var);
     Expression(Gpl_type gpl, int x);
+    Expression(Gpl_type gpl, double x);
+    Expression(Gpl_type gpl, string x);
     int eval_int();
+    double eval_double();
+    string eval_string();
     Gpl_type get_type(); 
     int evaluate_type();
+    void gpl_reference_set(Gpl_type & gpl, int x);
     void set_type(Gpl_type type);
     void set_type_using_number( int type);
   private:
     string m_string_type;
     Operator_type m_op_type;
     int m_int;
+    double  m_double;
+    string m_string;
     Variable *m_var;
     Gpl_type m_gpl_type;
     Expression* m_right;

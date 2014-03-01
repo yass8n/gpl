@@ -8,13 +8,23 @@ Variable::Variable(string id)
   if (!sym_table->lookup(id))//its in the table
   { 
     m_sym = sym_table->get(id);
-    cout << "now in var constructor and its in the table -> " << m_sym->return_name() << endl;
   }
   else
   {
-    cout << "not in table" << endl;
     m_sym = NULL;
   }
+}
+string Variable::get_string_value()
+{
+  assert(m_sym != NULL);
+  assert(m_sym->return_type() == "STRING");
+  return m_sym->return_string();
+}
+double Variable::get_double_value()
+{
+  assert(m_sym != NULL);
+  assert(m_sym->return_type() == "DOUBLE");
+  return m_sym->return_double();
 }
 int Variable::get_int_value()
 {

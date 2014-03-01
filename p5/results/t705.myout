@@ -9,6 +9,13 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+ST
+creating a new T INT CONSTANT with value 1
+creating a new T INT CONSTANT with value 2
+creating a new T INT CONSTANT with value 1
+creating a new T INT CONSTANT with value 2
+if the lookup results in false, insert should_be_0 in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on should_be_0
+ returning m_int value ->1
 
 gpl.cpp::main() after call to yyparse().
 

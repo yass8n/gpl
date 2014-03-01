@@ -20,6 +20,7 @@ class Symbol{
     Gpl_type get_type();
     string return_name();
     int return_int();
+    string return_string();
     double return_double();
     void print(ostream &os);
     string return_type();

@@ -9,5 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-making a new variable in gpl.y and passing in i

@@ -11,7 +11,9 @@ gpl.cpp::main() Calling yyparse()
 
 ST
 creating a new T INT CONSTANT with value 86
-if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert i in symbol table after creating the symbol for it.. its type is 1
+ ...it wasnt in the table... and its value was INT  calling evaluate int on i
+ returning m_int value ->86
 
 gpl.cpp::main() after call to yyparse().
 

@@ -9,64 +9,30 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-a is the name of the variable and 0x7fdd50c124f0 is the same as below 
-0x7fdd50c124f0 is variable
-b is the name of the variable and 0x7fdd50c12500 is the same as below 
-0x7fdd50c12500 is variable
-c is the name of the variable and 0x7fdd50c125a0 is the same as below 
-0x7fdd50c125a0 is variable
-d is the name of the variable and 0x7fdd50c125d0 is the same as below 
-0x7fdd50c125d0 is variable
-e is the name of the variable and 0x7fdd50c12600 is the same as below 
-0x7fdd50c12600 is variable
-f is the name of the variable and 0x7fdd50c12630 is the same as below 
-0x7fdd50c12630 is variable
-a is the name of the variable and 0x7fdd50c126c0 is the same as below 
-0x7fdd50c126c0 is variable
-b is the name of the variable and 0x7fdd50c12740 is the same as below 
-0x7fdd50c12740 is variable
-c is the name of the variable and 0x7fdd50c12770 is the same as below 
-0x7fdd50c12770 is variable
-d is the name of the variable and 0x7fdd50c127a0 is the same as below 
-0x7fdd50c127a0 is variable
-e is the name of the variable and 0x7fdd50c127d0 is the same as below 
-0x7fdd50c127d0 is variable
-f is the name of the variable and 0x7fdd50c12800 is the same as below 
-0x7fdd50c12800 is variable
-a is the name of the variable and 0x7fdd50c12880 is the same as below 
-0x7fdd50c12880 is variable
-b is the name of the variable and 0x7fdd50c12900 is the same as below 
-0x7fdd50c12900 is variable
-c is the name of the variable and 0x7fdd50c12950 is the same as below 
-0x7fdd50c12950 is variable
-d is the name of the variable and 0x7fdd50c12980 is the same as below 
-0x7fdd50c12980 is variable
-a is the name of the variable and 0x7fdd50c12a20 is the same as below 
-0x7fdd50c12a20 is variable
-b is the name of the variable and 0x7fdd50c12aa0 is the same as below 
-0x7fdd50c12aa0 is variable
-c is the name of the variable and 0x7fdd50c12ad0 is the same as below 
-0x7fdd50c12ad0 is variable
-d is the name of the variable and 0x7fdd50c12b00 is the same as below 
-0x7fdd50c12b00 is variable
-a is the name of the variable and 0x7fdd50c12b80 is the same as below 
-0x7fdd50c12b80 is variable
-b is the name of the variable and 0x7fdd50c12c00 is the same as below 
-0x7fdd50c12c00 is variable
-c is the name of the variable and 0x7fdd50c12c50 is the same as below 
-0x7fdd50c12c50 is variable
-d is the name of the variable and 0x7fdd50c12c80 is the same as below 
-0x7fdd50c12c80 is variable
-a is the name of the variable and 0x7fdd50c12d20 is the same as below 
-0x7fdd50c12d20 is variable
-b is the name of the variable and 0x7fdd50c12da0 is the same as below 
-0x7fdd50c12da0 is variable
-c is the name of the variable and 0x7fdd50c12dd0 is the same as below 
-0x7fdd50c12dd0 is variable
-d is the name of the variable and 0x7fdd50c12e00 is the same as below 
-0x7fdd50c12e00 is variable
-
-gpl.cpp::main() after call to yyparse().
-
-3 errors found.
-gpl giving up.
+ST
+creating a new T INT CONSTANT with value 1
+if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on a
+ returning m_int value ->1
+ST
+creating a new T INT CONSTANT with value 2
+if the lookup results in false, insert b in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on b
+ returning m_int value ->2
+ST
+creating a new T INT CONSTANT with value 3
+if the lookup results in false, insert c in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on c
+ returning m_int value ->3
+ST
+creating a new T INT CONSTANT with value 4
+if the lookup results in false, insert d in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on d
+ returning m_int value ->4
+ST
+creating a new T INT CONSTANT with value 5
+if the lookup results in false, insert e in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on e
+ returning m_int value ->5
+ST
+creating a new T INT CONSTANT with value 6
+if the lookup results in false, insert f in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on f
+ returning m_int value ->6
+ST
+making a new variable in gpl.y and passing in a
+now in var constructor and its in the table -> a

@@ -36,6 +36,10 @@ double Symbol::return_double()
 {
   return m_double;
 }
+string Symbol::return_string()
+{
+  return m_string;
+}
 string Symbol::return_type()
 {
   string str;

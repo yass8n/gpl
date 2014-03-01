@@ -9,8 +9,10 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+ST
 creating a new T INT CONSTANT with value 45
-if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert x in symbol table after creating the symbol for it.. its type is 2
+ ...it wasnt in the table4.24399e-314 is the value of teh double 
 
 gpl.cpp::main() after call to yyparse().
 
@@ -18,6 +20,7 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
+double x 4.24399e-314
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

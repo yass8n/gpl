@@ -185,23 +185,25 @@ variable_declaration:
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
-cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it";
+cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it.. its type is " << $1 << endl;
      if (sym_table->lookup(id))
      {
-cout << " ...it wasnt in the table" << endl;
+cout << " ...it wasnt in the table";
           if ($1 == INT)//put into symbol table
           {
+cout << "... and its value was INT ";
            $3->set_type($1);
            int initial_value = 0;
            if ($3 != NULL)
            {
              if ($3->get_type() != 1)
               {
-cout << $3->get_type()<<endl;
-               //Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+cout << "...it had incorrect type..shoudl be 1..error "<< $3->get_type()<<endl;
+               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
               }
              else 
               {
+          cout << " calling evaluate int on " << id << endl;
                initial_value = $3->eval_int();
               }
            }
@@ -211,12 +213,13 @@ cout << $3->get_type()<<endl;
           }
            if ($1 == DOUBLE)//put into symbol table
           {
-/*
+           $3->set_type($1);
            double initial_value = 0.0;
            if ($3 != NULL)
            {      
-             if ($3->get_type() != DOUBLE)
+             if ($3->get_type() != 2)
                {
+cout << "...it had incorrect type..shoudl be 2..error "<< $3->get_type()<<endl;
                 Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
                }
              else 
@@ -225,14 +228,28 @@ cout << $3->get_type()<<endl;
                }
            }
            Symbol *sym = new Symbol();
+cout << initial_value << " is the value of teh double " << endl;
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
-*/
           }
            if ($1 == STRING)//put into symbol table
           {
+           $3->set_type($1);
+           string initial_value = "";
+            if($3!=NULL)
+             {        
+               if ($3->get_type()!=4)
+                 {
+cout << "...it had incorrect type.. should be 4...error "<< $3->get_type()<<endl;
+                  Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+                 } 
+               else
+                {    
+                  initial_value = $3->eval_string();
+                }
+             }
            Symbol *sym = new Symbol();
-           (*sym).set(id, "STRING", 0, 0, "");
+           (*sym).set(id, "STRING", 0, 0, initial_value);
            sym_table->set(id, *sym);
           }
        }
@@ -282,11 +299,13 @@ cout << "ST"<<endl;
     | 
 T_DOUBLE
     {
+cout << "ST"<<endl;
      $$ = DOUBLE;
     }
     | 
 T_STRING
     {
+cout << "ST"<<endl;
      $$ = STRING;
     }
     ;
@@ -476,7 +495,6 @@ variable:
     {
 cout << "making a new variable in gpl.y and passing in "<< *$1 << endl;
       $$ = new Variable(*$1);
-      
     }
     | T_ID T_LBRACKET expression T_RBRACKET
     | T_ID T_PERIOD T_ID
@@ -550,11 +568,11 @@ cout <<"creating a new T INT CONSTANT with value "<< $1 << endl;
 }
     | T_DOUBLE_CONSTANT
 {
-    $$ = new Expression();
+    $$ = new Expression(DOUBLE, $1);
 }
     | T_STRING_CONSTANT
 {
-    $$ = new Expression();
+    $$ = new Expression(STRING, *$1);
 }
 
     ;

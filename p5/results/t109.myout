@@ -9,11 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-if the lookup results in false, insert my_variable in symbol table after creating the symbol for it ...it wasnt in the table
-ST
-if the lookup results in false, insert my_variable in symbol table after creating the symbol for it ...it WAS in the table
-
-gpl.cpp::main() after call to yyparse().
-
-1 error found.
-gpl giving up.

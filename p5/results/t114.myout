@@ -9,24 +9,18 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
-ST
-creating a new T INT CONSTANT with value 1
-if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert b in symbol table after creating the symbol for it ...it wasnt in the table
-ST
-creating a new T INT CONSTANT with value 3
-if the lookup results in false, insert c in symbol table after creating the symbol for it ...it wasnt in the table
-ST
-making a new variable in gpl.y and passing in a
-now in var constructor and its in the table -> a
- created an expression Node of type variable  -> a
-making a new variable in gpl.y and passing in b
-now in var constructor and its in the table -> b
- created an expression Node of type variable  -> b
-making a new variable in gpl.y and passing in c
-now in var constructor and its in the table -> c
- created an expression Node of type variable  -> c
-making a new variable in gpl.y and passing in x
+
+gpl.cpp::main() after call to yyparse().
+
+No errors found (parser probably worked correctly).
+
+
+Printing the symbol table from main()
+int a 1
+int b 2
+int c 3
+int d 1
+double x 3.145
+If graphics was enabled gpl program would execute now.
+
+gpl.cpp::main() done.

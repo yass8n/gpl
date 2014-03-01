@@ -10,4 +10,4 @@ gpl.cpp::main()
 gpl.cpp::main() Calling yyparse()
 
 ST
-if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert a in symbol table after creating the symbol for it.. its type is 1

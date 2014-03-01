@@ -11,5 +11,4 @@ gpl.cpp::main() Calling yyparse()
 
 ST
 ST
- created an expression Node of type variable  -> array
-if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
+ its a variable 

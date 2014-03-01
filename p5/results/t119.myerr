@@ -1,1 +1,2 @@
-Assertion failed: (!sym_table->lookup(id)), function Variable, file variable.cpp, line 5.
+gpl(23386) malloc: *** error for object 0x7f8150412891: pointer being freed was not allocated
+*** set a breakpoint in malloc_error_break to debug
