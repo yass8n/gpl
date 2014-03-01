@@ -25,7 +25,7 @@
 // #include "gpl_type.h"
  #include <string>
 #include "gpl_type.h"
-
+# include "expression.h"
 #include "y.tab.h"
 
 #endif // #ifndef PARSER_H

@@ -1,2 +1,1 @@
-// p4 t003.gpl
-string str;
+int i = 42 * 2;

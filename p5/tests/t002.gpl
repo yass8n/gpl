@@ -1,2 +1,2 @@
-// p4 t002.gpl
-double x;
+int i = 86;
+int j = i;

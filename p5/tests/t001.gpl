@@ -1,2 +1,1 @@
-// p4 t001.gpl
-int i;
+int i = 86;

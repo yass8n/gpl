@@ -1,2 +1,1 @@
-Semantic error on line 3: Variable 'a' previously declared.
-Semantic error on line 4: Variable 'a' previously declared.
+Parse error on line 1 reported by parser: syntax error.

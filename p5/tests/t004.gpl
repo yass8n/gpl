@@ -1,2 +1,2 @@
-// p4 t004.gpl
-int nums[5];
+int i = 86;
+int j = 2 * i;

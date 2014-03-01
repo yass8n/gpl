@@ -1,1 +1,1 @@
-double x = .42.;
+double x = sin(45);
