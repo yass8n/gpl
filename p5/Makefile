@@ -44,7 +44,7 @@ CPPFLAGS = -g -I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers
 
 C++SRC = error.cpp gpl_assert.cpp gpl.cpp indent.cpp symbol_table.cpp symbol.cpp gpl_type.cpp expression.cpp variable.cpp
 	 
-C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o expression.o variable.h
+C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o expression.o variable.o
 
 # command to compile the gpl executable
 gpl: y.tab.o lex.yy.o $(C++OBJ)

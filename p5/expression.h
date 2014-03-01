@@ -8,7 +8,7 @@
 class Expression {
   public:
      Expression();
-//    Expression(Variable *var);
+    Expression(Variable *var);
     Expression(Gpl_type gpl, int x);
     int eval_int();
     Gpl_type get_type();

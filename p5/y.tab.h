@@ -235,7 +235,7 @@ typedef union YYSTYPE
  double               union_double;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
- //Variable            *union_variable_type;
+ Variable            *union_variable_type;
 }
 /* Line 1529 of yacc.c.  */
 #line 242 "y.tab.h"

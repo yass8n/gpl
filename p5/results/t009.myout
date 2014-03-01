@@ -9,8 +9,9 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-s is the name of the variable and 0x7fb5f3c12060 is the same as below 
-0x7fb5f3c12060 is variable
+s is the name of the variable and 0x7fd109412060 is the same as below 
+ matched a variable s
+0x7fd1094120e0 is variable
 
 gpl.cpp::main() after call to yyparse().
 

@@ -10,10 +10,12 @@ gpl.cpp::main()
 gpl.cpp::main() Calling yyparse()
 
 42 matched an int   1
-i is the name of the variable and 0x7fdb60412190 is the same as below 
-0x7fdb60412190 is variable
-s is the name of the variable and 0x7fdb60412230 is the same as below 
-0x7fdb60412230 is variable
+herrreee
+herrreee
+i is the name of the variable and 0x7fa36a412190 is the same as below 
+0x7fa36a412190 is variable
+s is the name of the variable and 0x7fa36a412230 is the same as below 
+0x7fa36a412230 is variable
 
 gpl.cpp::main() after call to yyparse().
 

@@ -309,7 +309,7 @@ typedef union YYSTYPE
  double               union_double;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
- //Variable            *union_variable_type;
+ Variable            *union_variable_type;
 }
 /* Line 193 of yacc.c.  */
 #line 316 "y.tab.c"
@@ -664,7 +664,7 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   166,   166,   171,   172,   177,   178,   179,   184,   240,
+       0,   165,   165,   170,   171,   176,   177,   178,   183,   240,
      271,   276,   281,   289,   293,   298,   299,   304,   305,   306,
      307,   308,   313,   314,   319,   320,   325,   330,   335,   336,
      341,   342,   343,   348,   353,   353,   358,   363,   364,   365,
@@ -672,11 +672,11 @@ static const yytype_uint16 yyrline[] =
      384,   385,   386,   387,   388,   389,   390,   391,   392,   393,
      394,   395,   396,   397,   398,   399,   404,   405,   410,   414,
      419,   425,   426,   431,   432,   433,   434,   435,   440,   441,
-     446,   451,   456,   461,   462,   463,   468,   478,   479,   480,
-     485,   489,   490,   491,   492,   493,   494,   495,   496,   497,
-     498,   499,   500,   501,   502,   506,   510,   519,   523,   528,
-     532,   536,   540,   544,   559,   560,   561,   562,   563,   564,
-     565,   566,   567,   568,   572
+     446,   451,   456,   461,   462,   463,   468,   477,   478,   479,
+     484,   488,   489,   490,   491,   492,   493,   494,   495,   496,
+     497,   498,   499,   500,   501,   505,   509,   518,   522,   527,
+     531,   535,   539,   543,   558,   559,   560,   561,   562,   563,
+     564,   565,   566,   567,   571
 };
 #endif
 
@@ -1786,8 +1786,9 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 185 "gpl.y"
+#line 184 "gpl.y"
     {
+Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (3)].union_string);
      if (sym_table->lookup(id))
@@ -1909,88 +1910,87 @@ yyreduce:
 #line 469 "gpl.y"
     {
 cout << *(yyvsp[(1) - (1)].union_string) << " is the name of the variable and " << (yyvsp[(1) - (1)].union_string) << " is the same as below " << endl;
-/*
-      Variable *var  = new Variable(*$1);
+    /*  Variable *var  = new Variable(*$1);
       $$ = new Expression(var);
-      $$ = new Variable(*$1);
 */
+      (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
       
     }
     break;
 
   case 90:
-#line 486 "gpl.y"
+#line 485 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
   case 104:
-#line 503 "gpl.y"
+#line 502 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 105:
-#line 507 "gpl.y"
+#line 506 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 106:
-#line 511 "gpl.y"
+#line 510 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(3) - (4)].union_expression_type);
 }
     break;
 
   case 107:
-#line 520 "gpl.y"
+#line 519 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 108:
-#line 524 "gpl.y"
+#line 523 "gpl.y"
     {
-    (yyval.union_expression_type) = new Expression(*(yyvsp[(1) - (1)].union_expression_type));
-cout << (yyvsp[(1) - (1)].union_expression_type) << " is variable" << endl;
+    (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
+cout << (yyvsp[(1) - (1)].union_variable_type) << " is variable" << endl;
 }
     break;
 
   case 109:
-#line 529 "gpl.y"
+#line 528 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
 }
     break;
 
   case 110:
-#line 533 "gpl.y"
+#line 532 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 111:
-#line 537 "gpl.y"
+#line 536 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 112:
-#line 541 "gpl.y"
+#line 540 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 113:
-#line 545 "gpl.y"
+#line 544 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }

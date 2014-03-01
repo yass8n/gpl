@@ -10,19 +10,4 @@ gpl.cpp::main()
 gpl.cpp::main() Calling yyparse()
 
 1 matched an int   1
-k is the name of the variable and 0x7fac62412090 is the same as below 
-0x7fac62412090 is variable
-z is the name of the variable and 0x7fac62412130 is the same as below 
-0x7fac62412130 is variable
-
-gpl.cpp::main() after call to yyparse().
-
-No errors found (parser probably worked correctly).
-
-
-Printing the symbol table from main()
-int x 1
-int z 1
-If graphics was enabled gpl program would execute now.
-
-gpl.cpp::main() done.
+k is the name of the variable and 0x7fe6f3c12090 is the same as below 

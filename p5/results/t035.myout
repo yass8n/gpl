@@ -9,16 +9,20 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-t is the name of the variable and 0x7fe463c120e0 is the same as below 
-0x7fe463c120e0 is variable
-f is the name of the variable and 0x7fe463c120f0 is the same as below 
-0x7fe463c120f0 is variable
-t is the name of the variable and 0x7fe463c12230 is the same as below 
-0x7fe463c12230 is variable
-f is the name of the variable and 0x7fe463c122e0 is the same as below 
-0x7fe463c122e0 is variable
+t is the name of the variable and 0x7f7f81c120e0 is the same as below 
+ matched a variable t
+0x7f7f81c120f0 is variable
+f is the name of the variable and 0x7f7f81c121d0 is the same as below 
+ matched a variable f
+0x7f7f81c12200 is variable
+t is the name of the variable and 0x7f7f81c122b0 is the same as below 
+ matched a variable t
+0x7f7f81c12340 is variable
+f is the name of the variable and 0x7f7f81c123a0 is the same as below 
+ matched a variable f
+0x7f7f81c123d0 is variable
 
 gpl.cpp::main() after call to yyparse().
 
-3 errors found.
+4 errors found.
 gpl giving up.

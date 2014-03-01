@@ -10,11 +10,14 @@ gpl.cpp::main()
 gpl.cpp::main() Calling yyparse()
 
 3 matched an int   1
-index is the name of the variable and 0x7fa410c12040 is the same as below 
-0x7fa410c12040 is variable
-my_string is the name of the variable and 0x7fa410c121c0 is the same as below 
-0x7fa410c121c0 is variable
-0x7fa410c12460 is variable
+index is the name of the variable and 0x7fa9eac12040 is the same as below 
+ matched a variable index
+0x7fa9eac120d0 is variable
+my_string is the name of the variable and 0x7fa9eac12200 is the same as below 
+ matched a variable my_string
+0x7fa9eac12240 is variable
+ matched a variable array
+0x7fa9eac124a0 is variable
 
 gpl.cpp::main() after call to yyparse().
 

@@ -31,7 +31,7 @@ using namespace std;
  double               union_double;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
- //Variable            *union_variable_type;
+ Variable            *union_variable_type;
 }
 
 // each token in the language is defined here
@@ -138,7 +138,7 @@ using namespace std;
 %type <union_expression_type> primary_expression
 %type <union_expression_type> expression
 %type <union_expression_type> optional_initializer
-%type <union_expression_type> variable
+%type <union_variable_type> variable
 
 %token <union_int> T_INT_CONSTANT // this token has a int value associated w/it
 %token <union_string> T_ID // this token has a string value associated w/it
@@ -160,7 +160,6 @@ using namespace std;
 %left T_NOT
 
 %% // indicates the start of the rules
-
 //---------------------------------------------------------------------
 program:
     declaration_list block_list
@@ -183,6 +182,7 @@ declaration:
 variable_declaration:
     simple_type  T_ID  optional_initializer
 {
+Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
      if (sym_table->lookup(id))
@@ -468,11 +468,10 @@ variable:
     T_ID
     {
 cout << *$1 << " is the name of the variable and " << $1 << " is the same as below " << endl;
-/*
-      Variable *var  = new Variable(*$1);
+    /*  Variable *var  = new Variable(*$1);
       $$ = new Expression(var);
-      $$ = new Variable(*$1);
 */
+      $$ = new Variable(*$1);
       
     }
     | T_ID T_LBRACKET expression T_RBRACKET
@@ -522,7 +521,7 @@ primary_expression:
 }
     | variable
 {
-    $$ = new Expression(*$1);
+    $$ = new Expression($1);
 cout << $1 << " is variable" << endl;
 }
     | T_INT_CONSTANT

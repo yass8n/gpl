@@ -11,8 +11,10 @@ gpl.cpp::main() Calling yyparse()
 
 86 matched an int   1
 2 matched an int   1
-i is the name of the variable and 0x7fa6da412040 is the same as below 
-0x7fa6da412040 is variable
+i is the name of the variable and 0x7f9d2ac12040 is the same as below 
+its in the table 
+ matched a variable i
+0x7f9d2ac12110 is variable
 
 gpl.cpp::main() after call to yyparse().
 

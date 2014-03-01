@@ -1,0 +1,2 @@
+Semantic error on line 1: Incorrect type for initial value of variable 'i'.
+Semantic error on line 2: Variable 'i' previously declared.

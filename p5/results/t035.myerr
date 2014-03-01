@@ -1,3 +1,4 @@
 Semantic error on line 2: Incorrect type for initial value of variable 't'.
 Semantic error on line 3: Incorrect type for initial value of variable 'f'.
 Semantic error on line 4: Incorrect type for initial value of variable 'should_be_1'.
+Semantic error on line 5: Incorrect type for initial value of variable 'should_be_0'.

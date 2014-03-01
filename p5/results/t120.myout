@@ -9,12 +9,15 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-i is the name of the variable and 0x7fec2b412020 is the same as below 
-0x7fec2b412020 is variable
-foo is the name of the variable and 0x7fec2b412110 is the same as below 
-0x7fec2b412110 is variable
+herrreee
+i is the name of the variable and 0x7ffc90412020 is the same as below 
+ matched a variable 
 
-gpl.cpp::main() after call to yyparse().
 
-1 error found.
-gpl giving up.
+
+ matched a variable 
+
+
+
+0x7ffc904120a0 is variable
+foo is the name of the variable and 0x7ffc90412150 is the same as below 

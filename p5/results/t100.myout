@@ -9,7 +9,8 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-0x7fe2b2411fa0 is variable
+ matched a variable array
+0x7fb6f1411fa0 is variable
 
 gpl.cpp::main() after call to yyparse().
 
