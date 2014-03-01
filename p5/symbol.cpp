@@ -20,7 +20,7 @@ Symbol::Symbol()
   m_int = 0;
   m_double = 0;
 }
-Gpl_type Symbol::return_type()
+Gpl_type Symbol::get_type()
 {
   return m_type;
 }
@@ -36,7 +36,7 @@ double Symbol::return_double()
 {
   return m_double;
 }
-string Symbol::get_type()
+string Symbol::return_type()
 {
   string str;
   if (m_type == 1)

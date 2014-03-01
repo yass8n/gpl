@@ -9,9 +9,11 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-s is the name of the variable and 0x7fd109412060 is the same as below 
- matched a variable s
-0x7fd1094120e0 is variable
+if the lookup results in false, insert s in symbol table after creating the symbol for it ...it wasnt in the table
+making a new variable in gpl.y and passing in s
+now in var constructor and its in the table -> s
+ created an expression Node of type variable  -> s
+if the lookup results in false, insert t in symbol table after creating the symbol for it ...it wasnt in the table
 
 gpl.cpp::main() after call to yyparse().
 

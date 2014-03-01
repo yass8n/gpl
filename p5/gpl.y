@@ -185,16 +185,20 @@ variable_declaration:
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
+cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it";
      if (sym_table->lookup(id))
      {
+cout << " ...it wasnt in the table" << endl;
           if ($1 == INT)//put into symbol table
           {
+           $3->set_type($1);
            int initial_value = 0;
            if ($3 != NULL)
            {
              if ($3->get_type() != 1)
               {
-               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+cout << $3->get_type()<<endl;
+               //Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
               }
              else 
               {
@@ -233,6 +237,8 @@ Expression *error_exp = new Expression();
           }
        }
      else {
+
+cout << " ...it WAS in the table" << endl;
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
 }
@@ -270,6 +276,7 @@ simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
 simple_type:
     T_INT
     {
+cout << "ST"<<endl;
      $$ = INT;
     }
     | 
@@ -467,10 +474,7 @@ assign_statement:
 variable:
     T_ID
     {
-cout << *$1 << " is the name of the variable and " << $1 << " is the same as below " << endl;
-    /*  Variable *var  = new Variable(*$1);
-      $$ = new Expression(var);
-*/
+cout << "making a new variable in gpl.y and passing in "<< *$1 << endl;
       $$ = new Variable(*$1);
       
     }
@@ -496,6 +500,14 @@ expression:
     | expression T_PLUS expression 
     | expression T_MINUS expression
     | expression T_ASTERISK expression
+    {
+int type1 = $1->get_type();
+int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       $$ = new Expression(0); 
+    else
+     $$ = new Expression(MULTIPLY, $1, $3);
+    }
     | expression T_DIVIDE expression
     | expression T_MOD expression
     | T_MINUS  expression %prec UNARY_OPS
@@ -522,10 +534,10 @@ primary_expression:
     | variable
 {
     $$ = new Expression($1);
-cout << $1 << " is variable" << endl;
 }
     | T_INT_CONSTANT
 {
+cout <<"creating a new T INT CONSTANT with value "<< $1 << endl;
     $$ = new Expression(INT, $1);
 }
     | T_TRUE

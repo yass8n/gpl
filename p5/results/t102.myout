@@ -9,11 +9,8 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-42 matched an int   1
- matched a variable my_array
-0x7fb8dbc11fd0 is variable
-
-gpl.cpp::main() after call to yyparse().
-
-1 error found.
-gpl giving up.
+ST
+ST
+creating a new T INT CONSTANT with value 42
+ created an expression Node of type variable  -> my_array
+if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table

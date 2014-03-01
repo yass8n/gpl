@@ -9,13 +9,41 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-86 matched an int   1
-i is the name of the variable and 0x7fe431412040 is the same as below 
-its in the table 
- matched a variable i
-0x7fe4314120c0 is variable
+ST
+creating a new T INT CONSTANT with value 86
+if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+making a new variable in gpl.y and passing in i
+now in var constructor and its in the table -> i
+ created an expression Node of type variable  -> i
+if the lookup results in false, insert j in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+making a new variable in gpl.y and passing in j
+now in var constructor and its in the table -> j
+ created an expression Node of type variable  -> j
+if the lookup results in false, insert q in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+making a new variable in gpl.y and passing in j
+now in var constructor and its in the table -> j
+ created an expression Node of type variable  -> j
+if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+making a new variable in gpl.y and passing in x
+now in var constructor and its in the table -> x
+ created an expression Node of type variable  -> x
+if the lookup results in false, insert z in symbol table after creating the symbol for it ...it wasnt in the table
 
 gpl.cpp::main() after call to yyparse().
 
-1 error found.
-gpl giving up.
+No errors found (parser probably worked correctly).
+
+
+Printing the symbol table from main()
+int i 86
+int j 86
+int q 86
+int x 86
+int z 86
+If graphics was enabled gpl program would execute now.
+
+gpl.cpp::main() done.

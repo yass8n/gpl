@@ -9,4 +9,5 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-x is the name of the variable and 0x7fe3b9c11ff0 is the same as below 
+if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
+making a new variable in gpl.y and passing in x

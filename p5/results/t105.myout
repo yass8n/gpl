@@ -9,6 +9,7 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+ST
 
 gpl.cpp::main() after call to yyparse().
 

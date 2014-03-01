@@ -664,19 +664,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   165,   165,   170,   171,   176,   177,   178,   183,   240,
-     271,   276,   281,   289,   293,   298,   299,   304,   305,   306,
-     307,   308,   313,   314,   319,   320,   325,   330,   335,   336,
-     341,   342,   343,   348,   353,   353,   358,   363,   364,   365,
-     366,   367,   372,   377,   378,   379,   380,   381,   382,   383,
-     384,   385,   386,   387,   388,   389,   390,   391,   392,   393,
-     394,   395,   396,   397,   398,   399,   404,   405,   410,   414,
-     419,   425,   426,   431,   432,   433,   434,   435,   440,   441,
-     446,   451,   456,   461,   462,   463,   468,   477,   478,   479,
-     484,   488,   489,   490,   491,   492,   493,   494,   495,   496,
-     497,   498,   499,   500,   501,   505,   509,   518,   522,   527,
-     531,   535,   539,   543,   558,   559,   560,   561,   562,   563,
-     564,   565,   566,   567,   571
+       0,   165,   165,   170,   171,   176,   177,   178,   183,   246,
+     277,   283,   288,   296,   300,   305,   306,   311,   312,   313,
+     314,   315,   320,   321,   326,   327,   332,   337,   342,   343,
+     348,   349,   350,   355,   360,   360,   365,   370,   371,   372,
+     373,   374,   379,   384,   385,   386,   387,   388,   389,   390,
+     391,   392,   393,   394,   395,   396,   397,   398,   399,   400,
+     401,   402,   403,   404,   405,   406,   411,   412,   417,   421,
+     426,   432,   433,   438,   439,   440,   441,   442,   447,   448,
+     453,   458,   463,   468,   469,   470,   475,   481,   482,   483,
+     488,   492,   493,   494,   495,   496,   497,   498,   499,   500,
+     501,   502,   511,   512,   513,   517,   521,   530,   534,   538,
+     543,   547,   551,   555,   570,   571,   572,   573,   574,   575,
+     576,   577,   578,   579,   583
 };
 #endif
 
@@ -1791,16 +1791,20 @@ yyreduce:
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (3)].union_string);
+cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it";
      if (sym_table->lookup(id))
      {
+cout << " ...it wasnt in the table" << endl;
           if ((yyvsp[(1) - (3)].union_gpl_type) == INT)//put into symbol table
           {
+           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
            int initial_value = 0;
            if ((yyvsp[(3) - (3)].union_expression_type) != NULL)
            {
              if ((yyvsp[(3) - (3)].union_expression_type)->get_type() != 1)
               {
-               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+cout << (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
+               //Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
               }
              else 
               {
@@ -1839,13 +1843,15 @@ Expression *error_exp = new Expression();
           }
        }
      else {
+
+cout << " ...it WAS in the table" << endl;
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
 }
     break;
 
   case 9:
-#line 242 "gpl.y"
+#line 248 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (5)].union_string);
@@ -1874,123 +1880,133 @@ Expression *error_exp = new Expression();
     break;
 
   case 10:
-#line 272 "gpl.y"
+#line 278 "gpl.y"
     {
+cout << "ST"<<endl;
      (yyval.union_gpl_type) = INT;
     }
     break;
 
   case 11:
-#line 277 "gpl.y"
+#line 284 "gpl.y"
     {
      (yyval.union_gpl_type) = DOUBLE;
     }
     break;
 
   case 12:
-#line 282 "gpl.y"
+#line 289 "gpl.y"
     {
      (yyval.union_gpl_type) = STRING;
     }
     break;
 
   case 13:
-#line 290 "gpl.y"
+#line 297 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 34:
-#line 353 "gpl.y"
+#line 360 "gpl.y"
     { }
     break;
 
   case 86:
-#line 469 "gpl.y"
+#line 476 "gpl.y"
     {
-cout << *(yyvsp[(1) - (1)].union_string) << " is the name of the variable and " << (yyvsp[(1) - (1)].union_string) << " is the same as below " << endl;
-    /*  Variable *var  = new Variable(*$1);
-      $$ = new Expression(var);
-*/
+cout << "making a new variable in gpl.y and passing in "<< *(yyvsp[(1) - (1)].union_string) << endl;
       (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
       
     }
     break;
 
   case 90:
-#line 485 "gpl.y"
+#line 489 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
+  case 101:
+#line 503 "gpl.y"
+    {
+int type1 = (yyvsp[(1) - (3)].union_expression_type)->get_type();
+int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
+    if (type1 == 4 || type3 == 4)
+       (yyval.union_expression_type) = new Expression(0); 
+    else
+     (yyval.union_expression_type) = new Expression(MULTIPLY, (yyvsp[(1) - (3)].union_expression_type), (yyvsp[(3) - (3)].union_expression_type));
+    }
+    break;
+
   case 104:
-#line 502 "gpl.y"
+#line 514 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 105:
-#line 506 "gpl.y"
+#line 518 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 106:
-#line 510 "gpl.y"
+#line 522 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(3) - (4)].union_expression_type);
 }
     break;
 
   case 107:
-#line 519 "gpl.y"
+#line 531 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 108:
-#line 523 "gpl.y"
+#line 535 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
-cout << (yyvsp[(1) - (1)].union_variable_type) << " is variable" << endl;
 }
     break;
 
   case 109:
-#line 528 "gpl.y"
+#line 539 "gpl.y"
     {
+cout <<"creating a new T INT CONSTANT with value "<< (yyvsp[(1) - (1)].union_int) << endl;
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
 }
     break;
 
   case 110:
-#line 532 "gpl.y"
+#line 544 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 111:
-#line 536 "gpl.y"
+#line 548 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 112:
-#line 540 "gpl.y"
+#line 552 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 113:
-#line 544 "gpl.y"
+#line 556 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
@@ -1998,7 +2014,7 @@ cout << (yyvsp[(1) - (1)].union_variable_type) << " is variable" << endl;
 
 
 /* Line 1267 of yacc.c.  */
-#line 2002 "y.tab.c"
+#line 2018 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

@@ -9,8 +9,12 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-42 matched an int   1
-i is the name of the variable and 0x7f8babc12140 is the same as below 
- matched a variable i
-0x7f8babc12170 is variable
-x is the name of the variable and 0x7f8babc122d0 is the same as below 
+ST
+creating a new T INT CONSTANT with value 42
+if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
+making a new variable in gpl.y and passing in i
+now in var constructor and its in the table -> i
+ created an expression Node of type variable  -> i
+if the lookup results in false, insert s in symbol table after creating the symbol for it ...it wasnt in the table
+making a new variable in gpl.y and passing in x

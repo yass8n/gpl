@@ -9,6 +9,15 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+if the lookup results in false, insert q in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert r in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert s in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert t in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert u in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert v in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert w in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert y in symbol table after creating the symbol for it ...it wasnt in the table
+if the lookup results in false, insert z in symbol table after creating the symbol for it ...it wasnt in the table
 
 gpl.cpp::main() after call to yyparse().
 

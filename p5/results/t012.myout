@@ -9,7 +9,8 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-45 matched an int   1
+creating a new T INT CONSTANT with value 45
+if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table
 
 gpl.cpp::main() after call to yyparse().
 

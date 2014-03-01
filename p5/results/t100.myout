@@ -9,10 +9,7 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
- matched a variable array
-0x7fb6f1411fa0 is variable
-
-gpl.cpp::main() after call to yyparse().
-
-1 error found.
-gpl giving up.
+ST
+ST
+ created an expression Node of type variable  -> array
+if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the table

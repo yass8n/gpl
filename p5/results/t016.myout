@@ -9,9 +9,15 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-10 matched an int   1
-100 matched an int   1
-1000 matched an int   1
+ST
+creating a new T INT CONSTANT with value 10
+if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+creating a new T INT CONSTANT with value 100
+if the lookup results in false, insert b in symbol table after creating the symbol for it ...it wasnt in the table
+ST
+creating a new T INT CONSTANT with value 1000
+if the lookup results in false, insert c in symbol table after creating the symbol for it ...it wasnt in the table
 
 gpl.cpp::main() after call to yyparse().
 

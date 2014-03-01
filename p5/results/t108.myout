@@ -9,8 +9,5 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-
-gpl.cpp::main() after call to yyparse().
-
-2 errors found.
-gpl giving up.
+ST
+if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table

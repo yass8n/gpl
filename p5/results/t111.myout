@@ -9,6 +9,8 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+ST
+if the lookup results in false, insert values in symbol table after creating the symbol for it ...it WAS in the table
 
 gpl.cpp::main() after call to yyparse().
 

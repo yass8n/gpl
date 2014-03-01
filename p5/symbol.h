@@ -17,12 +17,12 @@ class Symbol{
   public: 
     void set (string name,string type, int int_val, double double_val, string string_val);
     Symbol();
-    Gpl_type return_type();
+    Gpl_type get_type();
     string return_name();
     int return_int();
     double return_double();
     void print(ostream &os);
-    string get_type();
+    string return_type();
 };
 
 #endif
