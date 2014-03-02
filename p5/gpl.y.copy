@@ -11,7 +11,6 @@ extern int line_count;      // the current line in the input; from array.l
 #include "parser.h"
 #include "gpl_type.h"
 #include "symbol_table.h"
-#include <sstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -188,61 +187,63 @@ Expression *error_exp = new Expression();
  string id = *$2;
      if (sym_table->lookup(id))
      {
-          if ($3 != NULL)
-          {
-string ts;
-double td;
-int ti;
-          int type = $3->get_type();
-           if (type == 1)
-              ti = $3->eval_int();
-           if (type == 2)
-              td = $3->eval_double();
-           if (type == 4)
-              ts = $3->eval_string();
-             
-
           if ($1 == INT)//put into symbol table
           {
-             int initial_value = 0;
-             if (type == 1)
-	     initial_value = (int)ti;
-             if (type == 2)
-             initial_value = (int)td;
-             //if (type == 4)
-             //int initial_value = (int)ts;
+           int initial_value = 0;
+           if ($3 != NULL)
+           {
+           $3->set_type($1);
+             if ($3->get_type() != 1)
+              {
+               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+              }
+             else 
+              {
+               initial_value = $3->eval_int();
+              }
+           }
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
             sym_table->set(id, *sym);
           }
            if ($1 == DOUBLE)//put into symbol table
           {
-             double initial_value = 0.0;
-             if (type == 1)
-             initial_value = (double)ti;
-             if (type == 2)
-             initial_value = (double)td;
-             //if (type == 4)
-             //initial_value = (double)ts;
+           double initial_value = 0.0;
+           if ($3 != NULL)
+           {      
+           $3->set_type($1);
+             if ($3->get_type() != 2)
+               {
+                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+               }
+             else 
+               {
+                initial_value = $3->eval_double();
+               }
+           }
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
           }
            if ($1 == STRING)//put into symbol table
           {
-             stringstream initial;
-             if (type == 1)
-             initial << ti;
-             if (type == 2)
-             initial << td;
-             if (type == 4)
-             initial  << ts;
-             string initial_value = initial.str();
+           string initial_value = "";
+            if($3!=NULL)
+             {        
+           $3->set_type($1);
+               if ($3->get_type()!=4)
+                 {
+                  Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+                 } 
+               else
+                {    
+                  initial_value = $3->eval_string();
+                }
+             }
            Symbol *sym = new Symbol();
            (*sym).set(id, "STRING", 0, 0, initial_value);
            sym_table->set(id, *sym);
           }
-         }
        }
      else {
 

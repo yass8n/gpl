@@ -6,33 +6,33 @@ Passed t005
 Passed t006
 Passed t007
 Passed t008
-Failed t009: stdout & stderr incorrect
-Failed t010: stdout & stderr incorrect
-Passed t011
+Passed t009
+Passed t010
+Failed t011: stdout incorrect
 Passed t012
 Passed t013
 Passed t014
 Passed t015
 Failed t016: stdout incorrect
 Failed t017: stdout incorrect
-Failed t018: stdout & stderr incorrect
-Failed t019: stdout incorrect
-Failed t020: stdout incorrect
-Failed t021: stdout incorrect
-Failed t022: stdout incorrect
+Passed t018
+Failed t019: stdout & stderr incorrect
+Passed t020
+Passed t021
+Failed t022: stdout & stderr incorrect
 Failed t023: stdout incorrect
 Failed t024: stdout incorrect
 Passed t030
 Failed t031: stdout & stderr incorrect
 Failed t032: stdout & stderr incorrect
-Failed t033: stdout & stderr incorrect
-Failed t034: stdout & stderr incorrect
-Failed t035: stdout & stderr incorrect
-Failed t040: stdout incorrect
-Failed t041: stdout incorrect
+Failed t033: stdout incorrect
+Passed t034
+Failed t035: stdout incorrect
+Passed t040
+Failed t041: stdout & stderr incorrect
 Passed t042
-Failed t043: stdout incorrect
-Failed t044: stdout incorrect
+Passed t043
+Passed t044
 Failed t100: stdout & stderr incorrect
 Failed t101: stdout & stderr incorrect
 Failed t102: stdout & stderr incorrect
@@ -41,9 +41,9 @@ Failed t104: stderr incorrect
 Failed t105: stdout & stderr incorrect
 Failed t106: stdout & stderr incorrect
 Failed t107: stderr incorrect
-Passed t108
-Passed t109
-Passed t110
+Failed t108: stdout & stderr incorrect
+Failed t109: stdout & stderr incorrect
+Failed t110: stdout & stderr incorrect
 Passed t111
 Failed t112: stdout & stderr incorrect
 Failed t113: stdout & stderr incorrect
@@ -54,91 +54,91 @@ Failed t117: stdout & stderr incorrect
 Failed t118: stdout & stderr incorrect
 Failed t119: stdout & stderr incorrect
 Failed t120: stdout & stderr incorrect
-Failed t218: stdout incorrect
+Passed t218
 Failed t219: stdout incorrect
 Failed t220: stdout & stderr incorrect
-Failed t221: stdout incorrect
-Failed t222: stdout incorrect
+Passed t221
+Passed t222
 Failed t223: stdout & stderr incorrect
 Failed t224: stdout & stderr incorrect
 Failed t225: stdout & stderr incorrect
 Failed t226: stdout & stderr incorrect
-Failed t227: stdout incorrect
-Failed t228: stdout incorrect
+Passed t227
+Passed t228
 Failed t229: stdout & stderr incorrect
 Failed t230: stdout incorrect
-Failed t231: stdout incorrect
+Passed t231
 Failed t232: stdout & stderr incorrect
 Failed t233: stdout & stderr incorrect
 Failed t234: stdout & stderr incorrect
 Failed t235: stdout & stderr incorrect
-Failed t236: stdout incorrect
+Passed t236
 Failed t237: stdout incorrect
 Failed t238: stdout & stderr incorrect
-Failed t239: stdout incorrect
-Failed t240: stdout incorrect
+Passed t239
+Passed t240
 Failed t241: stdout & stderr incorrect
 Failed t242: stdout & stderr incorrect
 Failed t243: stdout & stderr incorrect
 Failed t244: stdout & stderr incorrect
-Failed t245: stdout incorrect
-Failed t246: stdout incorrect
+Passed t245
+Passed t246
 Failed t247: stdout & stderr incorrect
 Failed t248: stdout incorrect
-Failed t249: stdout incorrect
+Passed t249
 Failed t250: stdout & stderr incorrect
 Failed t251: stdout & stderr incorrect
 Failed t252: stdout & stderr incorrect
 Failed t253: stdout & stderr incorrect
-Failed t254: stdout incorrect
-Failed t255: stdout incorrect
-Failed t256: stdout & stderr incorrect
-Failed t257: stdout incorrect
-Failed t258: stdout incorrect
-Failed t259: stdout & stderr incorrect
-Failed t260: stdout & stderr incorrect
-Failed t261: stdout & stderr incorrect
-Failed t262: stdout & stderr incorrect
-Failed t263: stdout incorrect
-Failed t264: stdout incorrect
+Passed t254
+Passed t255
+Passed t256
+Passed t257
+Passed t258
+Passed t259
+Passed t260
+Passed t261
+Passed t262
+Passed t263
+Passed t264
 Failed t265: stdout & stderr incorrect
-Failed t266: stdout incorrect
-Failed t267: stdout incorrect
+Passed t266
+Passed t267
 Failed t268: stdout & stderr incorrect
 Failed t269: stdout & stderr incorrect
 Failed t270: stdout & stderr incorrect
 Failed t271: stdout & stderr incorrect
-Failed t272: stdout incorrect
-Failed t273: stdout incorrect
-Failed t274: stdout & stderr incorrect
-Failed t275: stdout incorrect
-Failed t276: stdout incorrect
-Failed t277: stdout & stderr incorrect
-Failed t278: stdout & stderr incorrect
-Failed t279: stdout & stderr incorrect
-Failed t280: stdout & stderr incorrect
-Failed t281: stdout incorrect
-Failed t282: stdout incorrect
+Passed t272
+Passed t273
+Passed t274
+Passed t275
+Passed t276
+Passed t277
+Passed t278
+Passed t279
+Passed t280
+Passed t281
+Passed t282
 Failed t283: stdout & stderr incorrect
-Failed t284: stdout incorrect
-Failed t285: stdout incorrect
+Passed t284
+Passed t285
 Failed t286: stdout & stderr incorrect
 Failed t287: stdout & stderr incorrect
 Failed t288: stdout & stderr incorrect
 Failed t289: stdout & stderr incorrect
-Failed t290: stdout incorrect
-Failed t291: stdout incorrect
+Passed t290
+Passed t291
 Failed t292: stdout & stderr incorrect
-Failed t293: stdout incorrect
-Failed t294: stdout incorrect
+Passed t293
+Passed t294
 Failed t295: stdout & stderr incorrect
 Failed t296: stdout & stderr incorrect
 Failed t297: stdout & stderr incorrect
 Failed t298: stdout & stderr incorrect
-Failed t299: stdout incorrect
+Passed t299
 Failed t411: stdout & stderr incorrect
-Failed t412: stdout incorrect
-Failed t413: stdout incorrect
+Passed t412
+Passed t413
 Failed t414: stdout & stderr incorrect
 Failed t415: stdout & stderr incorrect
 Failed t416: stdout & stderr incorrect
@@ -152,34 +152,34 @@ Failed t423: stdout & stderr incorrect
 Passed t424
 Passed t425
 Failed t426: stdout & stderr incorrect
-Failed t427: stdout & stderr incorrect
+Passed t427
 Passed t428
 Failed t429: stdout & stderr incorrect
-Failed t500: stdout incorrect
-Failed t501: stdout incorrect
+Passed t500
+Passed t501
 Failed t502: stdout & stderr incorrect
-Failed t503: stdout incorrect
-Failed t504: stdout incorrect
+Passed t503
+Passed t504
 Failed t505: stdout & stderr incorrect
 Failed t506: stdout & stderr incorrect
 Failed t507: stdout & stderr incorrect
 Failed t508: stdout & stderr incorrect
-Failed t509: stdout incorrect
-Failed t510: stdout incorrect
+Passed t509
+Passed t510
 Failed t700: stdout & stderr incorrect
 Failed t701: stdout & stderr incorrect
-Failed t702: stdout & stderr incorrect
-Failed t703: stdout incorrect
-Failed t704: stdout incorrect
-Failed t705: stdout incorrect
+Passed t702
+Passed t703
+Passed t704
+Passed t705
 Failed t706: stdout incorrect
-Failed t707: stdout & stderr incorrect
-Failed t800: stdout incorrect
-Failed t801: stdout incorrect
-Failed t802: stdout incorrect
-Failed t803: stdout & stderr incorrect
-Failed t804: stdout incorrect
-Failed t805: stdout incorrect
+Passed t707
+Passed t800
+Passed t801
+Passed t802
+Failed t803: stdout incorrect
+Passed t804
+Passed t805
 Failed t900: stdout & stderr incorrect
-Passed 25 out of 183 tests.
-Failed 158 out of 183 tests.
+Passed 92 out of 183 tests.
+Failed 91 out of 183 tests.
