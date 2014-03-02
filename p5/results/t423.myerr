@@ -1,2 +1,1 @@
-Semantic error on line 4: Incorrect type for initial value of variable 's'.
-Semantic error on line 5: Incorrect type for initial value of variable 'x'.
+Assertion failed: (var != NULL), function Expression, file expression.cpp, line 43.

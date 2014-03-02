@@ -9,13 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-creating a new T INT CONSTANT with value 3
-if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on i
- returning m_int value ->3
-ST
-creating a new T INT CONSTANT with value 4
-if the lookup results in false, insert j in symbol table after creating the symbol for it ...it wasnt in the table... and its value was INT  calling evaluate int on j
- returning m_int value ->4
-making a new variable in gpl.y and passing in i
-now in var constructor and its in the table -> i

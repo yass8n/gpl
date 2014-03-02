@@ -9,31 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-creating a new T INT CONSTANT with value 1
-if the lookup results in false, insert a in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 2
-if the lookup results in false, insert b in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 3
-if the lookup results in false, insert c in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 4
-if the lookup results in false, insert d in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 5
-if the lookup results in false, insert e in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 6
-if the lookup results in false, insert f in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 7
-if the lookup results in false, insert g in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 8
-if the lookup results in false, insert h in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 9
-if the lookup results in false, insert i in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 10
-if the lookup results in false, insert j in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 11
-if the lookup results in false, insert k in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 12
-if the lookup results in false, insert l in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 13
-if the lookup results in false, insert m in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 14
-if the lookup results in false, insert n in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 15
-if the lookup results in false, insert o in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 16
-if the lookup results in false, insert p in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 17
-if the lookup results in false, insert q in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 18
-if the lookup results in false, insert r in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 19
-if the lookup results in false, insert s in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 20
-if the lookup results in false, insert t in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 21
-if the lookup results in false, insert u in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 22
-if the lookup results in false, insert v in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 23
-if the lookup results in false, insert w in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 24
-if the lookup results in false, insert x in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 25
-if the lookup results in false, insert y in symbol table after creating the symbol for it ...it wasnt in the tablecreating a new T INT CONSTANT with value 26
-if the lookup results in false, insert z in symbol table after creating the symbol for it ...it wasnt in the tablemaking a new variable in gpl.y and passing in n
-now in var constructor and its in the table -> n

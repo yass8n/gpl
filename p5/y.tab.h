@@ -236,9 +236,10 @@ typedef union YYSTYPE
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
  Variable            *union_variable_type;
+ Operator_type        union_operator_type;
 }
 /* Line 1529 of yacc.c.  */
-#line 242 "y.tab.h"
+#line 243 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -310,9 +310,10 @@ typedef union YYSTYPE
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
  Variable            *union_variable_type;
+ Operator_type        union_operator_type;
 }
 /* Line 193 of yacc.c.  */
-#line 316 "y.tab.c"
+#line 317 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -325,7 +326,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 329 "y.tab.c"
+#line 330 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -664,19 +665,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   165,   165,   170,   171,   176,   177,   178,   183,   263,
-     294,   300,   306,   315,   319,   327,   328,   333,   334,   335,
-     336,   337,   342,   343,   348,   349,   354,   359,   364,   365,
-     370,   371,   372,   377,   382,   382,   387,   392,   393,   394,
-     395,   396,   401,   406,   407,   408,   409,   410,   411,   412,
-     413,   414,   415,   416,   417,   418,   419,   420,   421,   422,
-     423,   424,   425,   426,   427,   428,   433,   434,   439,   443,
-     448,   454,   455,   460,   461,   462,   463,   464,   469,   470,
-     475,   480,   485,   490,   491,   492,   497,   502,   503,   504,
-     509,   513,   514,   515,   516,   517,   518,   519,   520,   521,
-     527,   528,   537,   538,   539,   543,   547,   556,   560,   564,
-     569,   573,   577,   581,   596,   597,   598,   599,   600,   601,
-     602,   603,   604,   605,   609
+       0,   167,   167,   172,   173,   178,   179,   180,   185,   256,
+     287,   292,   297,   305,   309,   317,   318,   323,   324,   325,
+     326,   327,   332,   333,   338,   339,   344,   349,   354,   355,
+     360,   361,   362,   367,   372,   372,   377,   382,   383,   384,
+     385,   386,   391,   396,   397,   398,   399,   400,   401,   402,
+     403,   404,   405,   406,   407,   408,   409,   410,   411,   412,
+     413,   414,   415,   416,   417,   418,   423,   424,   429,   433,
+     438,   444,   445,   450,   451,   452,   453,   454,   459,   460,
+     465,   470,   475,   480,   481,   482,   487,   491,   492,   493,
+     498,   502,   503,   504,   505,   506,   507,   508,   509,   510,
+     516,   517,   529,   530,   531,   535,   539,   699,   703,   707,
+     711,   715,   719,   723,   738,   742,   746,   750,   754,   758,
+     762,   766,   770,   774,   781
 };
 #endif
 
@@ -1786,30 +1787,25 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 184 "gpl.y"
+#line 186 "gpl.y"
     {
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (3)].union_string);
-cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it.. its type is " << (yyvsp[(1) - (3)].union_gpl_type) << endl;
      if (sym_table->lookup(id))
      {
-cout << " ...it wasnt in the table";
           if ((yyvsp[(1) - (3)].union_gpl_type) == INT)//put into symbol table
           {
-cout << "... and its value was INT ";
            int initial_value = 0;
            if ((yyvsp[(3) - (3)].union_expression_type) != NULL)
            {
            (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
              if ((yyvsp[(3) - (3)].union_expression_type)->get_type() != 1)
               {
-cout << "...it had incorrect type..shoudl be 1..error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
               }
              else 
               {
-          cout << " calling evaluate int on " << id << endl;
                initial_value = (yyvsp[(3) - (3)].union_expression_type)->eval_int();
               }
            }
@@ -1825,7 +1821,6 @@ cout << "...it had incorrect type..shoudl be 1..error "<< (yyvsp[(3) - (3)].unio
            (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
              if ((yyvsp[(3) - (3)].union_expression_type)->get_type() != 2)
                {
-cout << "...it had incorrect type..shoudl be 2..error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
                 Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
                }
              else 
@@ -1834,7 +1829,6 @@ cout << "...it had incorrect type..shoudl be 2..error "<< (yyvsp[(3) - (3)].unio
                }
            }
            Symbol *sym = new Symbol();
-cout << initial_value << " is the value of teh double " << endl;
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
           }
@@ -1846,7 +1840,6 @@ cout << initial_value << " is the value of teh double " << endl;
            (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
                if ((yyvsp[(3) - (3)].union_expression_type)->get_type()!=4)
                  {
-cout << "...it had incorrect type.. should be 4...error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
                   Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
                  } 
                else
@@ -1861,14 +1854,13 @@ cout << "...it had incorrect type.. should be 4...error "<< (yyvsp[(3) - (3)].un
        }
      else {
 
-cout << " ...it WAS in the table" << endl;
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
 }
     break;
 
   case 9:
-#line 265 "gpl.y"
+#line 258 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (5)].union_string);
@@ -1897,65 +1889,61 @@ cout << " ...it WAS in the table" << endl;
     break;
 
   case 10:
-#line 295 "gpl.y"
+#line 288 "gpl.y"
     {
-cout << "ST"<<endl;
      (yyval.union_gpl_type) = INT;
     }
     break;
 
   case 11:
-#line 301 "gpl.y"
+#line 293 "gpl.y"
     {
-cout << "ST"<<endl;
      (yyval.union_gpl_type) = DOUBLE;
     }
     break;
 
   case 12:
-#line 307 "gpl.y"
+#line 298 "gpl.y"
     {
-cout << "ST"<<endl;
      (yyval.union_gpl_type) = STRING;
     }
     break;
 
   case 13:
-#line 316 "gpl.y"
+#line 306 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 14:
-#line 320 "gpl.y"
+#line 310 "gpl.y"
     {
    (yyval.union_expression_type) = NULL;
 }
     break;
 
   case 34:
-#line 382 "gpl.y"
+#line 372 "gpl.y"
     { }
     break;
 
   case 86:
-#line 498 "gpl.y"
+#line 488 "gpl.y"
     {
-cout << "making a new variable in gpl.y and passing in "<< *(yyvsp[(1) - (1)].union_string) << endl;
       (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
     }
     break;
 
   case 90:
-#line 510 "gpl.y"
+#line 499 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
   case 99:
-#line 522 "gpl.y"
+#line 511 "gpl.y"
     {
      int type1 = (yyvsp[(1) - (3)].union_expression_type)->get_type();
      int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
@@ -1964,91 +1952,314 @@ cout << "making a new variable in gpl.y and passing in "<< *(yyvsp[(1) - (1)].un
     break;
 
   case 101:
-#line 529 "gpl.y"
+#line 518 "gpl.y"
     {
 int type1 = (yyvsp[(1) - (3)].union_expression_type)->get_type();
 int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
     if (type1 == 4 || type3 == 4)
+       {
+         cout << " error..trying to multiply strings " << endl;
        (yyval.union_expression_type) = new Expression(0); 
+       }
     else
      (yyval.union_expression_type) = new Expression(MULTIPLY, (yyvsp[(1) - (3)].union_expression_type), (yyvsp[(3) - (3)].union_expression_type));
     }
     break;
 
   case 104:
-#line 540 "gpl.y"
+#line 532 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 105:
-#line 544 "gpl.y"
+#line 536 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 106:
-#line 548 "gpl.y"
+#line 540 "gpl.y"
     {
-    (yyval.union_expression_type) = (yyvsp[(3) - (4)].union_expression_type);
+    if ((yyvsp[(1) - (4)].union_operator_type) == SIN)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(SIN, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == COS)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(COS, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == TAN)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(TAN, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == ASIN)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(ASIN, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == ACOS)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(ACOS, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == ATAN)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(ATAN, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == SQRT)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 1)
+    {
+      if ((yyvsp[(3) - (4)].union_expression_type)->eval_int() < 0)
+        {
+         cout << "error..trying to sqrt a neg number" << endl;
+         (yyval.union_expression_type) = new Expression(0);
+        }
+       else
+        {
+         (yyval.union_expression_type) = new Expression(SQRT, (yyvsp[(3) - (4)].union_expression_type));
+        }
+    }
+    if (type == 2)
+    {
+      if ((yyvsp[(3) - (4)].union_expression_type)->eval_double() < 0)
+        {
+         cout << "error..trying to sqrt a neg number" << endl;
+         (yyval.union_expression_type) = new Expression(0);
+        }
+       else
+         (yyval.union_expression_type) = new Expression(SQRT, (yyvsp[(3) - (4)].union_expression_type));
+        }
+     }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == FLOOR)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(FLOOR, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == ABS)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(ABS, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
+    if ((yyvsp[(1) - (4)].union_operator_type) == RANDOM)
+   {
+    int type = (yyvsp[(3) - (4)].union_expression_type)->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      (yyval.union_expression_type) = new Expression(0);
+    }
+    else 
+    { 
+      (yyval.union_expression_type) = new Expression(RANDOM, (yyvsp[(3) - (4)].union_expression_type));
+    }
+   }
 }
     break;
 
   case 107:
-#line 557 "gpl.y"
+#line 700 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (3)].union_expression_type);
 }
     break;
 
   case 108:
-#line 561 "gpl.y"
+#line 704 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
 }
     break;
 
   case 109:
-#line 565 "gpl.y"
+#line 708 "gpl.y"
     {
-cout <<"creating a new T INT CONSTANT with value "<< (yyvsp[(1) - (1)].union_int) << endl;
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
 }
     break;
 
   case 110:
-#line 570 "gpl.y"
+#line 712 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 111:
-#line 574 "gpl.y"
+#line 716 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 112:
-#line 578 "gpl.y"
+#line 720 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(DOUBLE, (yyvsp[(1) - (1)].union_double));
 }
     break;
 
   case 113:
-#line 582 "gpl.y"
+#line 724 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(STRING, *(yyvsp[(1) - (1)].union_string));
 }
     break;
 
+  case 114:
+#line 739 "gpl.y"
+    {
+   (yyval.union_operator_type) = SIN;
+}
+    break;
+
+  case 115:
+#line 743 "gpl.y"
+    {  
+    (yyval.union_operator_type) = COS;
+}
+    break;
+
+  case 116:
+#line 747 "gpl.y"
+    { 
+    (yyval.union_operator_type) = TAN;
+}
+    break;
+
+  case 117:
+#line 751 "gpl.y"
+    { 
+    (yyval.union_operator_type) = ASIN;
+}
+    break;
+
+  case 118:
+#line 755 "gpl.y"
+    {
+    (yyval.union_operator_type) = ACOS;
+}
+    break;
+
+  case 119:
+#line 759 "gpl.y"
+    {
+    (yyval.union_operator_type) = ATAN;
+}
+    break;
+
+  case 120:
+#line 763 "gpl.y"
+    {
+    (yyval.union_operator_type) = SQRT;
+}
+    break;
+
+  case 121:
+#line 767 "gpl.y"
+    {
+     (yyval.union_operator_type) = ABS;
+}
+    break;
+
+  case 122:
+#line 771 "gpl.y"
+    {
+     (yyval.union_operator_type) = FLOOR;
+}
+    break;
+
+  case 123:
+#line 775 "gpl.y"
+    {
+    (yyval.union_operator_type) = RANDOM;
+}
+    break;
+
 
 /* Line 1267 of yacc.c.  */
-#line 2052 "y.tab.c"
+#line 2263 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

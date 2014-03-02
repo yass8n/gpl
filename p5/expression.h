@@ -9,6 +9,7 @@ class Expression {
   public:
     Expression();
     Expression(Operator_type, Expression*, Expression*);
+    Expression(Operator_type, Expression*);
     Expression(Variable *var);
     Expression(Gpl_type gpl, int x);
     Expression(Gpl_type gpl, double x);

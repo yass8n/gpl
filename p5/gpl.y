@@ -32,6 +32,7 @@ using namespace std;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
  Variable            *union_variable_type;
+ Operator_type        union_operator_type;
 }
 
 // each token in the language is defined here
@@ -139,6 +140,7 @@ using namespace std;
 %type <union_expression_type> expression
 %type <union_expression_type> optional_initializer
 %type <union_variable_type> variable
+%type <union_operator_type> math_operator
 
 %token <union_int> T_INT_CONSTANT // this token has a int value associated w/it
 %token <union_string> T_ID // this token has a string value associated w/it
@@ -185,25 +187,20 @@ variable_declaration:
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
-cout << "if the lookup results in false, insert " << id <<  " in symbol table after creating the symbol for it.. its type is " << $1 << endl;
      if (sym_table->lookup(id))
      {
-cout << " ...it wasnt in the table";
           if ($1 == INT)//put into symbol table
           {
-cout << "... and its value was INT ";
            int initial_value = 0;
            if ($3 != NULL)
            {
            $3->set_type($1);
              if ($3->get_type() != 1)
               {
-cout << "...it had incorrect type..shoudl be 1..error "<< $3->get_type()<<endl;
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
               }
              else 
               {
-          cout << " calling evaluate int on " << id << endl;
                initial_value = $3->eval_int();
               }
            }
@@ -219,7 +216,6 @@ cout << "...it had incorrect type..shoudl be 1..error "<< $3->get_type()<<endl;
            $3->set_type($1);
              if ($3->get_type() != 2)
                {
-cout << "...it had incorrect type..shoudl be 2..error "<< $3->get_type()<<endl;
                 Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
                }
              else 
@@ -228,7 +224,6 @@ cout << "...it had incorrect type..shoudl be 2..error "<< $3->get_type()<<endl;
                }
            }
            Symbol *sym = new Symbol();
-cout << initial_value << " is the value of teh double " << endl;
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
           }
@@ -240,7 +235,6 @@ cout << initial_value << " is the value of teh double " << endl;
            $3->set_type($1);
                if ($3->get_type()!=4)
                  {
-cout << "...it had incorrect type.. should be 4...error "<< $3->get_type()<<endl;
                   Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
                  } 
                else
@@ -255,7 +249,6 @@ cout << "...it had incorrect type.. should be 4...error "<< $3->get_type()<<endl
        }
      else {
 
-cout << " ...it WAS in the table" << endl;
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
 }
@@ -293,19 +286,16 @@ simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
 simple_type:
     T_INT
     {
-cout << "ST"<<endl;
      $$ = INT;
     }
     | 
 T_DOUBLE
     {
-cout << "ST"<<endl;
      $$ = DOUBLE;
     }
     | 
 T_STRING
     {
-cout << "ST"<<endl;
      $$ = STRING;
     }
     ;
@@ -496,7 +486,6 @@ assign_statement:
 variable:
     T_ID
     {
-cout << "making a new variable in gpl.y and passing in "<< *$1 << endl;
       $$ = new Variable(*$1);
     }
     | T_ID T_LBRACKET expression T_RBRACKET
@@ -530,7 +519,10 @@ expression:
 int type1 = $1->get_type();
 int type3 = $3->get_type();
     if (type1 == 4 || type3 == 4)
+       {
+         cout << " error..trying to multiply strings " << endl;
        $$ = new Expression(0); 
+       }
     else
      $$ = new Expression(MULTIPLY, $1, $3);
     }
@@ -546,7 +538,158 @@ int type3 = $3->get_type();
 }
     | math_operator T_LPAREN expression T_RPAREN
 {
-    $$ = $3;
+    if ($1 == SIN)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(SIN, $3);
+    }
+   }
+    if ($1 == COS)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(COS, $3);
+    }
+   }
+    if ($1 == TAN)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(TAN, $3);
+    }
+   }
+    if ($1 == ASIN)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(ASIN, $3);
+    }
+   }
+    if ($1 == ACOS)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(ACOS, $3);
+    }
+   }
+    if ($1 == ATAN)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(ATAN, $3);
+    }
+   }
+    if ($1 == SQRT)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+    int type = $3->get_type();
+    if (type == 1)
+    {
+      if ($3->eval_int() < 0)
+        {
+         cout << "error..trying to sqrt a neg number" << endl;
+         $$ = new Expression(0);
+        }
+       else
+        {
+         $$ = new Expression(SQRT, $3);
+        }
+    }
+    if (type == 2)
+    {
+      if ($3->eval_double() < 0)
+        {
+         cout << "error..trying to sqrt a neg number" << endl;
+         $$ = new Expression(0);
+        }
+       else
+         $$ = new Expression(SQRT, $3);
+        }
+     }
+   }
+    if ($1 == FLOOR)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(FLOOR, $3);
+    }
+   }
+    if ($1 == ABS)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(ABS, $3);
+    }
+   }
+    if ($1 == RANDOM)
+   {
+    int type = $3->get_type();
+    if (type == 4)
+    { 
+      cout << "error...trying to get SIN of string" << endl;
+      $$ = new Expression(0);
+    }
+    else 
+    { 
+      $$ = new Expression(RANDOM, $3);
+    }
+   }
 }
     //| variable geometric_operator variable
     ;
@@ -563,7 +706,6 @@ primary_expression:
 }
     | T_INT_CONSTANT
 {
-cout <<"creating a new T INT CONSTANT with value "<< $1 << endl;
     $$ = new Expression(INT, $1);
 }
     | T_TRUE
@@ -594,15 +736,45 @@ geometric_operator:
 //---------------------------------------------------------------------
 math_operator:
     T_SIN
+{
+   $$ = SIN;
+}
     | T_COS
+{  
+    $$ = COS;
+}
     | T_TAN
+{ 
+    $$ = TAN;
+}
     | T_ASIN
+{ 
+    $$ = ASIN;
+}
     | T_ACOS
+{
+    $$ = ACOS;
+}
     | T_ATAN
+{
+    $$ = ATAN;
+}
     | T_SQRT
+{
+    $$ = SQRT;
+}
     | T_ABS
+{
+     $$ = ABS;
+}
     | T_FLOOR
+{
+     $$ = FLOOR;
+}
     | T_RANDOM
+{
+    $$ = RANDOM;
+}
     ;
 
 //---------------------------------------------------------------------

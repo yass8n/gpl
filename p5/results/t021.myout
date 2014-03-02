@@ -9,7 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert a in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on a
- here with the int plus

@@ -9,35 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert q in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table42 is the value of teh double 
-ST
-if the lookup results in false, insert r in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table42 is the value of teh double 
-ST
-if the lookup results in false, insert s in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table42 is the value of teh double 
-ST
-if the lookup results in false, insert w in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table here with the double multpily 
-1799.46 is the value of teh double 
-ST
-creating a new T INT CONSTANT with value 1
-if the lookup results in false, insert y in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table here with the double multpily 
- returning m_int value ->1
-42 is the value of teh double 
-ST
-if the lookup results in false, insert z in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table here with the double multpily 
-42.35 is the value of teh double 
 
 gpl.cpp::main() after call to yyparse().
 
@@ -48,9 +19,9 @@ Printing the symbol table from main()
 double q 42
 double r 42
 double s 42
-double w 1799.46
+double w 42.42
 double y 42
-double z 42.35
+double z 42
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

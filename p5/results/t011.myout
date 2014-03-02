@@ -9,17 +9,7 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert a in symbol table after creating the symbol for it.. its type is 1
-true
- ...it wasnt in the table... and its value was INT ST
-if the lookup results in false, insert b in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table0 is the value of teh double 
-ST
-if the lookup results in false, insert c in symbol table after creating the symbol for it.. its type is 4
-true
- ...it wasnt in the table
+
 gpl.cpp::main() after call to yyparse().
 
 No errors found (parser probably worked correctly).

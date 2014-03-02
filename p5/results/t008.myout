@@ -9,10 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert s in symbol table after creating the symbol for it.. its type is 4
-true
- ...it wasnt in the table returning gpl is fun from string_eval() 
 
 gpl.cpp::main() after call to yyparse().
 

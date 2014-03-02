@@ -9,151 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r01 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r01
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r02 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r02
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r03 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r03
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r04 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r04
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r05 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r05
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r06 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r06
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r07 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r07
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r08 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r08
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r09 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r09
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r10 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r10
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r11 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r11
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r12 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r12
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r13 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r13
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r14 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r14
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r15 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r15
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r16 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r16
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r17 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r17
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r18 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r18
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r19 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r19
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r20 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r20
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r21 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r21
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r22 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r22
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r23 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r23
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r24 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r24
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r25 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r25
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r26 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r26
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r27 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r27
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r28 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r28
- returning m_int value ->2
-ST
-creating a new T INT CONSTANT with value 2
-if the lookup results in false, insert r29 in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on r29
- returning m_int value ->2
 
 gpl.cpp::main() after call to yyparse().
 
@@ -161,35 +16,35 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
-int r01 2
-int r02 2
-int r03 2
-int r04 2
-int r05 2
-int r06 2
-int r07 2
-int r08 2
-int r09 2
-int r10 2
-int r11 2
-int r12 2
-int r13 2
-int r14 2
-int r15 2
-int r16 2
-int r17 2
-int r18 2
-int r19 2
-int r20 2
-int r21 2
-int r22 2
-int r23 2
-int r24 2
-int r25 2
-int r26 2
-int r27 2
-int r28 2
-int r29 2
+int r01 0
+int r02 1
+int r03 1
+int r04 1
+int r05 0
+int r06 1
+int r07 1
+int r08 0
+int r09 0
+int r10 1
+int r11 0
+int r12 1
+int r13 0
+int r14 1
+int r15 0
+int r16 0
+int r17 0
+int r18 0
+int r19 0
+int r20 0
+int r21 1
+int r22 0
+int r23 0
+int r24 1
+int r25 1
+int r26 0
+int r27 1
+int r28 1
+int r29 1
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

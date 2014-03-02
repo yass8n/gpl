@@ -9,44 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-creating a new T INT CONSTANT with value 42
-if the lookup results in false, insert i in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on i
- returning m_int value ->42
-ST
-if the lookup results in false, insert x in symbol table after creating the symbol for it.. its type is 2
- ...it wasnt in the table3.145 is the value of teh double 
-ST
-making a new variable in gpl.y and passing in i
-false
-false
- its a variable -> i
- TYPE is 1
- created an expression Node of type variable  -> i
- its a variable -> i
-if the lookup results in false, insert s in symbol table after creating the symbol for it.. its type is 4
- ...it wasnt in the table in the PLUS of the string EVAL 
- its a variable -> i
-here 9
-returning variable value -> 42
- returning hello from string_eval() 
-ST
-making a new variable in gpl.y and passing in x
-false
-false
- its a variable -> x
- TYPE is 2
- created an expression Node of type variable  -> x
- its a variable -> x
-if the lookup results in false, insert s2 in symbol table after creating the symbol for it.. its type is 4
- ...it wasnt in the table in the PLUS of the string EVAL 
- its a variable -> x
- its a variable -> x
- its a variable -> x
-here 5
-returning variable value -> 3.145
- returning hello from string_eval() 
 
 gpl.cpp::main() after call to yyparse().
 

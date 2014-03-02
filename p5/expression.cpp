@@ -1,4 +1,6 @@
 # include "expression.h"
+#include <stdlib.h>
+# include <math.h>
 # include <sstream>
 Expression::Expression(Gpl_type type, int x)
 {
@@ -45,9 +47,17 @@ Expression::Expression(Variable *var)
   m_string_type = "variable";
   int type = evaluate_type();
   set_type_using_number(type);
-  cout << " TYPE is " << type << endl;
-  cout << " created an expression Node of type variable  -> " << var->get_name()<< endl;
 }
+Expression::Expression(Operator_type op, Expression* left)
+{
+  m_op_type = op;
+  m_left = left;
+  m_right = NULL;
+  m_string_type = "unary_op";
+  int type = evaluate_type();
+  set_type_using_number(type);
+}
+  
 Expression::Expression(Operator_type op, Expression* left, Expression* right)
 {
   m_op_type = op;
@@ -56,8 +66,6 @@ Expression::Expression(Operator_type op, Expression* left, Expression* right)
   m_string_type = "binary_op";
   int type = evaluate_type();
   set_type_using_number(type);
-  if (type == 1)
-  cout << "yess maaaam the type is 1" << endl;
 }
 void Expression::gpl_reference_set(Gpl_type &gpl, int x)
 {
@@ -83,14 +91,13 @@ int Expression::evaluate_type()
   {
     int l = m_left->evaluate_type();
     gpl_reference_set(left_type, l);
+    gpl_reference_set(right_type, l);
   }
   if (m_left == NULL && m_right != NULL)
   {
-    cout << "Error in expression evaluataion" << endl;
   }
   if (m_left == NULL && m_right == NULL && m_string_type == "variable")
   {
-    cout << " its a variable -> " << m_var->m_id  << endl;
     return m_var->get_type();
   }
   if (m_left == NULL && m_right == NULL && m_string_type == "T_INT_CONSTANT")
@@ -150,24 +157,53 @@ int Expression::eval_int()
   assert(m_gpl_type == 1);
   if (m_string_type == "T_INT_CONSTANT")
   {
-    cout << " returning m_int value ->" << m_int << endl;
     return m_int;
   }
   if (m_var != NULL)
   {
-    cout << "returning variable value -> " << m_var->get_int_value() << endl;
     return m_var->get_int_value();
+  }
+  if (m_op_type == FLOOR)
+  {
+    double d =0;
+    bool dub = false;
+    int i = 0;
+    bool in = false;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      d = m_left->eval_double();
+      dub = true;
+    }
+    else
+    {
+      i = m_left->eval_int();
+      in = true;
+    }
+      return (dub == true)? (int)floor(d) :  (int)floor(i);
+  }
+  if (m_op_type == RANDOM)
+  {
+    int i = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      i = (int)m_left->eval_double();
+    }
+    else
+    {
+      assert(m_left->evaluate_type() == 1);
+      i = m_left->eval_int();
+    }
+      return rand() % i + 0;
   }
   if (m_op_type == MULTIPLY && m_gpl_type == INT )
   {
-    cout << " here with the int multpily " << endl;
     assert( m_left != NULL && m_right != NULL);
-    cout << " calling return right and left " << endl;
     return m_left->eval_int() * m_right->eval_int();
   }
   if (m_op_type == PLUS && m_gpl_type == INT)
   {
-    cout << " here with the int plus" << endl;
     assert( m_left != NULL && m_right != NULL);
     return m_left->eval_int() + m_right->eval_int();
   }
@@ -179,12 +215,152 @@ double Expression::eval_double()
     return m_double;
   if (m_var != NULL)
   {
-    cout << "returning variable value -> " << m_var->get_double_value() << endl;
     return m_var->get_double_value();
+  }
+  if (m_op_type == SIN)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+       l = (double)m_left->eval_int();
+    }
+    else
+    { 
+      assert (m_left->evaluate_type() == 2);
+      l = m_left->eval_double();
+    }
+    l = l*(M_PI/180);
+      return sin(l); 
+  }
+  if (m_op_type == FLOOR)
+  {
+    double d =0;
+    bool dub = false;
+    int i = 0;
+    bool in = false;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      d = m_left->eval_double();
+      dub = true;
+    }
+    else
+    {
+      i = m_left->eval_int();
+      in = true;
+    }
+      return (dub == true)? (double)floor(d) :  (double)floor(i);
+  }
+  if (m_op_type == COS)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert (m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+    l = l*(M_PI/180);
+      return cos(l);
+  }
+  if (m_op_type == TAN)
+  {
+    double l = 0.0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+    l = l*(M_PI/180);
+      return tan(l);
+  }
+  if (m_op_type == ASIN)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+      return asin(l) * (180/M_PI);
+  }
+  if (m_op_type == ACOS)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+      return acos(l)*(180/M_PI);
+  }
+  if (m_op_type == ATAN)
+  {
+    double l = 0.0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+      return atan(l)*(180/M_PI);
+  }
+  if (m_op_type == SQRT)
+  {
+    double l = 0.0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+      return sqrt(l);
+  }
+  if (m_op_type == ABS)
+  {
+    double l = 0.0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+      return (int)fabs(l);
   }
   if (m_op_type == MULTIPLY)
   {
-    cout << " here with the double multpily " << endl;
     assert( m_left != NULL && m_right != NULL);
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 2)
       return (double)m_left->eval_int() * m_right->eval_double();
@@ -195,26 +371,19 @@ double Expression::eval_double()
   }
   if (m_op_type == PLUS)
   {
-    cout << " here with the double plus " << endl;
-    cout << m_left->evaluate_type() << "  " << m_right->evaluate_type() << endl;
-    cout << " here with the double plus " << endl;
     assert( m_left != NULL && m_right != NULL);
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 2)
     {
-      cout << "paired the int and double   .. " << (double)m_left->eval_int() << " and " << m_right->eval_double() << endl;
       return (double)m_left->eval_int() + m_right->eval_double();
     }
     if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 1)
     {
-      cout << "paired the double and int   .. " << m_right->eval_double() <<  " and " << (double)m_left->eval_int() << endl;
       return m_left->eval_double() + (double)m_right->eval_int();
     }
     if (m_left->evaluate_type() ==2 && m_right->evaluate_type()==2)
     {
-    cout << " both DOUBLE..." << endl;
       return m_left->eval_double() + m_right->eval_double();
     }
-    cout << " NONE paired " << endl;
   }
 }
 string Expression::eval_string()
@@ -224,56 +393,47 @@ string Expression::eval_string()
   assert(m_gpl_type == 4);
   if (m_string_type == "T_STRING_CONSTANT")
   {
-    cout << " returning "<< m_string << " from string_eval() " << endl;
     return m_string;
   }
   if (m_var != NULL)
   {
-    cout << "returning variable value -> " << m_var->get_string_value() << endl;
     return m_var->get_string_value();
   }
   if (m_op_type == PLUS)
   {
-    cout << " in the PLUS of the string EVAL " << endl;
     assert( m_left != NULL && m_right != NULL);
     if (m_left->evaluate_type()==4 && m_right->evaluate_type() == 1)
     {
-      cout << "here 9" << endl;
       rs << m_right->eval_int();
       string str = rs.str();
       return m_left->eval_string() + str;
     }
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 4)
     {
-      cout << "here 8" << endl;
       ls << m_left->eval_int();
       string str = ls.str();
       return str + m_right->eval_string();
     }
     if (m_left->evaluate_type()==4 && m_right->evaluate_type() == 1)
     {
-      cout << "here 7" << endl;
       rs << m_right->eval_int();
       string str = rs.str();
       return m_left->eval_string() + str;
     }
     if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 4)
     {
-      cout << "here 6" << endl;
       ls << m_left->eval_double();
       string str = ls.str();
       return str + m_right->eval_string();
     }
     if (m_left->evaluate_type()==4 && m_right->evaluate_type() == 2)
     {
-      cout << "here 5" << endl;
       rs << m_right->eval_double();
       string str = rs.str();
       return m_left->eval_string() + str;
     }
     if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 1)
     {
-      cout << "here 4" << endl;
       ls << m_left->eval_double();
       rs << m_right->eval_int();
       string strl = ls.str();
@@ -282,7 +442,6 @@ string Expression::eval_string()
     }
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 2)
     {
-      cout << "here 3" << endl;
       ls << m_left->eval_int();
       rs << m_right->eval_double();
       string strl = ls.str();
@@ -291,7 +450,6 @@ string Expression::eval_string()
     }
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 1)
     {
-      cout << "here 2" << endl;
       ls << m_left->eval_int();
       rs << m_right->eval_int();
       string strl = ls.str();
@@ -300,7 +458,6 @@ string Expression::eval_string()
     }
     if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 2)
     {
-      cout << "here 1" << endl;
       ls << m_left->eval_double();
       rs << m_right->eval_double();
       string strl = ls.str();
@@ -315,6 +472,5 @@ string Expression::eval_string()
   }
   if (m_op_type == MULTIPLY)
   {
-    cout << " error...cant multiply strings " << endl;
   }
 }

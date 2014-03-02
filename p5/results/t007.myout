@@ -9,26 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert x in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table42.4222 is the value of teh double 
-ST
-making a new variable in gpl.y and passing in x
-false
-false
- its a variable -> x
- TYPE is 2
- created an expression Node of type variable  -> x
- its a variable -> x
-if the lookup results in false, insert y in symbol table after creating the symbol for it.. its type is 2
-true
- ...it wasnt in the table here with the double multpily 
- its a variable -> x
- its a variable -> x
- its a variable -> x
-returning variable value -> 42.4222
-89.5533 is the value of teh double 
 
 gpl.cpp::main() after call to yyparse().
 

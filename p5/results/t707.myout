@@ -9,6 +9,4 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-creating a new T INT CONSTANT with value 100
-creating a new T INT CONSTANT with value 20
+ error..trying to multiply strings 

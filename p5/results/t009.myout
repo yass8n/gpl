@@ -9,33 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert s in symbol table after creating the symbol for it.. its type is 4
-true
- ...it wasnt in the table returning gpl is fun from string_eval() 
-ST
-making a new variable in gpl.y and passing in s
-false
-false
- its a variable -> s
- TYPE is 4
- created an expression Node of type variable  -> s
- its a variable -> s
-if the lookup results in false, insert t in symbol table after creating the symbol for it.. its type is 4
-true
- ...it wasnt in the table in the PLUS of the string EVAL 
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- its a variable -> s
- returning , just kidding... from string_eval() 
-returning variable value -> gpl is fun
 
 gpl.cpp::main() after call to yyparse().
 

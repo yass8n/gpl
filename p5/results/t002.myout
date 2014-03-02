@@ -9,23 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-creating a new T INT CONSTANT with value 86
-if the lookup results in false, insert i in symbol table after creating the symbol for it.. its type is 1
-true
- ...it wasnt in the table... and its value was INT  calling evaluate int on i
- returning m_int value ->86
-ST
-making a new variable in gpl.y and passing in i
-false
-false
- its a variable -> i
- TYPE is 1
- created an expression Node of type variable  -> i
-if the lookup results in false, insert j in symbol table after creating the symbol for it.. its type is 1
-true
- ...it wasnt in the table... and its value was INT  calling evaluate int on j
-returning variable value -> 86
 
 gpl.cpp::main() after call to yyparse().
 

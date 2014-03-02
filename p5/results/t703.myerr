@@ -1,1 +1,1 @@
-Semantic error on line 2: Incorrect type for initial value of variable 'should_be_0'.
+Assertion failed: (m_left != NULL && m_right != NULL), function eval_double, file expression.cpp, line 303.
