@@ -514,6 +514,19 @@ expression:
      $$ = new Expression(PLUS, $1, $3);
      }
     | expression T_MINUS expression
+{
+     int type1 = $1->get_type();
+     int type3 = $3->get_type();
+   if (type1 == 4 || type3 == 4)
+       {
+       cout << " error..trying to subtract strings " << endl;
+       $$ = new Expression(0); 
+       }
+   else
+       {
+     $$ = new Expression(MINUS, $1, $3);
+       }
+}
     | expression T_ASTERISK expression
     {
 int type1 = $1->get_type();
@@ -530,11 +543,25 @@ int type3 = $3->get_type();
     | expression T_MOD expression
     | T_MINUS  expression %prec UNARY_OPS
 {
-    $$ = $2;
+int type = $2->get_type();
+    if (type == 4)
+       {
+       cout << " error..trying to UNARY_MINUS strings " << endl;
+       $$ = new Expression(0); 
+       }
+    else
+     $$ = new Expression(UNARY_MINUS, $2);
 }
     | T_NOT  expression %prec UNARY_OPS
 {
-    $$ = $2;
+int type = $2->get_type();
+    if (type == 4)
+       {
+       cout << " error..trying to NOT strings " << endl;
+       $$ = new Expression(0); 
+       }
+    else
+     $$ = new Expression(NOT, $2);
 }
     | math_operator T_LPAREN expression T_RPAREN
 {

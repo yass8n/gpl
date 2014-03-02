@@ -9,3 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+DOUBLE gpl.y
+calling eval_double  gpl.y -> x
+called eval_double  gpl.y -> x

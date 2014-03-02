@@ -19,10 +19,10 @@ Printing the symbol table from main()
 int a 42
 double b 3.5
 double c 12.1
-double q 90
-double r 0
-double s 45
-double w 42.42
+double q 42
+double r 42
+double s 42
+double w 42
 double y 42
 double z 42
 If graphics was enabled gpl program would execute now.

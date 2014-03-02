@@ -14,6 +14,7 @@ Expression::Expression(Gpl_type type, int x)
   set_type_using_number(gpl_type);
   m_string_type = "T_INT_CONSTANT";
 }
+
 Expression::Expression(Gpl_type type, double x)
 {
   assert(type == 2);
@@ -26,6 +27,7 @@ Expression::Expression(Gpl_type type, double x)
   set_type_using_number(gpl_type);
   m_string_type = "T_DOUBLE_CONSTANT";
 }
+
 Expression::Expression(Gpl_type type, string x)
 {
   assert(type == 4);
@@ -38,6 +40,7 @@ Expression::Expression(Gpl_type type, string x)
   set_type_using_number(gpl_type);
   m_string_type = "T_STRING_CONSTANT";
 }
+
 Expression::Expression(Variable *var)
 {
   assert(var != NULL);
@@ -48,6 +51,7 @@ Expression::Expression(Variable *var)
   int type = evaluate_type();
   set_type_using_number(type);
 }
+
 Expression::Expression(Operator_type op, Expression* left)
 {
   m_op_type = op;
@@ -57,7 +61,7 @@ Expression::Expression(Operator_type op, Expression* left)
   int type = evaluate_type();
   set_type_using_number(type);
 }
-  
+
 Expression::Expression(Operator_type op, Expression* left, Expression* right)
 {
   m_op_type = op;
@@ -82,14 +86,21 @@ int Expression::evaluate_type()
   Gpl_type right_type;
   if (m_left != NULL && m_right != NULL)
   {
-      int l= m_left->evaluate_type();
-      int r= m_right->evaluate_type();
-      gpl_reference_set(left_type, l);
-      gpl_reference_set(right_type, r);
+    int l= m_left->evaluate_type();
+    int r= m_right->evaluate_type();
+    gpl_reference_set(left_type, l);
+    gpl_reference_set(right_type, r);
   }
-  if (m_left != NULL && m_right == NULL)
+  else if (m_left != NULL && m_right == NULL)
   {
+    //this is a binary operator
     int l = m_left->evaluate_type();
+    if (m_string_type=="unary_op")
+      l = 2;
+    if ( m_op_type == RANDOM ||
+        m_op_type == NOT || m_op_type == UNARY_MINUS)
+      l = 1;
+
     gpl_reference_set(left_type, l);
     gpl_reference_set(right_type, l);
   }
@@ -103,17 +114,17 @@ int Expression::evaluate_type()
   if (m_left == NULL && m_right == NULL && m_string_type == "T_INT_CONSTANT")
   {
     assert (get_type() == 1);
-      return 1;
+    return 1;
   }
   if (m_left == NULL && m_right == NULL && m_string_type == "T_DOUBLE_CONSTANT")
   {
     assert (get_type() == 2);
-      return 2;
+    return 2;
   }
   if (m_left == NULL && m_right == NULL && m_string_type == "T_STRING_CONSTANT")
   {
     assert (get_type() == 4);
-      return 4;
+    return 4;
   }
   if (left_type == 1 && right_type == 1)
     return 1;
@@ -121,23 +132,15 @@ int Expression::evaluate_type()
     return 2;
   if (left_type == 2 && right_type == 2)
     return 2;
-  if ((left_type == 1 || right_type == 4))
-      return 4;
-  if ((left_type == 4 || right_type == 1))
-      return 4;
-  if ((left_type == 2 || right_type == 4))
-      return 4;
-  if ((left_type == 4 || right_type == 2))
-      return 4;
   if ((left_type == 4 || right_type == 4))
-      return 4;
+    return 4;
 }
 Expression::Expression()
 {
 }
 Gpl_type Expression::get_type()
 {
-    return m_gpl_type;
+  return m_gpl_type;
 }
 void Expression::set_type(Gpl_type type)
 {
@@ -180,7 +183,7 @@ int Expression::eval_int()
       i = m_left->eval_int();
       in = true;
     }
-      return (dub == true)? (int)floor(d) :  (int)floor(i);
+    return (dub == true)? (int)floor(d) :  (int)floor(i);
   }
   if (m_op_type == RANDOM)
   {
@@ -195,12 +198,73 @@ int Expression::eval_int()
       assert(m_left->evaluate_type() == 1);
       i = m_left->eval_int();
     }
-      return rand() % i + 0;
+    return (rand() % i);
+  }
+  if (m_op_type == UNARY_MINUS)
+  {
+    int i = 0;
+    double d = 0;
+    string s = "";
+    assert (m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      d = m_left->eval_double();
+      return -d;
+    }
+    if (m_left->evaluate_type()==1)
+    {
+      i = m_left->eval_int();
+      return -i;
+    }
+    if (m_left->evaluate_type()==4)
+    {
+    }
+  }
+  if (m_op_type == NOT)
+  {
+    int i = 0;
+    double d = 0;
+    string s = "";
+    assert (m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      d = m_left->eval_double();
+      return (d == 0 ) ? 1 : 0;
+    }
+    if (m_left->evaluate_type()==4)
+    {
+
+    }
+    if (m_left->evaluate_type()==1)
+    {
+      i = m_left->eval_int();
+      return (i == 0 ) ? 1 : 0;
+    }
+  }
+  if (m_op_type == SIN)
+  {
+    int l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==2)
+    {
+      l = (int)m_left->eval_double();
+    }
+    else
+    { 
+      assert (m_left->evaluate_type() == 1);
+      l = m_left->eval_int();
+    }
+    return sin(l); 
   }
   if (m_op_type == MULTIPLY && m_gpl_type == INT )
   {
     assert( m_left != NULL && m_right != NULL);
     return m_left->eval_int() * m_right->eval_int();
+  }
+  if (m_op_type == MINUS && m_gpl_type == INT)
+  {
+    assert( m_left != NULL && m_right != NULL);
+    return m_left->eval_int() - m_right->eval_int();
   }
   if (m_op_type == PLUS && m_gpl_type == INT)
   {
@@ -223,7 +287,7 @@ double Expression::eval_double()
     assert(m_right == NULL);
     if (m_left->evaluate_type()==1)
     {
-       l = (double)m_left->eval_int();
+      l = (double)m_left->eval_int();
     }
     else
     { 
@@ -231,7 +295,7 @@ double Expression::eval_double()
       l = m_left->eval_double();
     }
     l = l*(M_PI/180);
-      return sin(l); 
+    return sin(l); 
   }
   if (m_op_type == FLOOR)
   {
@@ -250,7 +314,7 @@ double Expression::eval_double()
       i = m_left->eval_int();
       in = true;
     }
-      return (dub == true)? (double)floor(d) :  (double)floor(i);
+    return (dub == true)? (double)floor(d) :  (double)floor(i);
   }
   if (m_op_type == COS)
   {
@@ -266,7 +330,7 @@ double Expression::eval_double()
       l = m_left->eval_double();
     }
     l = l*(M_PI/180);
-      return cos(l);
+    return cos(l);
   }
   if (m_op_type == TAN)
   {
@@ -282,7 +346,7 @@ double Expression::eval_double()
       l = m_left->eval_double();
     }
     l = l*(M_PI/180);
-      return tan(l);
+    return tan(l);
   }
   if (m_op_type == ASIN)
   {
@@ -297,7 +361,7 @@ double Expression::eval_double()
       assert(m_left->evaluate_type()==2);
       l = m_left->eval_double();
     }
-      return asin(l) * (180/M_PI);
+    return asin(l) * (180/M_PI);
   }
   if (m_op_type == ACOS)
   {
@@ -312,7 +376,7 @@ double Expression::eval_double()
       assert(m_left->evaluate_type()==2);
       l = m_left->eval_double();
     }
-      return acos(l)*(180/M_PI);
+    return acos(l)*(180/M_PI);
   }
   if (m_op_type == ATAN)
   {
@@ -327,7 +391,7 @@ double Expression::eval_double()
       assert(m_left->evaluate_type()==2);
       l = m_left->eval_double();
     }
-      return atan(l)*(180/M_PI);
+    return atan(l)*(180/M_PI);
   }
   if (m_op_type == SQRT)
   {
@@ -342,7 +406,7 @@ double Expression::eval_double()
       assert(m_left->evaluate_type()==2);
       l = m_left->eval_double();
     }
-      return sqrt(l);
+    return sqrt(l);
   }
   if (m_op_type == ABS)
   {
@@ -350,24 +414,34 @@ double Expression::eval_double()
     assert(m_right == NULL);
     if (m_left->evaluate_type()==1)
     {
-      l = m_left->eval_int();
+      l = (double)m_left->eval_int();
     }
     else
     {
       assert(m_left->evaluate_type()==2);
       l = m_left->eval_double();
     }
-      return (int)fabs(l);
+    return fabs(l);
   }
   if (m_op_type == MULTIPLY)
   {
     assert( m_left != NULL && m_right != NULL);
     if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 2)
+    {
       return (double)m_left->eval_int() * m_right->eval_double();
+    }
     if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 1)
+    {
       return m_left->eval_double() * (double)m_right->eval_int();
+    }
+    if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 1)
+    {
+      return (double)m_left->eval_double() * (double)m_right->eval_int();
+    }
     if (m_left->evaluate_type() ==2 && m_right->evaluate_type()==2)
+    {
       return m_left->eval_double() * m_right->eval_double();
+    }
   }
   if (m_op_type == PLUS)
   {
@@ -383,6 +457,22 @@ double Expression::eval_double()
     if (m_left->evaluate_type() ==2 && m_right->evaluate_type()==2)
     {
       return m_left->eval_double() + m_right->eval_double();
+    }
+  }
+  if (m_op_type == MINUS)
+  {
+    assert( m_left != NULL && m_right != NULL);
+    if (m_left->evaluate_type()==1 && m_right->evaluate_type() == 2)
+    {
+      return (double)m_left->eval_int() - m_right->eval_double();
+    }
+    if (m_left->evaluate_type()==2 && m_right->evaluate_type() == 1)
+    {
+      return m_left->eval_double() - (double)m_right->eval_int();
+    }
+    if (m_left->evaluate_type() ==2 && m_right->evaluate_type()==2)
+    {
+      return m_left->eval_double() - m_right->eval_double();
     }
   }
 }

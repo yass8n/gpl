@@ -4,7 +4,6 @@
 # include "Gpl_type.h"
 # include <assert.h>
 
-
 class Expression {
   public:
     Expression();
