@@ -192,10 +192,10 @@ cout << " ...it wasnt in the table";
           if ($1 == INT)//put into symbol table
           {
 cout << "... and its value was INT ";
-           $3->set_type($1);
            int initial_value = 0;
            if ($3 != NULL)
            {
+           $3->set_type($1);
              if ($3->get_type() != 1)
               {
 cout << "...it had incorrect type..shoudl be 1..error "<< $3->get_type()<<endl;
@@ -213,10 +213,10 @@ cout << "...it had incorrect type..shoudl be 1..error "<< $3->get_type()<<endl;
           }
            if ($1 == DOUBLE)//put into symbol table
           {
-           $3->set_type($1);
            double initial_value = 0.0;
            if ($3 != NULL)
            {      
+           $3->set_type($1);
              if ($3->get_type() != 2)
                {
 cout << "...it had incorrect type..shoudl be 2..error "<< $3->get_type()<<endl;
@@ -234,10 +234,10 @@ cout << initial_value << " is the value of teh double " << endl;
           }
            if ($1 == STRING)//put into symbol table
           {
-           $3->set_type($1);
            string initial_value = "";
             if($3!=NULL)
              {        
+           $3->set_type($1);
                if ($3->get_type()!=4)
                  {
 cout << "...it had incorrect type.. should be 4...error "<< $3->get_type()<<endl;
@@ -317,6 +317,9 @@ optional_initializer:
     $$ = $2;
 }
     | empty
+{
+   $$ = NULL;
+}
     ;
 
 //---------------------------------------------------------------------
@@ -516,6 +519,11 @@ expression:
     | expression T_EQUAL expression
     | expression T_NOT_EQUAL expression
     | expression T_PLUS expression 
+     {
+     int type1 = $1->get_type();
+     int type3 = $3->get_type();
+     $$ = new Expression(PLUS, $1, $3);
+     }
     | expression T_MINUS expression
     | expression T_ASTERISK expression
     {
@@ -547,7 +555,7 @@ int type3 = $3->get_type();
 primary_expression:
     T_LPAREN  expression T_RPAREN
 {
-    $$ = new Expression();
+    $$ = $2;
 }
     | variable
 {

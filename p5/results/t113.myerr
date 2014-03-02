@@ -1,1 +1,1 @@
-Assertion failed: (m_sym->return_type() == "INT"), function get_int_value, file variable.cpp, line 20.
+Assertion failed: (m_sym->return_type() == "INT"), function get_int_value, file variable.cpp, line 32.

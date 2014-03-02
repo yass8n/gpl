@@ -12,16 +12,19 @@ gpl.cpp::main() Calling yyparse()
 ST
 creating a new T INT CONSTANT with value 10
 if the lookup results in false, insert a in symbol table after creating the symbol for it.. its type is 1
+true
  ...it wasnt in the table... and its value was INT  calling evaluate int on a
  returning m_int value ->10
 ST
 creating a new T INT CONSTANT with value 100
 if the lookup results in false, insert b in symbol table after creating the symbol for it.. its type is 1
+true
  ...it wasnt in the table... and its value was INT  calling evaluate int on b
  returning m_int value ->100
 ST
 creating a new T INT CONSTANT with value 1000
 if the lookup results in false, insert c in symbol table after creating the symbol for it.. its type is 1
+true
  ...it wasnt in the table... and its value was INT  calling evaluate int on c
  returning m_int value ->1000
 

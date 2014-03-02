@@ -15,8 +15,8 @@ class Variable{
     string get_name()
     { return m_id; };
     Gpl_type get_type();
-  private:
     string m_id;
+  private:
     string m_string_type;
     Symbol *m_sym;
 };

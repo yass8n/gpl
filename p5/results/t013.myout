@@ -11,30 +11,39 @@ gpl.cpp::main() Calling yyparse()
 
 ST
 if the lookup results in false, insert q in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table42 is the value of teh double 
 ST
 if the lookup results in false, insert r in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table42 is the value of teh double 
 ST
 if the lookup results in false, insert s in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table42 is the value of teh double 
 ST
 if the lookup results in false, insert t in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table0.5 is the value of teh double 
 ST
 if the lookup results in false, insert u in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table0.5 is the value of teh double 
 ST
 if the lookup results in false, insert v in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table0.5 is the value of teh double 
 ST
 if the lookup results in false, insert w in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table144 is the value of teh double 
 ST
 if the lookup results in false, insert y in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table42 is the value of teh double 
 ST
 if the lookup results in false, insert z in symbol table after creating the symbol for it.. its type is 2
+true
  ...it wasnt in the table42.42 is the value of teh double 
 
 gpl.cpp::main() after call to yyparse().

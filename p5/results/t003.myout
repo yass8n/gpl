@@ -12,11 +12,11 @@ gpl.cpp::main() Calling yyparse()
 ST
 creating a new T INT CONSTANT with value 42
 creating a new T INT CONSTANT with value 2
- its a t_int_constant 
- its a t_int_constant 
 yess maaaam the type is 1
 if the lookup results in false, insert i in symbol table after creating the symbol for it.. its type is 1
+true
  ...it wasnt in the table... and its value was INT  calling evaluate int on i
+ here with the int multpily 
  calling return right and left 
  returning m_int value ->42
  returning m_int value ->2

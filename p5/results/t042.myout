@@ -9,22 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-ST
-if the lookup results in false, insert k in symbol table after creating the symbol for it.. its type is 2
- ...it wasnt in the table1.2 is the value of teh double 
-ST
-creating a new T INT CONSTANT with value 1
-if the lookup results in false, insert z in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on z
- returning m_int value ->1
-ST
-making a new variable in gpl.y and passing in k
- its a variable 
- TYPE is 2
- created an expression Node of type variable  -> k
-making a new variable in gpl.y and passing in z
- its a variable 
- TYPE is 1
- created an expression Node of type variable  -> z
-if the lookup results in false, insert x in symbol table after creating the symbol for it.. its type is 1
- ...it wasnt in the table... and its value was INT  calling evaluate int on x

@@ -665,18 +665,18 @@ static const yytype_int16 yyrhs[] =
 static const yytype_uint16 yyrline[] =
 {
        0,   165,   165,   170,   171,   176,   177,   178,   183,   263,
-     294,   300,   306,   315,   319,   324,   325,   330,   331,   332,
-     333,   334,   339,   340,   345,   346,   351,   356,   361,   362,
-     367,   368,   369,   374,   379,   379,   384,   389,   390,   391,
-     392,   393,   398,   403,   404,   405,   406,   407,   408,   409,
-     410,   411,   412,   413,   414,   415,   416,   417,   418,   419,
-     420,   421,   422,   423,   424,   425,   430,   431,   436,   440,
-     445,   451,   452,   457,   458,   459,   460,   461,   466,   467,
-     472,   477,   482,   487,   488,   489,   494,   499,   500,   501,
-     506,   510,   511,   512,   513,   514,   515,   516,   517,   518,
-     519,   520,   529,   530,   531,   535,   539,   548,   552,   556,
-     561,   565,   569,   573,   588,   589,   590,   591,   592,   593,
-     594,   595,   596,   597,   601
+     294,   300,   306,   315,   319,   327,   328,   333,   334,   335,
+     336,   337,   342,   343,   348,   349,   354,   359,   364,   365,
+     370,   371,   372,   377,   382,   382,   387,   392,   393,   394,
+     395,   396,   401,   406,   407,   408,   409,   410,   411,   412,
+     413,   414,   415,   416,   417,   418,   419,   420,   421,   422,
+     423,   424,   425,   426,   427,   428,   433,   434,   439,   443,
+     448,   454,   455,   460,   461,   462,   463,   464,   469,   470,
+     475,   480,   485,   490,   491,   492,   497,   502,   503,   504,
+     509,   513,   514,   515,   516,   517,   518,   519,   520,   521,
+     527,   528,   537,   538,   539,   543,   547,   556,   560,   564,
+     569,   573,   577,   581,   596,   597,   598,   599,   600,   601,
+     602,   603,   604,   605,   609
 };
 #endif
 
@@ -1798,10 +1798,10 @@ cout << " ...it wasnt in the table";
           if ((yyvsp[(1) - (3)].union_gpl_type) == INT)//put into symbol table
           {
 cout << "... and its value was INT ";
-           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
            int initial_value = 0;
            if ((yyvsp[(3) - (3)].union_expression_type) != NULL)
            {
+           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
              if ((yyvsp[(3) - (3)].union_expression_type)->get_type() != 1)
               {
 cout << "...it had incorrect type..shoudl be 1..error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
@@ -1819,10 +1819,10 @@ cout << "...it had incorrect type..shoudl be 1..error "<< (yyvsp[(3) - (3)].unio
           }
            if ((yyvsp[(1) - (3)].union_gpl_type) == DOUBLE)//put into symbol table
           {
-           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
            double initial_value = 0.0;
            if ((yyvsp[(3) - (3)].union_expression_type) != NULL)
            {      
+           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
              if ((yyvsp[(3) - (3)].union_expression_type)->get_type() != 2)
                {
 cout << "...it had incorrect type..shoudl be 2..error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
@@ -1840,10 +1840,10 @@ cout << initial_value << " is the value of teh double " << endl;
           }
            if ((yyvsp[(1) - (3)].union_gpl_type) == STRING)//put into symbol table
           {
-           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
            string initial_value = "";
             if((yyvsp[(3) - (3)].union_expression_type)!=NULL)
              {        
+           (yyvsp[(3) - (3)].union_expression_type)->set_type((yyvsp[(1) - (3)].union_gpl_type));
                if ((yyvsp[(3) - (3)].union_expression_type)->get_type()!=4)
                  {
 cout << "...it had incorrect type.. should be 4...error "<< (yyvsp[(3) - (3)].union_expression_type)->get_type()<<endl;
@@ -1927,13 +1927,20 @@ cout << "ST"<<endl;
 }
     break;
 
+  case 14:
+#line 320 "gpl.y"
+    {
+   (yyval.union_expression_type) = NULL;
+}
+    break;
+
   case 34:
-#line 379 "gpl.y"
+#line 382 "gpl.y"
     { }
     break;
 
   case 86:
-#line 495 "gpl.y"
+#line 498 "gpl.y"
     {
 cout << "making a new variable in gpl.y and passing in "<< *(yyvsp[(1) - (1)].union_string) << endl;
       (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
@@ -1941,14 +1948,23 @@ cout << "making a new variable in gpl.y and passing in "<< *(yyvsp[(1) - (1)].un
     break;
 
   case 90:
-#line 507 "gpl.y"
+#line 510 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
+  case 99:
+#line 522 "gpl.y"
+    {
+     int type1 = (yyvsp[(1) - (3)].union_expression_type)->get_type();
+     int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
+     (yyval.union_expression_type) = new Expression(PLUS, (yyvsp[(1) - (3)].union_expression_type), (yyvsp[(3) - (3)].union_expression_type));
+     }
+    break;
+
   case 101:
-#line 521 "gpl.y"
+#line 529 "gpl.y"
     {
 int type1 = (yyvsp[(1) - (3)].union_expression_type)->get_type();
 int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
@@ -1960,42 +1976,42 @@ int type3 = (yyvsp[(3) - (3)].union_expression_type)->get_type();
     break;
 
   case 104:
-#line 532 "gpl.y"
+#line 540 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 105:
-#line 536 "gpl.y"
+#line 544 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
 }
     break;
 
   case 106:
-#line 540 "gpl.y"
+#line 548 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(3) - (4)].union_expression_type);
 }
     break;
 
   case 107:
-#line 549 "gpl.y"
+#line 557 "gpl.y"
     {
-    (yyval.union_expression_type) = new Expression();
+    (yyval.union_expression_type) = (yyvsp[(2) - (3)].union_expression_type);
 }
     break;
 
   case 108:
-#line 553 "gpl.y"
+#line 561 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
 }
     break;
 
   case 109:
-#line 557 "gpl.y"
+#line 565 "gpl.y"
     {
 cout <<"creating a new T INT CONSTANT with value "<< (yyvsp[(1) - (1)].union_int) << endl;
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
@@ -2003,28 +2019,28 @@ cout <<"creating a new T INT CONSTANT with value "<< (yyvsp[(1) - (1)].union_int
     break;
 
   case 110:
-#line 562 "gpl.y"
+#line 570 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 111:
-#line 566 "gpl.y"
+#line 574 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression();
 }
     break;
 
   case 112:
-#line 570 "gpl.y"
+#line 578 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(DOUBLE, (yyvsp[(1) - (1)].union_double));
 }
     break;
 
   case 113:
-#line 574 "gpl.y"
+#line 582 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(STRING, *(yyvsp[(1) - (1)].union_string));
 }
@@ -2032,7 +2048,7 @@ cout <<"creating a new T INT CONSTANT with value "<< (yyvsp[(1) - (1)].union_int
 
 
 /* Line 1267 of yacc.c.  */
-#line 2036 "y.tab.c"
+#line 2052 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

@@ -1,2 +1,1 @@
-gpl(23760) malloc: *** error for object 0x7f9179411c01: pointer being freed was not allocated
-*** set a breakpoint in malloc_error_break to debug
+Assertion failed: (m_left != NULL && m_right != NULL), function eval_string, file expression.cpp, line 238.

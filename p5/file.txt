@@ -1,35 +1,4 @@
-Failed t001: stdout incorrect
-Failed t002: stdout incorrect
-Failed t003: stdout incorrect
-Failed t004: stdout incorrect
-Failed t005: stdout incorrect
-Failed t006: stdout incorrect
-Failed t007: stdout incorrect
-Failed t008: stdout incorrect
-Failed t009: stdout incorrect
-Failed t010: stdout incorrect
-Failed t011: stdout incorrect
-Failed t012: stdout incorrect
-Failed t013: stdout incorrect
-Failed t014: stdout incorrect
-Failed t015: stdout & stderr incorrect
-Failed t016: stdout incorrect
-Failed t017: stdout incorrect
-Failed t018: stdout incorrect
-Failed t019: stdout & stderr incorrect
-Failed t020: stdout & stderr incorrect
-Failed t021: stdout & stderr incorrect
-Failed t022: stdout incorrect
-Failed t023: stdout incorrect
-Failed t024: stdout incorrect
-Failed t030: stdout incorrect
-Failed t031: stdout incorrect
-Failed t032: stdout incorrect
-Failed t033: stdout incorrect
-Failed t034: stdout incorrect
-Failed t035: stdout incorrect
-Failed t040: stdout incorrect
-Failed t041: stdout incorrect
-Failed t042: stdout & stderr incorrect
-Failed t043: stdout incorrect
-Failed t044: stdout incorrect
+Failed t001: stdout & stderr incorrect
+Failed t002: stdout & stderr incorrect
+Failed t003: stdout & stderr incorrect
+Failed t004: stdout & stderr incorrect

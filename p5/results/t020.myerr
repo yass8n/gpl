@@ -1,4 +1,0 @@
-gpl(23764) malloc: *** mmap(size=140604113760256) failed (error code=12)
-*** error: can't allocate region
-*** set a breakpoint in malloc_error_break to debug
-libc++abi.dylib: terminate called throwing an exception
