@@ -9,3 +9,7 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+2 is the type 
+MATCHED VARIABLE
+1 is the type 
+at top of int eval

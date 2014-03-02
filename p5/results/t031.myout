@@ -9,4 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched INT BELOW
+matched STRING BELOW
  error..trying to LESS_THAN strings 

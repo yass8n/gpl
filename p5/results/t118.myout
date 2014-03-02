@@ -9,6 +9,18 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched STRING BELOW
+4 is the type 
+2 is the type 
+2 is the type 
+MATCHED VARIABLE
+MATCHED VARIABLE
+MATCHED VARIABLE
+4 is the type 
+MATCHED VARIABLE
+MATCHED VARIABLE
+MATCHED VARIABLE
+4 is the type 
 
 gpl.cpp::main() after call to yyparse().
 

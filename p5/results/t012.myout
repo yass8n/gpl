@@ -9,6 +9,12 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched SIN BELOW
+matched INT BELOW
+matched SIN
+2 is the type 
+at top of int eval
+returning T_INT_CONSTANT 45
 
 gpl.cpp::main() after call to yyparse().
 

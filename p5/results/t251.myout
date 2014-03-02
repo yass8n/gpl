@@ -9,4 +9,14 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched INT BELOW
+i
+1 is the type 
+x
+2 is the type 
+matched STRING BELOW
+s
+4 is the type 
+MATCHED VARIABLE
+MATCHED VARIABLE
  error..trying to GREATER strings 

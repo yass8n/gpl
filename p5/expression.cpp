@@ -166,10 +166,11 @@ void Expression::set_type_using_number(int type)
 }
 int Expression::eval_int()
 {
-  if (m_left && m_right)
+  cout << "at top of int eval" << endl;
   assert(m_gpl_type == 1);
   if (m_string_type == "T_INT_CONSTANT")
   {
+    cout << "returning T_INT_CONSTANT " << m_int << endl;
     return m_int;
   }
   if (m_var != NULL)
@@ -212,6 +213,7 @@ int Expression::eval_int()
   }
   if (m_op_type == UNARY_MINUS)
   {
+    cout << "here at unary minus" << endl;
     int i = 0;
     double d = 0;
     string s = "";
@@ -621,10 +623,11 @@ int Expression::eval_int()
   }
   if (m_op_type == NOT)
   {
+    cout << "here at NOT " << endl;
     int i = 0;
     double d = 0;
     string s = "";
-    assert (m_right != NULL && m_left != NULL);
+    assert (m_right == NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
       d = m_left->eval_double();

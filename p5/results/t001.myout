@@ -9,6 +9,20 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched SIN BELOW
+matched SIN
+2 is the type 
+2 is the type 
+2 is the type 
+2 is the type 
+2 is the type 
+2 is the type 
+2 is the type 
+matched MINUS
+2 is the type 
+at top of int eval
+here at unary minus
+2 is the type 
 
 gpl.cpp::main() after call to yyparse().
 

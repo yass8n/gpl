@@ -1,1 +1,0 @@
-Assertion failed: (m_right != NULL && m_left != NULL), function eval_int, file expression.cpp, line 627.

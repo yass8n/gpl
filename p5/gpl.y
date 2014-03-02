@@ -194,6 +194,7 @@ string ts;
 double td;
 int ti;
           int type = $3->get_type();
+          cout << type << " is the type " << endl;
            if (type == 1)
               ti = $3->eval_int();
            if (type == 2)
@@ -242,6 +243,27 @@ int ti;
            (*sym).set(id, "STRING", 0, 0, initial_value);
            sym_table->set(id, *sym);
           }
+         }
+        else{
+
+           if ($1 == INT)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "INT", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
+           if ($1 == DOUBLE)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "DOUBLE", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
+           if ($1 == STRING)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "STRING", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
          }
        }
      else {
@@ -305,6 +327,7 @@ optional_initializer:
 }
     | empty
 {
+cout << "it  NULL" << endl;
    $$ = NULL;
 }
     ;
@@ -658,6 +681,7 @@ expression:
 
     | T_MINUS  expression %prec UNARY_OPS
 {
+     cout << "matched MINUS" << endl;
        int type = $2->get_type();
        if (type == 4)
        {
@@ -671,6 +695,7 @@ expression:
 }
     | T_NOT  expression %prec UNARY_OPS
 {
+     cout << "matched NOT" << endl;
      int type = $2->get_type();
      if (type == 4)
        {
@@ -684,6 +709,7 @@ expression:
 {
        if ($1 == SIN)
         {
+       cout << "matched SIN" << endl;
            int type = $3->get_type();
            if (type == 4)
             { 
@@ -846,10 +872,12 @@ primary_expression:
 }
     | variable
 {
+    cout << "MATCHED VARIABLE" << endl;
     $$ = new Expression($1);
 }
     | T_INT_CONSTANT
 {
+cout << "matched INT BELOW" << endl;
     $$ = new Expression(INT, $1);
 }
     | T_TRUE
@@ -866,6 +894,7 @@ primary_expression:
 }
     | T_STRING_CONSTANT
 {
+cout << "matched STRING BELOW" << endl;
     $$ = new Expression(STRING, *$1);
 }
 
@@ -881,6 +910,7 @@ geometric_operator:
 math_operator:
     T_SIN
 {
+cout << "matched SIN BELOW" << endl;
    $$ = SIN;
 }
     | T_COS

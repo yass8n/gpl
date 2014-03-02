@@ -9,3 +9,36 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
+matched INT BELOW
+matched MINUS
+1 is the type 
+at top of int eval
+here at unary minus
+at top of int eval
+returning T_INT_CONSTANT 0
+matched INT BELOW
+matched NOT
+1 is the type 
+at top of int eval
+here at NOT 
+at top of int eval
+returning T_INT_CONSTANT 0
+matched SIN BELOW
+matched INT BELOW
+matched SIN
+2 is the type 
+at top of int eval
+returning T_INT_CONSTANT 42
+
+gpl.cpp::main() after call to yyparse().
+
+No errors found (parser probably worked correctly).
+
+
+Printing the symbol table from main()
+string a "0"
+string b "1"
+string c "0.669131"
+If graphics was enabled gpl program would execute now.
+
+gpl.cpp::main() done.

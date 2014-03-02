@@ -11,6 +11,7 @@ extern int line_count;      // the current line in the input; from array.l
 #include "parser.h"
 #include "gpl_type.h"
 #include "symbol_table.h"
+#include <sstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -187,63 +188,80 @@ Expression *error_exp = new Expression();
  string id = *$2;
      if (sym_table->lookup(id))
      {
+          if ($3 != NULL)
+          {
+string ts;
+double td;
+int ti;
+          int type = $3->get_type();
+          cout << type << " is the type " << endl;
+           if (type == 1)
+              ti = $3->eval_int();
+           if (type == 2)
+              td = $3->eval_double();
+           if (type == 4)
+              ts = $3->eval_string();
+             
+
           if ($1 == INT)//put into symbol table
           {
-           int initial_value = 0;
-           if ($3 != NULL)
-           {
-           $3->set_type($1);
-             if ($3->get_type() != 1)
-              {
-               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
-              }
-             else 
-              {
-               initial_value = $3->eval_int();
-              }
-           }
+             int initial_value = 0;
+             if (type == 1)
+	     initial_value = (int)ti;
+             if (type == 2)
+             initial_value = (int)td;
+             //if (type == 4)
+             //int initial_value = (int)ts;
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
             sym_table->set(id, *sym);
           }
            if ($1 == DOUBLE)//put into symbol table
           {
-           double initial_value = 0.0;
-           if ($3 != NULL)
-           {      
-           $3->set_type($1);
-             if ($3->get_type() != 2)
-               {
-                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
-               }
-             else 
-               {
-                initial_value = $3->eval_double();
-               }
-           }
+             double initial_value = 0.0;
+             if (type == 1)
+             initial_value = (double)ti;
+             if (type == 2)
+             initial_value = (double)td;
+             //if (type == 4)
+             //initial_value = (double)ts;
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
           }
            if ($1 == STRING)//put into symbol table
           {
-           string initial_value = "";
-            if($3!=NULL)
-             {        
-           $3->set_type($1);
-               if ($3->get_type()!=4)
-                 {
-                  Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
-                 } 
-               else
-                {    
-                  initial_value = $3->eval_string();
-                }
-             }
+             stringstream initial;
+             if (type == 1)
+             initial << ti;
+             if (type == 2)
+             initial << td;
+             if (type == 4)
+             initial  << ts;
+             string initial_value = initial.str();
            Symbol *sym = new Symbol();
            (*sym).set(id, "STRING", 0, 0, initial_value);
            sym_table->set(id, *sym);
           }
+         }
+           if ($1 == INT)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "INT", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
+           if ($1 == DOUBLE)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "DOUBLE", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
+           if ($1 == STRING)
+           {
+           Symbol *sym = new Symbol();
+           (*sym).set(id, "STRING", 0, 0, "");
+           sym_table->set(id, *sym);
+           }
        }
      else {
 
@@ -306,6 +324,7 @@ optional_initializer:
 }
     | empty
 {
+cout << "it  NULL" << endl;
    $$ = NULL;
 }
     ;
@@ -659,6 +678,7 @@ expression:
 
     | T_MINUS  expression %prec UNARY_OPS
 {
+     cout << "matched MINUS" << endl;
        int type = $2->get_type();
        if (type == 4)
        {
@@ -672,6 +692,7 @@ expression:
 }
     | T_NOT  expression %prec UNARY_OPS
 {
+     cout << "matched NOT" << endl;
      int type = $2->get_type();
      if (type == 4)
        {
@@ -685,6 +706,7 @@ expression:
 {
        if ($1 == SIN)
         {
+       cout << "matched SIN" << endl;
            int type = $3->get_type();
            if (type == 4)
             { 
@@ -847,10 +869,12 @@ primary_expression:
 }
     | variable
 {
+    cout << "MATCHED VARIABLE" << endl;
     $$ = new Expression($1);
 }
     | T_INT_CONSTANT
 {
+cout << "matched INT BELOW" << endl;
     $$ = new Expression(INT, $1);
 }
     | T_TRUE
@@ -867,6 +891,7 @@ primary_expression:
 }
     | T_STRING_CONSTANT
 {
+cout << "matched STRING BELOW" << endl;
     $$ = new Expression(STRING, *$1);
 }
 
@@ -882,6 +907,7 @@ geometric_operator:
 math_operator:
     T_SIN
 {
+cout << "matched SIN BELOW" << endl;
    $$ = SIN;
 }
     | T_COS
