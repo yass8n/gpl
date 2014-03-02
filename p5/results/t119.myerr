@@ -1,1 +1,1 @@
-Assertion failed: (m_left != NULL && m_right != NULL), function eval_double, file expression.cpp, line 374.
+Assertion failed: (m_left != NULL && m_right != NULL), function eval_double, file expression.cpp, line 448.

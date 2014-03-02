@@ -12,11 +12,9 @@ extern int line_count;      // the current line in the input; from array.l
 #include "gpl_type.h"
 #include "symbol_table.h"
 #include <iostream>
-# include "variable.h"
 #include <string>
 #include <vector>
-# include "expression.h"
-# include <assert.h>
+#include <assert.h>
 using namespace std;
 
 // use this global variable to store all the values in the array
@@ -485,10 +483,13 @@ assign_statement:
 //---------------------------------------------------------------------
 variable:
     T_ID
-    {
+{
       $$ = new Variable(*$1);
-    }
+}
     | T_ID T_LBRACKET expression T_RBRACKET
+{
+      //$$ = new Variable(*$1, $3);
+}
     | T_ID T_PERIOD T_ID
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
     ;
@@ -500,223 +501,337 @@ expression:
     $$ = $1;
 }
     | expression T_OR expression
-    | expression T_AND expression
-    | expression T_LESS_EQUAL expression
-    | expression T_GREATER_EQUAL  expression
-    | expression T_LESS expression 
-    | expression T_GREATER  expression
-    | expression T_EQUAL expression
-    | expression T_NOT_EQUAL expression
-    | expression T_PLUS expression 
-     {
-     int type1 = $1->get_type();
-     int type3 = $3->get_type();
-     $$ = new Expression(PLUS, $1, $3);
-     }
-    | expression T_MINUS expression
 {
-     int type1 = $1->get_type();
-     int type3 = $3->get_type();
-   if (type1 == 4 || type3 == 4)
-       {
-       cout << " error..trying to subtract strings " << endl;
-       $$ = new Expression(0); 
-       }
-   else
-       {
-     $$ = new Expression(MINUS, $1, $3);
-       }
-}
-    | expression T_ASTERISK expression
-    {
-int type1 = $1->get_type();
-int type3 = $3->get_type();
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
     if (type1 == 4 || type3 == 4)
        {
-         cout << " error..trying to multiply strings " << endl;
-       $$ = new Expression(0); 
+           $$ = new Expression(0); 
        }
+       else
+       {
+           $$ = new Expression(OR, $1, $3);
+       }
+}
+    | expression T_AND expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(AND, $1, $3);
+       }
+}
+    | expression T_LESS_EQUAL expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(LESS_THAN_EQUAL, $1, $3);
+       }
+}
+    | expression T_GREATER_EQUAL  expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(GREATER_THAN_EQUAL, $1, $3);
+       }
+}
+    | expression T_LESS expression 
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(LESS_THAN, $1, $3);
+       }
+}
+    | expression T_GREATER  expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(GREATER_THAN, $1, $3);
+       }
+}
+    | expression T_EQUAL expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(EQUAL, $1, $3);
+       }
+}
+    | expression T_NOT_EQUAL expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(NOT_EQUAL, $1, $3);
+       }
+}
+    | expression T_PLUS expression 
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+      if (type1 == 4 || type3 == 4)
+          {
+            $$ = new Expression(0); 
+          }
+      else
+          {
+              $$ = new Expression(PLUS, $1, $3);
+          }
+}
+    | expression T_MINUS expression
+{
+        int type1 = $1->get_type();
+        int type3 = $3->get_type();
+      if (type1 == 4 || type3 == 4)
+          {
+            $$ = new Expression(0); 
+          }
+      else
+          {
+              $$ = new Expression(MINUS, $1, $3);
+          }
+}
+    | expression T_ASTERISK expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+      {
+         $$ = new Expression(0); 
+      }
     else
-     $$ = new Expression(MULTIPLY, $1, $3);
-    }
+         $$ = new Expression(MULTIPLY, $1, $3);
+}
     | expression T_DIVIDE expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(DIVIDE, $1, $3);
+       }
+}
     | expression T_MOD expression
+{
+      int type1 = $1->get_type();
+      int type3 = $3->get_type();
+    if (type1 == 4 || type3 == 4)
+       {
+           $$ = new Expression(0); 
+       }
+       else
+       {
+           $$ = new Expression(MOD, $1, $3);
+       }
+}
+
     | T_MINUS  expression %prec UNARY_OPS
 {
-int type = $2->get_type();
-    if (type == 4)
+       int type = $2->get_type();
+       if (type == 4)
        {
-       cout << " error..trying to UNARY_MINUS strings " << endl;
-       $$ = new Expression(0); 
+           $$ = new Expression(0); 
        }
-    else
-     $$ = new Expression(UNARY_MINUS, $2);
+       else
+       {
+           $$ = new Expression(UNARY_MINUS, $2);
+       }
 }
     | T_NOT  expression %prec UNARY_OPS
 {
-int type = $2->get_type();
-    if (type == 4)
+     int type = $2->get_type();
+     if (type == 4)
        {
-       cout << " error..trying to NOT strings " << endl;
-       $$ = new Expression(0); 
+          $$ = new Expression(0); 
        }
-    else
-     $$ = new Expression(NOT, $2);
+     else
+          $$ = new Expression(NOT, $2);
 }
-    | math_operator T_LPAREN expression T_RPAREN
+       | math_operator T_LPAREN expression T_RPAREN
 {
-    if ($1 == SIN)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(SIN, $3);
-    }
-   }
-    if ($1 == COS)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(COS, $3);
-    }
-   }
-    if ($1 == TAN)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(TAN, $3);
-    }
-   }
-    if ($1 == ASIN)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(ASIN, $3);
-    }
-   }
-    if ($1 == ACOS)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(ACOS, $3);
-    }
-   }
-    if ($1 == ATAN)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(ATAN, $3);
-    }
-   }
-    if ($1 == SQRT)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-    int type = $3->get_type();
-    if (type == 1)
-    {
-      if ($3->eval_int() < 0)
+       if ($1 == SIN)
         {
-         cout << "error..trying to sqrt a neg number" << endl;
-         $$ = new Expression(0);
+           int type = $3->get_type();
+           if (type == 4)
+            { 
+               $$ = new Expression(0);
+            }
+       else 
+            { 
+            $$ = new Expression(SIN, $3);
+            }
         }
-       else
+       if ($1 == COS)
         {
-         $$ = new Expression(SQRT, $3);
+            int type = $3->get_type();
+             if (type == 4)
+               { 
+                $$ = new Expression(0);
+               }
+             else 
+            { 
+                $$ = new Expression(COS, $3);
+               }
         }
-    }
-    if (type == 2)
-    {
-      if ($3->eval_double() < 0)
-        {
-         cout << "error..trying to sqrt a neg number" << endl;
-         $$ = new Expression(0);
+       if ($1 == TAN)
+       {
+           int type = $3->get_type();
+           if (type == 4)
+           { 
+            $$ = new Expression(0);
+           }
+           else 
+           { 
+             $$ = new Expression(TAN, $3);
+           }
+       }
+       if ($1 == ASIN)
+       {
+           int type = $3->get_type();
+           if (type == 4)
+            { 
+              $$ = new Expression(0);
+            }
+           else 
+            { 
+              $$ = new Expression(ASIN, $3);
+            }
         }
-       else
-         $$ = new Expression(SQRT, $3);
-        }
-     }
-   }
-    if ($1 == FLOOR)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(FLOOR, $3);
-    }
-   }
-    if ($1 == ABS)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(ABS, $3);
-    }
-   }
-    if ($1 == RANDOM)
-   {
-    int type = $3->get_type();
-    if (type == 4)
-    { 
-      cout << "error...trying to get SIN of string" << endl;
-      $$ = new Expression(0);
-    }
-    else 
-    { 
-      $$ = new Expression(RANDOM, $3);
-    }
-   }
+       if ($1 == ACOS)
+         {
+           int type = $3->get_type();
+           if (type == 4)
+            { 
+              $$ = new Expression(0);
+            }
+            else 
+            { 
+              $$ = new Expression(ACOS, $3);
+            }
+         }
+       if ($1 == ATAN)
+         {
+            int type = $3->get_type();
+            if (type == 4)
+            { 
+              $$ = new Expression(0);
+            }
+           else 
+            { 
+              $$ = new Expression(ATAN, $3);
+            }
+          }
+       if ($1 == SQRT)
+         {
+          int type = $3->get_type();
+          if (type == 4)
+          { 
+            $$ = new Expression(0);
+          }
+          else 
+          { 
+            int type = $3->get_type();
+            if (type == 1)
+            {
+                if ($3->eval_int() < 0)
+                 {
+                  $$ = new Expression(0);
+                 }
+                else
+                {
+                  $$ = new Expression(SQRT, $3);
+                }
+           }
+           if (type == 2)
+           {
+              if ($3->eval_double() < 0)
+                {
+                  $$ = new Expression(0);
+                }
+              else
+                   $$ = new Expression(SQRT, $3);
+                 }
+              }
+         }
+         if ($1 == FLOOR)
+         {
+           int type = $3->get_type();
+           if (type == 4)
+            { 
+                $$ = new Expression(0);
+            }
+           else 
+            { 
+             $$ = new Expression(FLOOR, $3);
+            }
+         }
+         if ($1 == ABS)
+         {
+            int type = $3->get_type();
+            if (type == 4)
+             { 
+                $$ = new Expression(0);
+             }
+            else 
+             { 
+               $$ = new Expression(ABS, $3);
+             }
+         }
+          if ($1 == RANDOM)
+             {
+                int type = $3->get_type();
+                if (type == 4)
+                 { 
+                    $$ = new Expression(0);
+                 }
+                else 
+                 { 
+                    $$ = new Expression(RANDOM, $3);
+                 }
+             }
 }
     //| variable geometric_operator variable
     ;

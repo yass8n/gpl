@@ -208,7 +208,7 @@ int Expression::eval_int()
     assert (m_right == NULL);
     if (m_left->evaluate_type()==2)
     {
-      d = m_left->eval_double();
+      d = (int)m_left->eval_double();
       return -d;
     }
     if (m_left->evaluate_type()==1)
@@ -488,6 +488,62 @@ string Expression::eval_string()
   if (m_var != NULL)
   {
     return m_var->get_string_value();
+  }
+  if (m_op_type == SIN)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    { 
+      assert (m_left->evaluate_type() == 2);
+      l = m_left->eval_double();
+    }
+    l = l*(M_PI/180);
+    ls <<  sin(l); 
+    string strl = ls.str();
+    return strl;
+  }
+  if (m_op_type == NOT)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    { 
+      if (m_left->evaluate_type() == 2)
+      {
+        l = m_left->eval_double();
+      }
+    }
+    ls << !l;
+    string strl = ls.str();
+    return strl;
+  }
+  if (m_op_type == UNARY_MINUS)
+  {
+    double l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    { 
+      if (m_left->evaluate_type() == 2)
+      {
+        l = m_left->eval_double();
+      }
+    }
+    ls << -l;
+    string strl = ls.str();
+    return strl;
   }
   if (m_op_type == PLUS)
   {

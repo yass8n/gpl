@@ -22,12 +22,12 @@ int c 3
 int d 4
 int e 5
 int f 6
-int g 3
-int h 10
-int i 3
-int j 7
-int k 2
-int l 8
+int g 0
+int h 5
+int i 1
+int j 6
+int k 1
+int l 4
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

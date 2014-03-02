@@ -9,11 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-DOUBLE gpl.y
-calling eval_double  gpl.y -> x
-2
-2
-called eval_double  gpl.y -> x
 
 gpl.cpp::main() after call to yyparse().
 
@@ -21,7 +16,7 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
-double x 2
+double x 1.07269e+09
 If graphics was enabled gpl program would execute now.
 
 gpl.cpp::main() done.

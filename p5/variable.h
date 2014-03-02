@@ -5,10 +5,12 @@ using namespace std;
 # include "symbol.h"
 # include "symbol_table.h"
 # include <assert.h>
+//# include "saver.h"
 
 class Variable{
   public:
     Variable(string id);
+ //   Variable(string id, Expression *exp);
     int get_int_value();
     double get_double_value();
     string get_string_value();

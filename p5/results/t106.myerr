@@ -1,1 +1,1 @@
-Assertion failed: (!sym_table->lookup(id)), function Variable, file variable.cpp, line 6.
+Assertion failed: (!sym_table->lookup(id)), function Variable, file variable.cpp, line 5.
