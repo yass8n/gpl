@@ -9,63 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-returning T_INT_CONSTANT 2
-at top of int eval
-returning T_INT_CONSTANT 2
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-returning T_INT_CONSTANT 2
-at top of int eval
-returning T_INT_CONSTANT 2
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-returning T_INT_CONSTANT 2
-at top of int eval
-returning T_INT_CONSTANT 2
-matched STRING BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 2
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 2
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 2
-1 is the type 
-at top of int eval
 
 gpl.cpp::main() after call to yyparse().
 
@@ -76,7 +19,7 @@ Printing the symbol table from main()
 int a 0
 double b 0
 string c "0"
-double d 32767
+double d 1
 int e 1
 int f 1
 int g 1

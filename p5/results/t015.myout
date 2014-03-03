@@ -9,43 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-1 is the type 
-at top of int eval
-returning T_INT_CONSTANT 42
-2 is the type 
-2 is the type 
-matched SIN BELOW
-MATCHED VARIABLE
-matched SIN
-2 is the type 
-at top of int eval
-MATCHED VARIABLE
-2 is the type 
-at top of int eval
-MATCHED VARIABLE
-2 is the type 
-at top of int eval
-MATCHED VARIABLE
-MATCHED VARIABLE
-at top of int eval
-at top of int eval
-2 is the type 
-at top of int eval
-at top of int eval
-matched INT BELOW
-MATCHED VARIABLE
-matched MINUS
-2 is the type 
-at top of int eval
-here at unary minus
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-MATCHED VARIABLE
-MATCHED VARIABLE
-2 is the type 
 
 gpl.cpp::main() after call to yyparse().
 

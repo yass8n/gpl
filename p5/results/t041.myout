@@ -9,50 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-matched INT BELOW
-matched NOT
-1 is the type 
-at top of int eval
-here at NOT 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 1
-matched INT BELOW
-matched INT BELOW
-matched NOT
-1 is the type 
-at top of int eval
-here at NOT 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 1
-matched INT BELOW
-matched INT BELOW
-matched NOT
-1 is the type 
-at top of int eval
-here at NOT 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 1
-matched INT BELOW
-matched INT BELOW
-matched NOT
-1 is the type 
-at top of int eval
-here at NOT 
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 1
 
 gpl.cpp::main() after call to yyparse().
 
@@ -60,7 +16,7 @@ No errors found (parser probably worked correctly).
 
 
 Printing the symbol table from main()
-int w 0
+int w 1
 int x 1
 int y 1
 int z 0

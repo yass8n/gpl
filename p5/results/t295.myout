@@ -9,4 +9,3 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
- error..trying to multiply strings 

@@ -9,38 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 0
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-matched INT BELOW
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
-at top of int eval
-returning T_INT_CONSTANT 1
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 0
-at top of int eval
-returning T_INT_CONSTANT 0
 
 gpl.cpp::main() after call to yyparse().
 

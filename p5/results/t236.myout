@@ -9,19 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-1 is the type 
-at top of int eval
-returning T_INT_CONSTANT 42
-2 is the type 
-matched STRING BELOW
-4 is the type 
-MATCHED VARIABLE
-MATCHED VARIABLE
-1 is the type 
-at top of int eval
-at top of int eval
-at top of int eval
 
 gpl.cpp::main() after call to yyparse().
 

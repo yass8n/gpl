@@ -147,10 +147,10 @@ using namespace std;
 %token <union_double> T_DOUBLE_CONSTANT
 %token <union_string> T_STRING_CONSTANT
 
-%nonassoc UNARY_OPS
 %nonassoc IF_NO_ELSE
 %nonassoc IF_ELSE
 %nonassoc T_ELSE
+//%nonassoc UNARY_OPS
 
 %left T_OR 
 %left T_AND 
@@ -194,7 +194,6 @@ string ts;
 double td;
 int ti;
           int type = $3->get_type();
-          cout << type << " is the type " << endl;
            if (type == 1)
               ti = $3->eval_int();
            if (type == 2)
@@ -272,7 +271,7 @@ int ti;
      }
 }
     | 
-simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
+simple_type  T_ID  T_LBRACKET expression T_RBRACKET
 
 {
  Symbol_table *sym_table = Symbol_table::instance();
@@ -280,19 +279,30 @@ simple_type  T_ID  T_LBRACKET T_INT_CONSTANT T_RBRACKET
 
      if (sym_table->lookup(id))
      {
-       for (int i = 0; i < $4; i++)
+       assert($4->get_type()==1);
+       int array_size = $4->eval_int();
+       for (int i = 0; i < array_size; i++)
        {
         ostringstream name;
         name << id  << '[' << i << ']';
         Symbol * sym = new Symbol();
         if ($1 == INT)
-        (*sym).set(name.str(), "INT", 42, 3.145, "Hello world");
-        if ($1 == DOUBLE)
-        (*sym).set(name.str(), "DOUBLE", 42, 3.145, "Hello world");
-        if ($1 == STRING)
-        (*sym).set(name.str(), "STRING", 42, 3.145, "Hello world");
+            {
+              int initial_value =  0;
+              (*sym).set(name.str(), "INT", initial_value, 0, "");
+            }
+         if ($1 == DOUBLE)
+            {
+              double initial_value =  0.0;
+              (*sym).set(name.str(), "INT", initial_value, 0, "");
+            }
+         if ($1 == STRING)
+            {
+              string initial_value = "";
+              (*sym).set(name.str(), "STRING", 0, 0,initial_value); 
+            }
         sym_table->set(name.str(), *sym);
-       }
+        }
       sym_table->insert_in_vector(id);
      }
      else {
@@ -327,7 +337,6 @@ optional_initializer:
 }
     | empty
 {
-cout << "it  NULL" << endl;
    $$ = NULL;
 }
     ;
@@ -510,7 +519,8 @@ variable:
 }
     | T_ID T_LBRACKET expression T_RBRACKET
 {
-      //$$ = new Variable(*$1, $3);
+      assert($3->get_type() == 1);
+      $$ = new Variable(*$1, $3);
 }
     | T_ID T_PERIOD T_ID
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
@@ -524,14 +534,6 @@ expression:
 }
     | expression T_OR expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to OR strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(OR, $1, $3);
        }
@@ -544,56 +546,24 @@ expression:
 }
     | expression T_LESS_EQUAL expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to less then strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(LESS_THAN_EQUAL, $1, $3);
        }
 }
     | expression T_GREATER_EQUAL  expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to GREATER_THAN_EQUAL strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(GREATER_THAN_EQUAL, $1, $3);
        }
 }
     | expression T_LESS expression 
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to LESS_THAN strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(LESS_THAN, $1, $3);
        }
 }
     | expression T_GREATER  expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to GREATER strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(GREATER_THAN, $1, $3);
        }
@@ -606,14 +576,6 @@ expression:
 }
     | expression T_NOT_EQUAL expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           cout << " error..trying to NOT_EQUAL strings " << endl;
-           $$ = new Expression(0); 
-       }
-       else
        {
            $$ = new Expression(NOT_EQUAL, $1, $3);
        }
@@ -630,7 +592,6 @@ expression:
         int type3 = $3->get_type();
       if (type1 == 4 || type3 == 4)
           {
-            cout << " error..trying to subtract strings " << endl;
             $$ = new Expression(0); 
           }
       else
@@ -644,7 +605,6 @@ expression:
       int type3 = $3->get_type();
     if (type1 == 4 || type3 == 4)
       {
-         cout << " error..trying to multiply strings " << endl;
          $$ = new Expression(0); 
       }
     else
@@ -656,7 +616,6 @@ expression:
       int type3 = $3->get_type();
     if (type1 == 4 || type3 == 4)
        {
-           cout << " error..trying to divide strings " << endl;
            $$ = new Expression(0); 
        }
        else
@@ -670,7 +629,6 @@ expression:
       int type3 = $3->get_type();
     if (type1 == 4 || type3 == 4)
        {
-           cout << " error..trying to MOD strings " << endl;
            $$ = new Expression(0); 
        }
        else
@@ -679,13 +637,11 @@ expression:
        }
 }
 
-    | T_MINUS  expression %prec UNARY_OPS
+    | T_MINUS  expression //%prec UNARY_OPS
 {
-     cout << "matched MINUS" << endl;
        int type = $2->get_type();
        if (type == 4)
        {
-           cout << " error..trying to UNARY_MINUS strings " << endl;
            $$ = new Expression(0); 
        }
        else
@@ -693,13 +649,11 @@ expression:
            $$ = new Expression(UNARY_MINUS, $2);
        }
 }
-    | T_NOT  expression %prec UNARY_OPS
+    | T_NOT  expression //%prec UNARY_OPS
 {
-     cout << "matched NOT" << endl;
      int type = $2->get_type();
      if (type == 4)
        {
-          cout << " error..trying to NOT strings " << endl;
           $$ = new Expression(0); 
        }
      else
@@ -709,11 +663,9 @@ expression:
 {
        if ($1 == SIN)
         {
-       cout << "matched SIN" << endl;
            int type = $3->get_type();
            if (type == 4)
             { 
-               cout << "error...trying to get SIN of string" << endl;
                $$ = new Expression(0);
             }
        else 
@@ -726,7 +678,6 @@ expression:
             int type = $3->get_type();
              if (type == 4)
                { 
-                cout << "error...trying to get SIN of string" << endl;
                 $$ = new Expression(0);
                }
              else 
@@ -739,7 +690,6 @@ expression:
            int type = $3->get_type();
            if (type == 4)
            { 
-            cout << "error...trying to get SIN of string" << endl;
             $$ = new Expression(0);
            }
            else 
@@ -752,7 +702,6 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-              cout << "error...trying to get SIN of string" << endl;
               $$ = new Expression(0);
             }
            else 
@@ -765,7 +714,6 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-           cout << "error...trying to get SIN of string" << endl;
               $$ = new Expression(0);
             }
             else 
@@ -778,7 +726,6 @@ expression:
             int type = $3->get_type();
             if (type == 4)
             { 
-              cout << "error...trying to get SIN of string" << endl;
               $$ = new Expression(0);
             }
            else 
@@ -791,7 +738,6 @@ expression:
           int type = $3->get_type();
           if (type == 4)
           { 
-            cout << "error...trying to get SIN of string" << endl;
             $$ = new Expression(0);
           }
           else 
@@ -801,7 +747,6 @@ expression:
             {
                 if ($3->eval_int() < 0)
                  {
-                  cout << "error..trying to sqrt a neg number" << endl;
                   $$ = new Expression(0);
                  }
                 else
@@ -813,7 +758,6 @@ expression:
            {
               if ($3->eval_double() < 0)
                 {
-                  cout << "error..trying to sqrt a neg number" << endl;
                   $$ = new Expression(0);
                 }
               else
@@ -826,7 +770,6 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-                cout << "error...trying to get SIN of string" << endl;
                 $$ = new Expression(0);
             }
            else 
@@ -839,7 +782,6 @@ expression:
             int type = $3->get_type();
             if (type == 4)
              { 
-                cout << "error...trying to get SIN of string" << endl;
                 $$ = new Expression(0);
              }
             else 
@@ -852,7 +794,6 @@ expression:
                 int type = $3->get_type();
                 if (type == 4)
                  { 
-                    cout << "error...trying to get SIN of string" << endl;
                     $$ = new Expression(0);
                  }
                 else 
@@ -872,21 +813,19 @@ primary_expression:
 }
     | variable
 {
-    cout << "MATCHED VARIABLE" << endl;
     $$ = new Expression($1);
 }
     | T_INT_CONSTANT
 {
-cout << "matched INT BELOW" << endl;
     $$ = new Expression(INT, $1);
 }
     | T_TRUE
 {
-    $$ = new Expression();
+    $$ = new Expression(INT, 1);
 }
     | T_FALSE
 {
-    $$ = new Expression();
+    $$ = new Expression(INT, 0);
 }
     | T_DOUBLE_CONSTANT
 {
@@ -894,7 +833,6 @@ cout << "matched INT BELOW" << endl;
 }
     | T_STRING_CONSTANT
 {
-cout << "matched STRING BELOW" << endl;
     $$ = new Expression(STRING, *$1);
 }
 
@@ -910,7 +848,6 @@ geometric_operator:
 math_operator:
     T_SIN
 {
-cout << "matched SIN BELOW" << endl;
    $$ = SIN;
 }
     | T_COS

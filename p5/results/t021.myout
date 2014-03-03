@@ -9,12 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-1 is the type 
-at top of int eval
-1 is the type 
-at top of int eval
-1 is the type 
-at top of int eval
 
 gpl.cpp::main() after call to yyparse().
 

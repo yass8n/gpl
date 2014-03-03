@@ -9,5 +9,4 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched INT BELOW
-MATCHED VARIABLE
+name is my_array

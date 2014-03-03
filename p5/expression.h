@@ -3,8 +3,10 @@
 //# include "saver.h"
 # include "Gpl_type.h"
 # include <assert.h>
-# include "variable.h"
+# include <string>
+using namespace std;
 
+class Variable;
 class Expression {
   public:
     Expression();

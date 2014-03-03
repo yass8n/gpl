@@ -9,8 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-it  NULL
-it  NULL
 
 gpl.cpp::main() after call to yyparse().
 

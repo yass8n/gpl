@@ -1,0 +1,1 @@
+Assertion failed: ((yyvsp[(3) - (4)].union_expression_type)->get_type() == 1), function yyparse, file gpl.y, line 522.

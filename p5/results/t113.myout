@@ -9,9 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-2 is the type 
-MATCHED VARIABLE
-2 is the type 
 
 gpl.cpp::main() after call to yyparse().
 

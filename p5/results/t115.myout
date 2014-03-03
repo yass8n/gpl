@@ -9,8 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-matched STRING BELOW
-4 is the type 
 
 gpl.cpp::main() after call to yyparse().
 

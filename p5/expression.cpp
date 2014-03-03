@@ -1,7 +1,10 @@
-# include "expression.h"
+#include <stdlib.h>//for atof...string to double
+#include "expression.h"
 #include <stdlib.h>
 # include <math.h>
 # include <sstream>
+# include <string>
+# include "variable.h"
 Expression::Expression(Gpl_type type, int x)
 {
   assert(type == 1);
@@ -166,11 +169,9 @@ void Expression::set_type_using_number(int type)
 }
 int Expression::eval_int()
 {
-  cout << "at top of int eval" << endl;
   assert(m_gpl_type == 1);
   if (m_string_type == "T_INT_CONSTANT")
   {
-    cout << "returning T_INT_CONSTANT " << m_int << endl;
     return m_int;
   }
   if (m_var != NULL)
@@ -213,7 +214,6 @@ int Expression::eval_int()
   }
   if (m_op_type == UNARY_MINUS)
   {
-    cout << "here at unary minus" << endl;
     int i = 0;
     double d = 0;
     string s = "";
@@ -230,7 +230,6 @@ int Expression::eval_int()
     }
     if (m_left->evaluate_type()==4)
     {
-      cout << "expression.cpp...cant UNARY MINUS on string" << endl;
     }
   }
   if (m_op_type == OR)
@@ -243,6 +242,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -251,7 +251,8 @@ int Expression::eval_int()
     }
     if (m_left->evaluate_type()==4)
     {
-      cout << "ERROR...CANT || strings" << endl;
+      sl= m_left->eval_string();
+      finderl = "sl";
     }
     if (m_left->evaluate_type()==1)
     {
@@ -265,15 +266,46 @@ int Expression::eval_int()
     }
     if (m_right->evaluate_type()==4)
     {
-      cout << "ERROR...CANT || strings" << endl;
+      sr= m_right->eval_string();
+      finderr = "sr";
     }
     if (m_right->evaluate_type()==1)
     {
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl || ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      double t = atof(sr.c_str());
+      return(dl|| t) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il || dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      double t = atof(sr.c_str());
+      return(il|| t) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      double t = atof(sl.c_str());
+      return(dr || t) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      double t = atof(sl.c_str());
+      return(ir || t) ? 1: 0; 
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl || dr) ? 1 : 0;
+    if (finderl == "sl" && finderr == "sr")
+    {
+      double r = atof(sr.c_str());
+      double l = atof(sl.c_str());
+      return(r || l) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il || ir) ? 1 : 0;
   }
@@ -287,6 +319,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -295,7 +328,8 @@ int Expression::eval_int()
     }
     if (m_left->evaluate_type()==4)
     {
-      cout << "ERROR...cant && strings" << endl;
+      sl= m_left->eval_string();
+      finderl = "sl";
     }
     if (m_left->evaluate_type()==1)
     {
@@ -309,15 +343,46 @@ int Expression::eval_int()
     }
     if (m_right->evaluate_type()==4)
     {
-      cout << "ERROR...cant && strings" << endl;
+      sr= m_right->eval_string();
+      finderr = "sr";
     }
     if (m_right->evaluate_type()==1)
     {
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl && ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      double t = atof(sr.c_str());
+      return(dl && t) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il && dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      double t = atof(sr.c_str());
+      return(il && t) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      double t = atof(sl.c_str());
+      return(dr && t) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      double t = atof(sl.c_str());
+      return(ir && t) ? 1: 0; 
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl && dr) ? 1 : 0;
+    if (finderl == "sl" && finderr == "sr")
+    {
+      double l = atof(sl.c_str());
+      double r = atof(sr.c_str());
+      return(r && l) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il && ir) ? 1 : 0;
   }
@@ -331,6 +396,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -362,10 +428,40 @@ int Expression::eval_int()
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl >= ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(d >= sr) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il >= dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      temp << il;
+      string d = temp.str();
+      return  (d >= sr) ? 1: 0;
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(sl >= d) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      temp << ir;
+      string d = temp.str();
+      return  (sl >=d) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl >= dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
-      return (sl >= sr) ? 1 : 0;
+    {
+      return(sl >= sr) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il >= ir) ? 1 : 0;
   }
@@ -379,6 +475,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -410,10 +507,40 @@ int Expression::eval_int()
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl <= ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(d <= sr) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il <= dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      temp << il;
+      string d = temp.str();
+      return  (d <= sr) ? 1: 0;
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(sl <= d) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      temp << ir;
+      string d = temp.str();
+      return  (sl <=d) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl <= dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
-      return (sl <= sr) ? 1 : 0;
+    {
+      return(sl <= sr) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il <= ir) ? 1 : 0;
   }
@@ -427,6 +554,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -458,10 +586,40 @@ int Expression::eval_int()
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl < ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(d < sr) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il < dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      temp << il;
+      string d = temp.str();
+      return  (d < sr) ? 1: 0;
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(sl < d) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      temp << ir;
+      string d = temp.str();
+      return  (sl <d) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl < dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
-      return (sl < sr) ? 1 : 0;
+    {
+      return(sl < sr) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il < ir) ? 1 : 0;
   }
@@ -475,6 +633,7 @@ int Expression::eval_int()
     string sl = "";//string left
     string finderl;
     string finderr;
+    stringstream temp;
     assert (m_right != NULL && m_left != NULL);
     if (m_left->evaluate_type()==2)
     {
@@ -506,10 +665,40 @@ int Expression::eval_int()
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+      return (dl > ir) ? 1 : 0;
+    if (finderl == "dl" && finderr == "sr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(d > sr) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+      return (il > dr) ? 1 : 0;
+    if (finderl == "il" && finderr == "sr")
+    {
+      temp << il;
+      string d = temp.str();
+      return  (d > sr) ? 1: 0;
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      temp << dl;
+      string d = temp.str();
+      return(sl > d) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      temp << ir;
+      string d = temp.str();
+      return  (sl >d) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl > dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
-      return (sl > sr) ? 1 : 0;
+    {
+      return(sl > sr) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "ir")
       return (il > ir) ? 1 : 0;
   }
@@ -557,15 +746,27 @@ int Expression::eval_int()
     if (finderl == "dl" && finderr == "ir")
       return (dl == ir) ? 1 : 0;
     if (finderl == "dl" && finderr == "sr")
-      return 0;
+    {
+      double temp = atof(sr.c_str());
+      return(dl == temp) ? 1: 0; 
+    }
     if (finderl == "il" && finderr == "dr")
       return (il == dr) ? 1 : 0;
     if (finderl == "il" && finderr == "sr")
-      return  0;
+    {
+      int temp = atoi(sr.c_str());
+      return  (il == temp) ? 1: 0;
+    }
     if (finderl == "sl" && finderr == "dr")
-      return 0;
+    {
+      double temp = atof(sl.c_str());
+      return(dr == temp) ? 1: 0; 
+    }
     if (finderl == "sl" && finderr == "ir")
-      return  0;
+    {
+      int temp = atoi(sl.c_str());
+      return  (ir == temp) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl == dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
@@ -614,6 +815,34 @@ int Expression::eval_int()
       ir= m_right->eval_int();
       finderr = "ir";
     }
+    if (finderl == "dl" && finderr == "ir")
+    {
+      return (dl != ir) ? 1 : 0;
+    }
+    if (finderl == "dl" && finderr == "sr")
+    {
+      double temp = atof(sr.c_str());
+      return(dl != temp) ? 1: 0; 
+    }
+    if (finderl == "il" && finderr == "dr")
+    {
+      return (il != dr) ? 1 : 0;
+    }
+    if (finderl == "il" && finderr == "sr")
+    {
+      int temp = atoi(sr.c_str());
+      return  (il != temp) ? 1: 0;
+    }
+    if (finderl == "sl" && finderr == "dr")
+    {
+      double temp = atof(sl.c_str());
+      return(dr != temp) ? 1: 0; 
+    }
+    if (finderl == "sl" && finderr == "ir")
+    {
+      int temp = atoi(sl.c_str());
+      return  (ir != temp) ? 1: 0;
+    }
     if (finderl == "dl" && finderr == "dr")
       return (dl != dr) ? 1 : 0;
     if (finderl == "sl" && finderr == "sr")
@@ -623,7 +852,6 @@ int Expression::eval_int()
   }
   if (m_op_type == NOT)
   {
-    cout << "here at NOT " << endl;
     int i = 0;
     double d = 0;
     string s = "";
@@ -709,66 +937,6 @@ double Expression::eval_double()
     }
     l = l*(M_PI/180);
     return sin(l); 
-  }
-  if (m_op_type == EQUAL)
-  {
-    int ir = 0;//int right
-    int il = 0;//int left
-    double dr = 0;//double right
-    double dl = 0;//double left
-    string sr = "";//string right
-    string sl = "";//string left
-    string finderl;
-    string finderr;
-    assert (m_right != NULL && m_left != NULL);
-    if (m_left->evaluate_type()==2)
-    {
-      dl= m_left->eval_double();
-      finderl = "dl";
-    }
-    if (m_left->evaluate_type()==4)
-    {
-      sl= m_left->eval_string();
-      finderl = "sl";
-    }
-    if (m_left->evaluate_type()==1)
-    {
-      il= m_left->eval_int();
-      finderl = "il";
-    }
-    if (m_right->evaluate_type()==2)
-    {
-      dr= m_right->eval_double();
-      finderr = "dr";
-    }
-    if (m_right->evaluate_type()==4)
-    {
-      sr= m_right->eval_string();
-      finderr = "sr";
-    }
-    if (m_right->evaluate_type()==1)
-    {
-      ir= m_right->eval_int();
-      finderr = "ir";
-    }
-    if (finderl == "dl" && finderr == "ir")
-      return (dl == ir) ? 1 : 0;
-    if (finderl == "dl" && finderr == "sr")
-      return 0;
-    if (finderl == "il" && finderr == "dr")
-      return (il == dr) ? 1 : 0;
-    if (finderl == "il" && finderr == "sr")
-      return  0;
-    if (finderl == "sl" && finderr == "dr")
-      return 0;
-    if (finderl == "sl" && finderr == "ir")
-      return  0;
-    if (finderl == "dl" && finderr == "dr")
-      return (dl == dr) ? 1 : 0;
-    if (finderl == "sl" && finderr == "sr")
-      return (sl == sr) ? 1 : 0;
-    if (finderl == "il" && finderr == "ir")
-      return (il == ir) ? 1 : 0;
   }
   if (m_op_type == FLOOR)
   {
