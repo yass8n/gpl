@@ -96,6 +96,7 @@ int Expression::evaluate_type()
         m_op_type == OR || m_op_type == LESS_THAN ||
         m_op_type == LESS_THAN_EQUAL ||m_op_type == GREATER_THAN ||
         m_op_type == GREATER_THAN_EQUAL || m_op_type == MOD)
+
     {
       l =1;
       r = 1;
@@ -105,12 +106,13 @@ int Expression::evaluate_type()
   }
   else if (m_left != NULL && m_right == NULL)
   {
-    //this is a binary operator
+    //this is a unary operator
     int l = m_left->evaluate_type();
     if (m_string_type=="unary_op")
       l = 2;
     if ( m_op_type == RANDOM ||
-        m_op_type == NOT || m_op_type == UNARY_MINUS)
+        m_op_type == NOT || m_op_type == UNARY_MINUS ||
+        m_op_type == FLOOR)
       l = 1;
 
     gpl_reference_set(left_type, l);
@@ -912,6 +914,18 @@ int Expression::eval_int()
     assert( m_left != NULL && m_right != NULL);
     return m_left->eval_int() + m_right->eval_int();
   }
+}
+string Expression::the_type_of_exp()
+{
+  return m_string_type;
+}
+bool Expression::exp_var_included()
+{
+  return m_var->included();
+}
+string Expression::get_var_name()
+{
+  return m_var->get_name();
 }
 double Expression::eval_double()
 {

@@ -18,6 +18,9 @@ class Expression {
     Expression(Gpl_type gpl, string x);
     int eval_int();
     double eval_double();
+    string get_var_name();
+    bool exp_var_included();
+    string the_type_of_exp();
     string eval_string();
     Gpl_type get_type(); 
     int evaluate_type();

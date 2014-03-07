@@ -1,1 +1,1 @@
-Assertion failed: (var != NULL), function Expression, file expression.cpp, line 49.
+Semantic error on line 6: Invalid right operand for operator 'abs'.

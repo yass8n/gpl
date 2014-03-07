@@ -150,7 +150,6 @@ using namespace std;
 %nonassoc IF_NO_ELSE
 %nonassoc IF_ELSE
 %nonassoc T_ELSE
-//%nonassoc UNARY_OPS
 
 %left T_OR 
 %left T_AND 
@@ -159,6 +158,8 @@ using namespace std;
 %left T_PLUS T_MINUS
 %left T_ASTERISK T_DIVIDE T_MOD
 %left T_NOT
+
+%nonassoc UNARY_OPS
 
 %% // indicates the start of the rules
 //---------------------------------------------------------------------
@@ -208,9 +209,9 @@ int ti;
              if (type == 1)
 	     initial_value = (int)ti;
              if (type == 2)
-             initial_value = (int)td;
-             //if (type == 4)
-             //int initial_value = (int)ts;
+             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+             if (type == 4)
+             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
             sym_table->set(id, *sym);
@@ -222,8 +223,8 @@ int ti;
              initial_value = (double)ti;
              if (type == 2)
              initial_value = (double)td;
-             //if (type == 4)
-             //initial_value = (double)ts;
+             if (type == 4)
+             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
@@ -276,11 +277,31 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
 {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
-
-     if (sym_table->lookup(id))
+     if ($4->get_type()==4)
+     { 
+         string array_size = $4->eval_string();
+         stringstream num;
+         num << array_size;
+         Error::error(Error::INVALID_ARRAY_SIZE, id, num.str()); 
+     }
+     if ($4->get_type()==2)
+     { 
+         double array_size = $4->eval_double();
+         stringstream num;
+         num << array_size;
+         Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+     }
+     else if (sym_table->lookup(id) )
      {
-       assert($4->get_type()==1);
+       if( $4->get_type()==1)
+       {
        int array_size = $4->eval_int();
+      if (array_size <= 0)
+       {
+         stringstream num;
+         num << array_size;
+         Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+       }
        for (int i = 0; i < array_size; i++)
        {
         ostringstream name;
@@ -304,6 +325,7 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
         sym_table->set(name.str(), *sym);
         }
       sym_table->insert_in_vector(id);
+       }
      }
      else {
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
@@ -519,9 +541,45 @@ variable:
 }
     | T_ID T_LBRACKET expression T_RBRACKET
 {
-      assert($3->get_type() == 1);
-      $$ = new Variable(*$1, $3);
+ Symbol_table *sym_table = Symbol_table::instance();
+      if ($3->get_type() == 4)
+      {
+         Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A string expression"); 
+         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, error_exp);
+
+      }
+      if ($3->get_type() == 2)
+      {
+         Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A double expression"); 
+         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, error_exp);
+      }
+   if ($3->get_type() == 1)
+    {
+      int index= $3->eval_int();
+      stringstream name;
+      name << *$1 << '[' << 0 << ']';
+      if(!sym_table->lookup(name.str()))
+      {
+         name.str("");
+         name << *$1 << '[' << index << ']';
+         if(sym_table->lookup(name.str()))
+         { 
+         stringstream num;
+         num << index;
+         Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, *$1, num.str()); 
+         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, error_exp);
+         }
+         else 
+          {
+           $$ = new Variable(*$1, $3);
+          }
+      }
+   }
 }
+        
     | T_ID T_PERIOD T_ID
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
     ;
@@ -534,139 +592,331 @@ expression:
 }
     | expression T_OR expression
 {
-       {
-           $$ = new Expression(OR, $1, $3);
-       }
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+          {
+            int type1 = $1->get_type();
+            int type3 = $3->get_type();
+             if (type1 == 4)
+               {
+                 Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "||"); 
+                 $$ = new Expression(INT,0); 
+               } 
+             else if (type3 == 4)
+                {
+                  Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "||"); 
+                  $$ = new Expression(INT,0); 
+                }
+             else
+                 $$ = new Expression(OR, $1, $3);
+           }
 }
     | expression T_AND expression
 {
-       {
-           $$ = new Expression(AND, $1, $3);
-       }
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+          {
+            int type1 = $1->get_type();
+            int type3 = $3->get_type();
+             if (type1 == 4)
+               {
+                 Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "&&"); 
+                 $$ = new Expression(INT,0); 
+               } 
+             else if (type3 == 4)
+                {
+                  Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "&&"); 
+                  $$ = new Expression(INT,0); 
+                }
+             else
+                  $$ = new Expression(AND, $1, $3);
+           }
 }
     | expression T_LESS_EQUAL expression
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(LESS_THAN_EQUAL, $1, $3);
        }
 }
     | expression T_GREATER_EQUAL  expression
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(GREATER_THAN_EQUAL, $1, $3);
        }
 }
     | expression T_LESS expression 
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(LESS_THAN, $1, $3);
        }
 }
     | expression T_GREATER  expression
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(GREATER_THAN, $1, $3);
        }
 }
     | expression T_EQUAL expression
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(EQUAL, $1, $3);
        }
 }
     | expression T_NOT_EQUAL expression
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
        {
            $$ = new Expression(NOT_EQUAL, $1, $3);
        }
 }
     | expression T_PLUS expression 
 {
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
           {
               $$ = new Expression(PLUS, $1, $3);
           }
 }
     | expression T_MINUS expression
 {
-        int type1 = $1->get_type();
-        int type3 = $3->get_type();
-      if (type1 == 4 || type3 == 4)
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
           {
-            $$ = new Expression(0); 
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
           }
       else
           {
+        int type1 = $1->get_type();
+        int type3 = $3->get_type();
+      if (type1 == 4)
+          {
+         Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "-"); 
+            $$ = new Expression(INT,0); 
+          } 
+      else if (type3 == 4)
+          {
+         Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "-"); 
+            $$ = new Expression(INT,0); 
+          }
+      else
               $$ = new Expression(MINUS, $1, $3);
           }
+
 }
     | expression T_ASTERISK expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-      {
-         $$ = new Expression(0); 
-      }
-    else
-         $$ = new Expression(MULTIPLY, $1, $3);
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+          {
+            int type1 = $1->get_type();
+            int type3 = $3->get_type();
+             if (type1 == 4)
+               {
+                 Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "*"); 
+                 $$ = new Expression(INT,0); 
+               } 
+             else if (type3 == 4)
+                {
+                  Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "*"); 
+                  $$ = new Expression(INT,0); 
+                }
+             else
+                  $$ = new Expression(MULTIPLY, $1, $3);
+           }
 }
     | expression T_DIVIDE expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           $$ = new Expression(0); 
-       }
-       else
-       {
-           $$ = new Expression(DIVIDE, $1, $3);
-       }
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+         {
+        int type1 = $1->get_type();
+        int type3 = $3->get_type();
+      if (type1 == 4)
+          {
+         Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "/"); 
+            $$ = new Expression(INT,0); 
+          } 
+      else if (type3 == 4)
+          {
+         Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "/"); 
+            $$ = new Expression(INT,0); 
+          }
+      else
+              $$ = new Expression(DIVIDE, $1, $3);
+          }
 }
     | expression T_MOD expression
 {
-      int type1 = $1->get_type();
-      int type3 = $3->get_type();
-    if (type1 == 4 || type3 == 4)
-       {
-           $$ = new Expression(0); 
-       }
-       else
-       {
-           $$ = new Expression(MOD, $1, $3);
-       }
+      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+         {
+        int type1 = $1->get_type();
+        int type3 = $3->get_type();
+      if (type1 == 4)
+          {
+         Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "mod"); 
+            $$ = new Expression(INT,0); 
+          } 
+      else if (type3 == 4)
+          {
+         Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "mod"); 
+            $$ = new Expression(INT,0); 
+          }
+      else
+              $$ = new Expression(MOD, $1, $3);
+          }
 }
 
-    | T_MINUS  expression //%prec UNARY_OPS
+    | T_MINUS  expression %prec UNARY_OPS
 {
+      if ($2->the_type_of_exp() == "variable" && !$2->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+         {
        int type = $2->get_type();
        if (type == 4)
        {
-           $$ = new Expression(0); 
+           $$ = new Expression(INT, 0); 
        }
        else
        {
            $$ = new Expression(UNARY_MINUS, $2);
        }
+         }
 }
-    | T_NOT  expression //%prec UNARY_OPS
+    | T_NOT  expression %prec UNARY_OPS
 {
+      if ($2->the_type_of_exp() == "variable" && !$2->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+         {
      int type = $2->get_type();
      if (type == 4)
        {
-          $$ = new Expression(0); 
+          $$ = new Expression(INT,0); 
        }
      else
-          $$ = new Expression(NOT, $2);
+            {
+              $$ = new Expression(NOT, $2);
+            }
+         }
 }
        | math_operator T_LPAREN expression T_RPAREN
 {
+      if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+          {
+               $$ = new Expression(INT,0); 
+          }
+      else
+         {
        if ($1 == SIN)
         {
            int type = $3->get_type();
            if (type == 4)
             { 
-               $$ = new Expression(0);
+               $$ = new Expression(INT, 0);
             }
        else 
             { 
@@ -678,7 +928,7 @@ expression:
             int type = $3->get_type();
              if (type == 4)
                { 
-                $$ = new Expression(0);
+                $$ = new Expression(INT, 0);
                }
              else 
             { 
@@ -690,7 +940,7 @@ expression:
            int type = $3->get_type();
            if (type == 4)
            { 
-            $$ = new Expression(0);
+            $$ = new Expression(INT,0);
            }
            else 
            { 
@@ -702,7 +952,7 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-              $$ = new Expression(0);
+              $$ = new Expression(INT, 0);
             }
            else 
             { 
@@ -714,7 +964,7 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-              $$ = new Expression(0);
+              $$ = new Expression(INT,0);
             }
             else 
             { 
@@ -726,7 +976,7 @@ expression:
             int type = $3->get_type();
             if (type == 4)
             { 
-              $$ = new Expression(0);
+              $$ = new Expression(INT,0);
             }
            else 
             { 
@@ -738,7 +988,8 @@ expression:
           int type = $3->get_type();
           if (type == 4)
           { 
-            $$ = new Expression(0);
+             Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "sqrt"); 
+            $$ = new Expression(INT,0);
           }
           else 
           { 
@@ -747,7 +998,7 @@ expression:
             {
                 if ($3->eval_int() < 0)
                  {
-                  $$ = new Expression(0);
+                  $$ = new Expression(INT,0);
                  }
                 else
                 {
@@ -758,7 +1009,8 @@ expression:
            {
               if ($3->eval_double() < 0)
                 {
-                  $$ = new Expression(0);
+                  Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "sqrt"); 
+                  $$ = new Expression(INT,0);
                 }
               else
                    $$ = new Expression(SQRT, $3);
@@ -770,7 +1022,8 @@ expression:
            int type = $3->get_type();
            if (type == 4)
             { 
-                $$ = new Expression(0);
+                Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "floor"); 
+                $$ = new Expression(INT,0);
             }
            else 
             { 
@@ -782,7 +1035,8 @@ expression:
             int type = $3->get_type();
             if (type == 4)
              { 
-                $$ = new Expression(0);
+             Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "abs"); 
+                $$ = new Expression(INT,0);
              }
             else 
              { 
@@ -794,13 +1048,15 @@ expression:
                 int type = $3->get_type();
                 if (type == 4)
                  { 
-                    $$ = new Expression(0);
+                    Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "random"); 
+                    $$ = new Expression(INT,0);
                  }
                 else 
                  { 
                     $$ = new Expression(RANDOM, $3);
                  }
              }
+         }
 }
     //| variable geometric_operator variable
     ;
