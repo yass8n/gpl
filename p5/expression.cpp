@@ -63,6 +63,7 @@ Expression::Expression(Operator_type op, Expression* left)
   m_string_type = "unary_op";
   int type = evaluate_type();
   set_type_using_number(type);
+  m_var = NULL;
 }
 
 Expression::Expression(Operator_type op, Expression* left, Expression* right)
@@ -73,6 +74,7 @@ Expression::Expression(Operator_type op, Expression* left, Expression* right)
   m_string_type = "binary_op";
   int type = evaluate_type();
   set_type_using_number(type);
+  m_var = NULL;
 }
 void Expression::gpl_reference_set(Gpl_type &gpl, int x)
 {
@@ -114,6 +116,13 @@ int Expression::evaluate_type()
         m_op_type == NOT || m_op_type == UNARY_MINUS ||
         m_op_type == FLOOR)
       l = 1;
+    if (m_op_type == ABS)
+    {
+      if (m_left -> evaluate_type() == 1)
+        l =1;
+      else if (m_left -> evaluate_type() == 2)
+        l = 2;
+    }
 
     gpl_reference_set(left_type, l);
     gpl_reference_set(right_type, l);
@@ -178,7 +187,18 @@ int Expression::eval_int()
   }
   if (m_var != NULL)
   {
-    return m_var->get_int_value();
+    int x = m_var->get_int_value();
+    return x;
+  }
+  if (m_op_type == ABS)
+  {
+    int l = 0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = m_left->eval_int();
+    }
+    return abs(l);
   }
   if (m_op_type == FLOOR)
   {
@@ -874,21 +894,6 @@ int Expression::eval_int()
       return (i == 0 ) ? 1 : 0;
     }
   }
-  if (m_op_type == SIN)
-  {
-    int l = 0;
-    assert(m_right == NULL);
-    if (m_left->evaluate_type()==2)
-    {
-      l = (int)m_left->eval_double();
-    }
-    else
-    { 
-      assert (m_left->evaluate_type() == 1);
-      l = m_left->eval_int();
-    }
-    return sin(l); 
-  }
   if (m_op_type == DIVIDE && m_gpl_type == INT )
   {
     assert( m_left != NULL && m_right != NULL);
@@ -951,25 +956,6 @@ double Expression::eval_double()
     }
     l = l*(M_PI/180);
     return sin(l); 
-  }
-  if (m_op_type == FLOOR)
-  {
-    double d =0;
-    bool dub = false;
-    int i = 0;
-    bool in = false;
-    assert(m_right == NULL);
-    if (m_left->evaluate_type()==2)
-    {
-      d = m_left->eval_double();
-      dub = true;
-    }
-    else
-    {
-      i = m_left->eval_int();
-      in = true;
-    }
-    return (dub == true)? (double)floor(d) :  (double)floor(i);
   }
   if (m_op_type == COS)
   {

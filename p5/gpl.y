@@ -277,6 +277,7 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
 {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
+     if (sym_table->lookup(id))
      if ($4->get_type()==4)
      { 
          string array_size = $4->eval_string();

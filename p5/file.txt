@@ -180,6 +180,6 @@ Passed t802
 Passed t803
 Passed t804
 Passed t805
-Failed t900: stdout incorrect
-Passed 180 out of 183 tests.
-Failed 3 out of 183 tests.
+Passed t900
+Passed 181 out of 183 tests.
+Failed 2 out of 183 tests.
