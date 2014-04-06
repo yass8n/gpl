@@ -186,8 +186,9 @@ variable_declaration:
 {
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
+//sym_table is a singleton so we always get the same symbol table
  string id = *$2;
-     if (sym_table->lookup(id))
+     if (sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
      {
           if ($3 != NULL)
           {
@@ -207,11 +208,11 @@ int ti;
           {
              int initial_value = 0;
              if (type == 1)
-	     initial_value = (int)ti;
+	       initial_value = (int)ti;
              if (type == 2)
-             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
              if (type == 4)
-             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
             sym_table->set(id, *sym);
@@ -220,11 +221,11 @@ int ti;
           {
              double initial_value = 0.0;
              if (type == 1)
-             initial_value = (double)ti;
+              initial_value = (double)ti;
              if (type == 2)
-             initial_value = (double)td;
+              initial_value = (double)td;
              if (type == 4)
-             Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
+              Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
            sym_table->set(id, *sym);
@@ -233,11 +234,11 @@ int ti;
           {
              stringstream initial;
              if (type == 1)
-             initial << ti;
+              initial << ti;
              if (type == 2)
-             initial << td;
+              initial << td;
              if (type == 4)
-             initial  << ts;
+              initial  << ts;
              string initial_value = initial.str();
            Symbol *sym = new Symbol();
            (*sym).set(id, "STRING", 0, 0, initial_value);
@@ -248,25 +249,26 @@ int ti;
 
            if ($1 == INT)
            {
-           Symbol *sym = new Symbol();
-           (*sym).set(id, "INT", 0, 0, "");
-           sym_table->set(id, *sym);
+             Symbol *sym = new Symbol();
+             (*sym).set(id, "INT", 0, 0, "");
+             sym_table->set(id, *sym);
            }
            if ($1 == DOUBLE)
            {
-           Symbol *sym = new Symbol();
-           (*sym).set(id, "DOUBLE", 0, 0, "");
-           sym_table->set(id, *sym);
+             Symbol *sym = new Symbol();
+             (*sym).set(id, "DOUBLE", 0, 0, "");
+             sym_table->set(id, *sym);
            }
            if ($1 == STRING)
            {
-           Symbol *sym = new Symbol();
-           (*sym).set(id, "STRING", 0, 0, "");
-           sym_table->set(id, *sym);
+             Symbol *sym = new Symbol();
+             (*sym).set(id, "STRING", 0, 0, "");
+             sym_table->set(id, *sym);
            }
          }
        }
      else {
+     //the variable was already in the sym table
 
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
@@ -278,56 +280,58 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *$2;
      if (sym_table->lookup(id))
-     if ($4->get_type()==4)
-     { 
-         string array_size = $4->eval_string();
-         stringstream num;
-         num << array_size;
-         Error::error(Error::INVALID_ARRAY_SIZE, id, num.str()); 
-     }
-     if ($4->get_type()==2)
-     { 
-         double array_size = $4->eval_double();
-         stringstream num;
-         num << array_size;
-         Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
-     }
-     else if (sym_table->lookup(id) )
-     {
-       if( $4->get_type()==1)
-       {
-       int array_size = $4->eval_int();
-      if (array_size <= 0)
-       {
-         stringstream num;
-         num << array_size;
-         Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
-       }
+      {
+         if ($4->get_type()==4)
+           { 
+            string array_size = $4->eval_string();
+            stringstream num;
+            num << array_size;
+            Error::error(Error::INVALID_ARRAY_SIZE, id, num.str()); 
+           }
+        if ($4->get_type()==2)
+          { 
+            double array_size = $4->eval_double();
+            stringstream num;
+            num << array_size;
+            Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+          }
+        else if (sym_table->lookup(id) )
+          {
+           if( $4->get_type()==1)
+              {
+              int array_size = $4->eval_int();
+              if (array_size <= 0)
+              {
+                stringstream num;
+                num << array_size;
+                Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+              }
        for (int i = 0; i < array_size; i++)
-       {
-        ostringstream name;
-        name << id  << '[' << i << ']';
-        Symbol * sym = new Symbol();
-        if ($1 == INT)
-            {
+        {
+          ostringstream name;
+          name << id  << '[' << i << ']';
+          Symbol * sym = new Symbol();
+          if ($1 == INT)
+             {
               int initial_value =  0;
               (*sym).set(name.str(), "INT", initial_value, 0, "");
-            }
+             }
          if ($1 == DOUBLE)
-            {
+             {
               double initial_value =  0.0;
               (*sym).set(name.str(), "INT", initial_value, 0, "");
-            }
+             }
          if ($1 == STRING)
-            {
+             {
               string initial_value = "";
               (*sym).set(name.str(), "STRING", 0, 0,initial_value); 
-            }
+             }
         sym_table->set(name.str(), *sym);
+            }
+       sym_table->insert_in_vector(id);
+          }
         }
-      sym_table->insert_in_vector(id);
-       }
-     }
+    }
      else {
       Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id); 
      }
@@ -355,13 +359,13 @@ T_STRING
 //---------------------------------------------------------------------
 optional_initializer:
     T_ASSIGN expression
-{
-    $$ = $2;
-}
+    {
+      $$ = $2;
+    }
     | empty
-{
-   $$ = NULL;
-}
+    {
+      $$ = NULL;
+    }
     ;
 
 //---------------------------------------------------------------------
@@ -537,9 +541,9 @@ assign_statement:
 //---------------------------------------------------------------------
 variable:
     T_ID
-{
+    {
       $$ = new Variable(*$1);
-}
+    }
     | T_ID T_LBRACKET expression T_RBRACKET
 {
  Symbol_table *sym_table = Symbol_table::instance();

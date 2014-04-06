@@ -76,7 +76,6 @@ int emit_string_without_quotes(int token)
   // This is a potential memory leak.  Think carefully about where and when
   // this memory should be deleted.
 //counting the number of chars in yytext
-/*
 int counter = 0;
 char *s = yytext;
 for( *s; *s != 0; s++)
@@ -96,10 +95,6 @@ char_array[i] = *str;
 i++;
 }
   yylval.union_string = new string(char_array);
-  */
-
-  yytext[strlen(yytext) -1] = 0;
-  yylval.union_string = new string(yytext + 1);
 
   return token;
 }

@@ -42,9 +42,9 @@ CPPFLAGS = -g -I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers
 # list, and also put a .o version in the C++OBJ list
 # Use a \ at the end of the line to continue on next line
 
-C++SRC = error.cpp gpl_assert.cpp gpl.cpp indent.cpp symbol_table.cpp symbol.cpp gpl_type.cpp expression.cpp variable.cpp rectangle.cpp circle.cpp event_manager.cpp game_object.cpp pixmap.cpp textbox.cpp triangle.cpp window.cpp
+C++SRC = error.cpp gpl_assert.cpp gpl.cpp indent.cpp symbol_table.cpp symbol.cpp gpl_type.cpp expression.cpp variable.cpp rectangle.cpp triangle.cpp circle.cpp pixmap.cpp textbox.cpp game_object.cpp #animation_block.cpp event_manager.cpp statement_block.cpp window.cpp
 	 
-C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o expression.o variable.o rectangle.o circle.o event_manager.o game_object.o pixmap.o textbox.o triangle.o window.o
+C++OBJ = error.o gpl_assert.o gpl.o indent.o symbol_table.o symbol.o gpl_type.o expression.o variable.o rectangle.o circle.o triangle.o pixmap.o textbox.o game_object.h #animation_block.o event_manager.o statement_block.o window.o
 
 # command to compile the gpl executable
 gpl: y.tab.o lex.yy.o $(C++OBJ)
@@ -66,12 +66,12 @@ gpl: y.tab.o lex.yy.o $(C++OBJ)
 #	g++ $(CPPFLAGS) -c gpl.cpp -o gpl.o
 
 # Phase 4 & 5: symbol table AND print the symbol table, no graphics
-gpl.o: gpl.cpp Makefile
-	g++ -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE $(CPPFLAGS) -c gpl.cpp
+#gpl.o: gpl.cpp Makefile
+#	g++ -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE $(CPPFLAGS) -c gpl.cpp
 
 # Phase 6, 7 : symbol table AND print the symbol table, with graphics
-#gpl.o: gpl.cpp Makefile
-#	g++ -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE -DGRAPHICS $(CPPFLAGS) -c gpl.cpp
+gpl.o: gpl.cpp Makefile
+	g++ -DSYMBOL_TABLE -DPRINT_SYMBOL_TABLE -DGRAPHICS $(CPPFLAGS) -c gpl.cpp
 
 # Phase 8 : symbol table with graphics
 #gpl.o: gpl.cpp Makefile
