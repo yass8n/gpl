@@ -1,0 +1,9 @@
+Semantic error on line 2: Incorrect type for reserved variable 'window_x'  It was declared with type 'error'.  It must be of type 'int'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_y'  It was declared with type 'error'.  It must be of type 'int'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_width'  It was declared with type 'error'.  It must be of type 'int'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_height'  It was declared with type 'error'.  It must be of type 'int'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_title'  It was declared with type 'error'.  It must be of type 'string'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_red'  It was declared with type 'error'.  It must be of type 'double'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_green'  It was declared with type 'error'.  It must be of type 'double'.
+Semantic error on line 2: Incorrect type for reserved variable 'window_blue'  It was declared with type 'error'.  It must be of type 'double'.
+Semantic error on line 2: Incorrect type for reserved variable 'animation_speed'  It was declared with type 'error'.  It must be of type 'int'.

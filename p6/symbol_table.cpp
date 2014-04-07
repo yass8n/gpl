@@ -66,7 +66,7 @@ bool Symbol_table::get(string name, string &value)
 bool Symbol_table::get_type(string name, Gpl_type &type)
 {
   Symbol *cur = find(name);
-  if (!cur || !cur->get_type()==9)
+  if (!cur || !cur->get_type()==0)
     return false;
 
   type = cur->get_type();

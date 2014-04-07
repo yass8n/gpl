@@ -1,0 +1,2 @@
+Semantic error on line 10: Variable 'rectangle_bounce' was not declared before it was used.
+assertion "false" failed: file "gpl_type.cpp", line 15.  Input line 11.

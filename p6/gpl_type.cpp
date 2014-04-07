@@ -4,7 +4,7 @@ using namespace std;
 
 string gpl_type_to_string(Gpl_type gpl_type)
 {
-  switch (gpl_type)
+switch (gpl_type)
   {
     case INT: return "int";
     case DOUBLE: return "double";

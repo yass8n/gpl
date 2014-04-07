@@ -18,7 +18,10 @@ void Symbol::set_game_object(string name, Game_object *game_object)
 {
   m_type == GAME_OBJECT;
   m_name = name;
+  cout << "here is the paramter \"&game_object\" " << &game_object << endl;
   m_game_object = game_object;
+  cout << "here is m_game_object being called from the set finction  " << m_game_object<< endl;
+  cout << "here is &m_game_object being called from the set function  " << &m_game_object<< endl;
 }
 Symbol::Symbol()
 {
@@ -73,14 +76,6 @@ string Symbol::return_type()
    
 void Symbol::print(ostream &os)
 {
-  /*
-  if (m_type == 1)
-    os << m_type << " " <<  m_name << " " << m_int << endl;
-  if (m_type == 2)
-    os << m_type << " " << m_name << " " << m_double << endl;
-  if (m_type == 4)
-    os << m_type << " " << m_name << " \"" << m_string << "\""<<endl;
-    */
   if (m_type == 1)
     os << "int " << m_name << " " << m_int << endl;
   if (m_type == 2)

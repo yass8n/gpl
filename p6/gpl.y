@@ -144,6 +144,8 @@ Game_object* cur_object;
 %type <union_expression_type> primary_expression
 %type <union_expression_type> expression
 %type <union_expression_type> optional_initializer
+%type <union_expression_type> parameter_list_or_empty
+%type <union_expression_type> parameter_list
 %type <union_variable_type> variable
 %type <union_operator_type> math_operator
 %type <union_int> object_type
@@ -377,7 +379,7 @@ optional_initializer:
 
 //---------------------------------------------------------------------
 object_declaration:
-    object_type T_ID 
+    object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN
 {
 if ($1 == T_TRIANGLE)
 cur_object = new Triangle();
@@ -389,9 +391,12 @@ if ($1 == T_RECTANGLE)
 cur_object = new Rectangle();
 if ($1 == T_TEXTBOX)
 cur_object = new Textbox();
+          Symbol_table *sym_table = Symbol_table::instance();
+	  Symbol * sym = new Symbol();
+cout << "here is &cur_object " << &cur_object << "\nhere is *cur_object " << *cur_object << endl;
+          (*sym).set_game_object(*$2, cur_object);
+          sym_table->set_sym(*$2, *sym);
 }
-T_LPAREN parameter_list_or_empty T_RPAREN
-
     | object_type T_ID T_LBRACKET expression T_RBRACKET
 {
  Symbol_table *sym_table = Symbol_table::instance();
@@ -492,7 +497,12 @@ object_type:
 //---------------------------------------------------------------------
 parameter_list_or_empty :
     parameter_list
+{
+}
     | empty
+{
+$$ = NULL;
+}
     ;
 
 //---------------------------------------------------------------------
