@@ -15,7 +15,7 @@ class Symbol_table {
     bool set(string name, int value); // used for mouse_x, mouse_y
     static Symbol_table *instance();
     void print(ostream &os);
-    void set(string, Symbol&);
+    void set_sym(string, Symbol&);
     Symbol* find(string name);
     bool lookup(string id);
     void insert_in_vector(string id);

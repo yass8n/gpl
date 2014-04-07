@@ -23,6 +23,19 @@ Symbol* Symbol_table::get(string id)
   }
   return NULL;
 }
+bool Symbol_table::set(string name, int value)
+{
+  std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
+  for (it = m_map.begin(); it != m_map.end(); it ++)
+  {
+    if (name == it->first)
+    {
+      it->second->set(name, "INT", value, 0.0, "");
+    }
+
+  }
+}
 bool Symbol_table::get(string name, int &value)
 {
   Symbol *cur = find(name);
@@ -82,7 +95,7 @@ void Symbol_table::insert_in_vector(string id)
 {
   id_vect.push_back(id);
 }
-void Symbol_table::set (string name, Symbol &symbol)
+void Symbol_table::set_sym (string name, Symbol &symbol)
 {
   m_map[name]=&symbol;
 }

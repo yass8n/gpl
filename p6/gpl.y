@@ -222,7 +222,7 @@ int ti;
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
-            sym_table->set(id, *sym);
+            sym_table->set_sym(id, *sym);
           }
            if ($1 == DOUBLE)//put into symbol table
           {
@@ -235,7 +235,7 @@ int ti;
               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
-           sym_table->set(id, *sym);
+           sym_table->set_sym(id, *sym);
           }
            if ($1 == STRING)//put into symbol table
           {
@@ -249,7 +249,7 @@ int ti;
              string initial_value = initial.str();
            Symbol *sym = new Symbol();
            (*sym).set(id, "STRING", 0, 0, initial_value);
-           sym_table->set(id, *sym);
+           sym_table->set_sym(id, *sym);
           }
          }
         else{
@@ -258,19 +258,19 @@ int ti;
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "INT", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
            if ($1 == DOUBLE)
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "DOUBLE", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
            if ($1 == STRING)
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "STRING", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
          }
        }
@@ -333,7 +333,7 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
               string initial_value = "";
               (*sym).set(name.str(), "STRING", 0, 0,initial_value); 
              }
-        sym_table->set(name.str(), *sym);
+        sym_table->set_sym(name.str(), *sym);
             }
        sym_table->insert_in_vector(id);
           }
@@ -453,7 +453,7 @@ T_LPAREN parameter_list_or_empty T_RPAREN
               cur_object = new Textbox();
               (*sym).set_game_object(name.str(), cur_object);
              }
-        sym_table->set(name.str(), *sym);
+        sym_table->set_sym(name.str(), *sym);
             }
        sym_table->insert_in_vector(id);
           }

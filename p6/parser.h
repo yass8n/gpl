@@ -22,16 +22,10 @@
 // since it is bad programming practive to include "using namespace std"
 // in a .h file, you will have to put "std::string" in the union instead
 // of "string"
-// #include "gpl_type.h"
  #include <string>
 #include "gpl_type.h"
 #include "expression.h"
 #include "variable.h"
-# include "circle.h"
-# include "rectangle.h"
-# include "triangle.h"
-# include "pixmap.h"
-# include "textbox.h"
 #include "y.tab.h"
 
 #endif // #ifndef PARSER_H

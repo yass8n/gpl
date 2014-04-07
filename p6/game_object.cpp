@@ -207,7 +207,7 @@ Status Game_object::get_member_variable_type(string name, Gpl_type &type)
 
   if (typed_void_ptr)
   {
-    tkpe = typed_void_ptr->m_type;
+    type = typed_void_ptr->m_type;
     return OK;
   }
   else

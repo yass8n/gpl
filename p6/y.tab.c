@@ -1820,7 +1820,7 @@ int ti;
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
-            sym_table->set(id, *sym);
+            sym_table->set_sym(id, *sym);
           }
            if ((yyvsp[(1) - (3)].union_gpl_type) == DOUBLE)//put into symbol table
           {
@@ -1833,7 +1833,7 @@ int ti;
               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
-           sym_table->set(id, *sym);
+           sym_table->set_sym(id, *sym);
           }
            if ((yyvsp[(1) - (3)].union_gpl_type) == STRING)//put into symbol table
           {
@@ -1847,7 +1847,7 @@ int ti;
              string initial_value = initial.str();
            Symbol *sym = new Symbol();
            (*sym).set(id, "STRING", 0, 0, initial_value);
-           sym_table->set(id, *sym);
+           sym_table->set_sym(id, *sym);
           }
          }
         else{
@@ -1856,19 +1856,19 @@ int ti;
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "INT", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
            if ((yyvsp[(1) - (3)].union_gpl_type) == DOUBLE)
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "DOUBLE", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
            if ((yyvsp[(1) - (3)].union_gpl_type) == STRING)
            {
              Symbol *sym = new Symbol();
              (*sym).set(id, "STRING", 0, 0, "");
-             sym_table->set(id, *sym);
+             sym_table->set_sym(id, *sym);
            }
          }
        }
@@ -1932,7 +1932,7 @@ int ti;
               string initial_value = "";
               (*sym).set(name.str(), "STRING", 0, 0,initial_value); 
              }
-        sym_table->set(name.str(), *sym);
+        sym_table->set_sym(name.str(), *sym);
             }
        sym_table->insert_in_vector(id);
           }
@@ -2057,7 +2057,7 @@ cur_object = new Textbox();
               cur_object = new Textbox();
               (*sym).set_game_object(name.str(), cur_object);
              }
-        sym_table->set(name.str(), *sym);
+        sym_table->set_sym(name.str(), *sym);
             }
        sym_table->insert_in_vector(id);
           }
