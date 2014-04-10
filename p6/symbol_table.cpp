@@ -23,6 +23,45 @@ Symbol* Symbol_table::get(string id)
   }
   return NULL;
 }
+bool Symbol_table::set(string name, string value)
+{
+  std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
+  for (it = m_map.begin(); it != m_map.end(); it ++)
+  {
+    if (name == it->first)
+    {
+      it->second->set(name, "STRING", 0, 0.0, value);
+    }
+
+  }
+}
+bool Symbol_table::set(string name, Animation_block* value)
+{
+  std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
+  for (it = m_map.begin(); it != m_map.end(); it ++)
+  {
+    if (name == it->first)
+    {
+      it->second->set_animation_block(name, value);
+    }
+
+  }
+}
+bool Symbol_table::set(string name, double value)
+{
+  std::map<string, Symbol*>::iterator it;
+  vector <string>::iterator iter;
+  for (it = m_map.begin(); it != m_map.end(); it ++)
+  {
+    if (name == it->first)
+    {
+      it->second->set(name, "DOUBLE", 0, value, "");
+    }
+
+  }
+}
 bool Symbol_table::set(string name, int value)
 {
   std::map<string, Symbol*>::iterator it;

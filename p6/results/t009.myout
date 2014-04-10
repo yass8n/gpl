@@ -26,7 +26,7 @@ game_object text1
     red = double(0),
     size = double(0.1),
     space = int(10),
-    text = string(""),
+    text = string("42"),
     user_double = double(0),
     user_double2 = double(0),
     user_double3 = double(0),
@@ -59,7 +59,7 @@ game_object text2
     red = double(0),
     size = double(0.2),
     space = int(10),
-    text = string(""),
+    text = string("42.2"),
     user_double = double(0),
     user_double2 = double(0),
     user_double3 = double(0),
@@ -130,7 +130,7 @@ game_object text1
     red = double(0),
     size = double(0.1),
     space = int(10),
-    text = string(""),
+    text = string("42"),
     user_double = double(0),
     user_double2 = double(0),
     user_double3 = double(0),
@@ -147,7 +147,7 @@ game_object text1
     user_string4 = string(""),
     user_string5 = string(""),
     visible = int(1),
-    w = int(0),
+    w = int(17),
     x = int(100),
     y = int(100)
   }
@@ -163,7 +163,7 @@ game_object text2
     red = double(0),
     size = double(0.2),
     space = int(10),
-    text = string(""),
+    text = string("42.2"),
     user_double = double(0),
     user_double2 = double(0),
     user_double3 = double(0),
@@ -180,7 +180,7 @@ game_object text2
     user_string4 = string(""),
     user_string5 = string(""),
     visible = int(1),
-    w = int(0),
+    w = int(60),
     x = int(200),
     y = int(100)
   }

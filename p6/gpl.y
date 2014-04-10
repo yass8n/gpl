@@ -516,17 +516,46 @@ parameter_list :
 parameter:
     T_ID T_ASSIGN expression
 {  
+int type = $3->get_type();
     string id = *$1;
-    if ($3->get_type() == 1)
-    cur_object->set_member_variable(*$1, $3->eval_int());
-    else if ($3->get_type() == 2)
-    cur_object->set_member_variable(*$1, $3->eval_double());
-    else if ($3->get_type() == 4)
-    cur_object->set_member_variable(*$1, $3->eval_string());
-    else 
-{
-    cur_object->set_member_variable(*$1, $3->eval_animation_block());
-}
+    if (type == 1 && id != "text" && id != "blue" 
+        && id != "red" && id != "green" && id != "swek" 
+        && id != "user_double" && id != "rotation" )
+             cur_object->set_member_variable(*$1, $3->eval_int());
+    else if ((type == 2 && id != "text") || id == "red" || id == "blue" 
+              || id == "green" || id == "user_double" || id == "rotation" || id == "size")
+         {
+           if (type == 1)
+            {     
+              double d = (double)$3->eval_int();
+              cur_object->set_member_variable(*$1, d);
+            } 
+           if (type == 2)
+              cur_object->set_member_variable(*$1, $3->eval_double());
+         }
+    else if (type == 4 || id == "text")
+     {
+        if (type == 4)
+        {
+           cur_object->set_member_variable(*$1, $3->eval_string());
+        }
+       if (type == 2)
+        {
+           double name= $3->eval_double();
+           stringstream param;
+           param<< name;
+           cur_object->set_member_variable(*$1, param.str());
+        }
+       if (type == 1)
+        {
+           int name= $3->eval_int();
+           stringstream param;
+           param<< name;
+           cur_object->set_member_variable(*$1, param.str());
+        }
+      }
+     else 
+          cur_object->set_member_variable(*$1, $3->eval_animation_block());
                        /* if ($3->get_type() == 1)
                              (*sym).set(id, "INT", $3->eval_int(), 0, "");
                         if ($3->get_type() == 2)

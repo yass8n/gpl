@@ -13,6 +13,9 @@ class Symbol_table {
     bool get(string name, string &value);
     bool get_type(string name, Gpl_type &type);
     bool set(string name, int value); // used for mouse_x, mouse_y
+    bool set(string name, string value);
+    bool set(string name, double value);
+    bool set(string name, Animation_block * value);
     static Symbol_table *instance();
     void print(ostream &os);
     void set_sym(string, Symbol&);
