@@ -6,6 +6,7 @@ using namespace std;
 # include "gpl_type.h"
 # include <vector>
 class Game_object;
+class Animation_block;
 class Symbol{
   private:
     Gpl_type m_type;
@@ -16,7 +17,10 @@ class Symbol{
     string m_string;
     string m_name;
     Game_object *m_game_object;
-  public: 
+    Animation_block *m_animation_block;
+  public:  
+    void set_animation_block(string name, Animation_block *block);
+    Animation_block * return_animation_block();
     void set (string name,string type, int int_val, double double_val, string string_val);
     void set_game_object(string name, Game_object *game_object);
     Symbol();

@@ -1,4 +1,8 @@
 # include "symbol.h"
+# include "animation_block.h"
+# include "game_object.h"
+# include "indent.h"
+
   
 void Symbol::set(string name, string type, int int_val, double double_val, string string_val)
 {
@@ -16,12 +20,15 @@ void Symbol::set(string name, string type, int int_val, double double_val, strin
 }
 void Symbol::set_game_object(string name, Game_object *game_object)
 {
-  m_type == GAME_OBJECT;
+  m_type = GAME_OBJECT;
   m_name = name;
-  cout << "here is the paramter \"&game_object\" " << &game_object << endl;
   m_game_object = game_object;
-  cout << "here is m_game_object being called from the set finction  " << m_game_object<< endl;
-  cout << "here is &m_game_object being called from the set function  " << &m_game_object<< endl;
+}
+void Symbol::set_animation_block(string name, Animation_block * block)
+{
+  m_type = ANIMATION_BLOCK;
+  m_name = name;
+  m_animation_block = block;
 }
 Symbol::Symbol()
 {
@@ -49,6 +56,10 @@ string Symbol::return_string()
 {
   return m_string;
 }
+Animation_block * Symbol::return_animation_block()
+{
+  return m_animation_block;
+}
 string Symbol::return_type()
 {
   string str;
@@ -72,6 +83,11 @@ string Symbol::return_type()
     str = "GAME_OBJECT";
     return str;
   }
+  if (m_type == 16)
+  {
+    str = "ANIMATION_BLOCK";
+    return str;
+  }
 }
    
 void Symbol::print(ostream &os)
@@ -83,5 +99,19 @@ void Symbol::print(ostream &os)
   if (m_type == 4)
     os << "string " << m_name << " \"" << m_string << "\""<<endl;
   if (m_type == 8)
-    os << m_game_object << endl;
+  {
+    os << "game_object ";
+    os << m_name << endl;
+    indent ++;
+    os <<  m_game_object << endl;
+    indent--;
+  }
+  if (m_type == 16)
+  {
+    os << "animation_block ";
+    os << m_name << endl;
+    indent ++;
+    os <<  m_animation_block << endl;
+    indent--;
+  }
 }

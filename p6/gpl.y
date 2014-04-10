@@ -22,6 +22,7 @@ extern int line_count;      // the current line in the input; from array.l
 # include "pixmap.h"
 # include "circle.h"
 # include "textbox.h"
+# include "animation_block.h"
 using namespace std;
 
 // use this global variable to store all the values in the array
@@ -37,6 +38,7 @@ Game_object* cur_object;
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
  Variable            *union_variable_type;
+ Symbol              *union_symbol_type;
  Operator_type        union_operator_type;
 }
 
@@ -146,9 +148,11 @@ Game_object* cur_object;
 %type <union_expression_type> optional_initializer
 %type <union_expression_type> parameter_list_or_empty
 %type <union_expression_type> parameter_list
+%type <union_symbol_type> animation_parameter
 %type <union_variable_type> variable
 %type <union_operator_type> math_operator
 %type <union_int> object_type
+%type <union_int> T_FORWARD
 
 %token <union_int> T_INT_CONSTANT // this token has a int value associated w/it
 %token <union_string> T_ID // this token has a string value associated w/it
@@ -379,7 +383,7 @@ optional_initializer:
 
 //---------------------------------------------------------------------
 object_declaration:
-    object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN
+    object_type T_ID 
 {
 if ($1 == T_TRIANGLE)
 cur_object = new Triangle();
@@ -393,9 +397,11 @@ if ($1 == T_TEXTBOX)
 cur_object = new Textbox();
           Symbol_table *sym_table = Symbol_table::instance();
 	  Symbol * sym = new Symbol();
-cout << "here is &cur_object " << &cur_object << "\nhere is *cur_object " << *cur_object << endl;
           (*sym).set_game_object(*$2, cur_object);
           sym_table->set_sym(*$2, *sym);
+}
+ T_LPAREN parameter_list_or_empty T_RPAREN
+{
 }
     | object_type T_ID T_LBRACKET expression T_RBRACKET
 {
@@ -497,12 +503,7 @@ object_type:
 //---------------------------------------------------------------------
 parameter_list_or_empty :
     parameter_list
-{
-}
     | empty
-{
-$$ = NULL;
-}
     ;
 
 //---------------------------------------------------------------------
@@ -514,11 +515,59 @@ parameter_list :
 //---------------------------------------------------------------------
 parameter:
     T_ID T_ASSIGN expression
+{  
+    string id = *$1;
+    if ($3->get_type() == 1)
+    cur_object->set_member_variable(*$1, $3->eval_int());
+    else if ($3->get_type() == 2)
+    cur_object->set_member_variable(*$1, $3->eval_double());
+    else if ($3->get_type() == 4)
+    cur_object->set_member_variable(*$1, $3->eval_string());
+    else 
+{
+    cur_object->set_member_variable(*$1, $3->eval_animation_block());
+}
+                       /* if ($3->get_type() == 1)
+                             (*sym).set(id, "INT", $3->eval_int(), 0, "");
+                        if ($3->get_type() == 2)
+                             (*sym).set(id, "DOUBLE", 0,$3->eval_double(),  "");
+                        if ($3->get_type() == 4)
+                             (*sym).set(id, "STRING", 0, 0, $3->eval_string());
+                        */
+                        if ($3->get_type() == 8)
+                            {
+                            Symbol_table *sym_table = Symbol_table::instance();
+                            Symbol *sym = new Symbol();
+                            sym->set_game_object(id, cur_object);
+                            sym_table->set_sym(id, *sym);
+                            }
+/*
+                        if ($3->get_type() == 16)
+                             sym->set_animation_block(id, $3->eval_animation_block());
+*/
+}
     ;
 
 //---------------------------------------------------------------------
 forward_declaration:
     T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
+{
+
+     Symbol_table *sym_table = Symbol_table::instance();
+      string id = *$3;
+     if (sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
+     {
+        if ($5 != NULL)
+        {
+                        Animation_block *block = new Animation_block($1,$5,*$3);
+                        Symbol_table *sym_table = Symbol_table::instance();
+                        Symbol *sym = new Symbol();
+                        sym->set_animation_block(id, block);
+                        sym_table->set_sym(*$3, *sym);
+        }
+     }
+}
+
     ;
 
 //---------------------------------------------------------------------
@@ -547,6 +596,24 @@ animation_block:
 //---------------------------------------------------------------------
 animation_parameter:
     object_type T_ID
+{   
+Game_object * cur_ob;
+if ($1 == T_TRIANGLE)
+cur_ob = new Triangle();
+if ($1 == T_PIXMAP)
+cur_ob = new Pixmap();
+if ($1 == T_CIRCLE)
+cur_ob = new Circle();
+if ($1 == T_RECTANGLE)
+cur_ob = new Rectangle();
+if ($1 == T_TEXTBOX)
+cur_ob = new Textbox();
+          Symbol_table *sym_table = Symbol_table::instance();
+	  Symbol * sym = new Symbol();
+          sym->set_game_object(*$2, cur_ob);
+          sym_table->set_sym(*$2, *sym);
+$$ = sym;
+}
     ;
 
 //---------------------------------------------------------------------

@@ -1,5 +1,6 @@
 # include "expression.h"
 # include <sstream>
+# include "animation_block.h"
 # include "variable.h"
 # include "error.h"
 Variable::Variable()
@@ -51,6 +52,10 @@ string Variable::eval_string()
 string Variable::get_name()
 {
   return m_id;
+}
+Animation_block * Variable::return_animation_block()
+{
+  return m_sym->return_animation_block();
 }
 bool Variable::included()
 {

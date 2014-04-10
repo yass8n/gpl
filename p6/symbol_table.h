@@ -22,8 +22,9 @@ class Symbol_table {
     Symbol* get(string id);
   private:
     map <string, Symbol*> m_map;
+    int counter;
     vector <string> id_vect;
-    Symbol_table(){};
+    Symbol_table(){counter =0;};
     static Symbol_table *m_instance;
     Symbol *symbols;
     string m_id;

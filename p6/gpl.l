@@ -40,7 +40,11 @@ Error error_handler; // error reporting object
 //   If another .cpp file declares "extern int line_count" that line_count
 //   in that file will be the line_count in this file (it becomes global)
 int line_count = 1;
-
+int emit_with_line_number(int token)
+{
+   yylval.union_int = line_count;
+   return token;
+}
 int emit_int(int token)
 {
   // convert the string yytext into an integer
@@ -140,7 +144,7 @@ The right-hand-side (RHS) gives an action (code to execute)
 "circle"        return T_CIRCLE;
 "rectangle"     return T_RECTANGLE;
 "textbox"       return T_TEXTBOX;
-"forward"       return T_FORWARD;
+"forward"       return emit_with_line_number(T_FORWARD);
 "initialization" return T_INITIALIZATION;
 "true"          return T_TRUE;
 "false"         return T_FALSE;

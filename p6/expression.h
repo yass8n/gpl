@@ -4,8 +4,9 @@
 # include "Gpl_type.h"
 # include <assert.h>
 # include <string>
-using namespace std;
+# include "animation_block.h"
 
+using namespace std;
 class Variable;
 class Expression {
   public:
@@ -17,6 +18,7 @@ class Expression {
     Expression(Gpl_type gpl, double x);
     Expression(Gpl_type gpl, string x);
     int eval_int();
+    Animation_block * eval_animation_block();
     double eval_double();
     string get_var_name();
     bool exp_var_included();

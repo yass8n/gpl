@@ -924,6 +924,10 @@ string Expression::get_var_name()
 {
   return m_var->get_name();
 }
+Animation_block * Expression::eval_animation_block()
+{
+  return m_var->return_animation_block();
+}
 double Expression::eval_double()
 {
   assert(m_gpl_type == 2);

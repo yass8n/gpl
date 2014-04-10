@@ -12,3 +12,13 @@ gpl.cpp::main() Calling yyparse()
 
 gpl.cpp::main() after call to yyparse().
 
+
+Printing the symbol table from main()
+string window_height "window_height must be of type int"
+int window_width 42
+gpl.cpp::main() Calling window->initialize().
+gpl.cpp::main() Passing control to window->main_loop().
+
+Printing the symbol table from signal_handler()
+int window_height 500
+int window_width 500

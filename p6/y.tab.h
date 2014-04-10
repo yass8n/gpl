@@ -228,7 +228,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 33 "gpl.y"
+#line 34 "gpl.y"
 {
  int                  union_int;
  std::string         *union_string;  // MUST be a pointer to a string (this sucks!)
@@ -236,10 +236,11 @@ typedef union YYSTYPE
  Gpl_type             union_gpl_type;
  Expression          *union_expression_type;
  Variable            *union_variable_type;
+ Symbol              *union_symbol_type;
  Operator_type        union_operator_type;
 }
 /* Line 1529 of yacc.c.  */
-#line 243 "y.tab.h"
+#line 244 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

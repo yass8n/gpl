@@ -14,8 +14,8 @@ Terminals which are not used
 
 Useless rules
 
-  124 geometric_operator: T_TOUCHES
-  125                   | T_NEAR
+  125 geometric_operator: T_TOUCHES
+  126                   | T_NEAR
 
 
 Grammar
@@ -41,146 +41,148 @@ Grammar
    12 optional_initializer: T_ASSIGN expression
    13                     | empty
 
-   14 object_declaration: object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN
-   15                   | object_type T_ID T_LBRACKET expression T_RBRACKET
+   14 @1: /* empty */
 
-   16 object_type: T_TRIANGLE
-   17            | T_PIXMAP
-   18            | T_CIRCLE
-   19            | T_RECTANGLE
-   20            | T_TEXTBOX
+   15 object_declaration: object_type T_ID @1 T_LPAREN parameter_list_or_empty T_RPAREN
+   16                   | object_type T_ID T_LBRACKET expression T_RBRACKET
 
-   21 parameter_list_or_empty: parameter_list
-   22                        | empty
+   17 object_type: T_TRIANGLE
+   18            | T_PIXMAP
+   19            | T_CIRCLE
+   20            | T_RECTANGLE
+   21            | T_TEXTBOX
 
-   23 parameter_list: parameter_list T_COMMA parameter
-   24               | parameter
+   22 parameter_list_or_empty: parameter_list
+   23                        | empty
 
-   25 parameter: T_ID T_ASSIGN expression
+   24 parameter_list: parameter_list T_COMMA parameter
+   25               | parameter
 
-   26 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
+   26 parameter: T_ID T_ASSIGN expression
 
-   27 block_list: block_list block
-   28           | empty
+   27 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
 
-   29 block: initialization_block
-   30      | animation_block
-   31      | on_block
+   28 block_list: block_list block
+   29           | empty
 
-   32 initialization_block: T_INITIALIZATION statement_block
+   30 block: initialization_block
+   31      | animation_block
+   32      | on_block
 
-   33 @1: /* empty */
+   33 initialization_block: T_INITIALIZATION statement_block
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
+   34 @2: /* empty */
 
-   35 animation_parameter: object_type T_ID
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
 
-   36 check_animation_parameter: T_TRIANGLE T_ID
-   37                          | T_PIXMAP T_ID
-   38                          | T_CIRCLE T_ID
-   39                          | T_RECTANGLE T_ID
-   40                          | T_TEXTBOX T_ID
+   36 animation_parameter: object_type T_ID
 
-   41 on_block: T_ON keystroke statement_block
+   37 check_animation_parameter: T_TRIANGLE T_ID
+   38                          | T_PIXMAP T_ID
+   39                          | T_CIRCLE T_ID
+   40                          | T_RECTANGLE T_ID
+   41                          | T_TEXTBOX T_ID
 
-   42 keystroke: T_SPACE
-   43          | T_UPARROW
-   44          | T_DOWNARROW
-   45          | T_LEFTARROW
-   46          | T_RIGHTARROW
-   47          | T_LEFTMOUSE_DOWN
-   48          | T_MIDDLEMOUSE_DOWN
-   49          | T_RIGHTMOUSE_DOWN
-   50          | T_LEFTMOUSE_UP
-   51          | T_MIDDLEMOUSE_UP
-   52          | T_RIGHTMOUSE_UP
-   53          | T_MOUSE_MOVE
-   54          | T_MOUSE_DRAG
-   55          | T_AKEY
-   56          | T_SKEY
-   57          | T_DKEY
-   58          | T_FKEY
-   59          | T_HKEY
-   60          | T_JKEY
-   61          | T_KKEY
-   62          | T_LKEY
-   63          | T_WKEY
-   64          | T_F1
+   42 on_block: T_ON keystroke statement_block
 
-   65 if_block: statement_block_creator statement end_of_statement_block
-   66         | statement_block
+   43 keystroke: T_SPACE
+   44          | T_UPARROW
+   45          | T_DOWNARROW
+   46          | T_LEFTARROW
+   47          | T_RIGHTARROW
+   48          | T_LEFTMOUSE_DOWN
+   49          | T_MIDDLEMOUSE_DOWN
+   50          | T_RIGHTMOUSE_DOWN
+   51          | T_LEFTMOUSE_UP
+   52          | T_MIDDLEMOUSE_UP
+   53          | T_RIGHTMOUSE_UP
+   54          | T_MOUSE_MOVE
+   55          | T_MOUSE_DRAG
+   56          | T_AKEY
+   57          | T_SKEY
+   58          | T_DKEY
+   59          | T_FKEY
+   60          | T_HKEY
+   61          | T_JKEY
+   62          | T_KKEY
+   63          | T_LKEY
+   64          | T_WKEY
+   65          | T_F1
 
-   67 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block
+   66 if_block: statement_block_creator statement end_of_statement_block
+   67         | statement_block
 
-   68 statement_block_creator: /* empty */
+   68 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block
 
-   69 end_of_statement_block: /* empty */
+   69 statement_block_creator: /* empty */
 
-   70 statement_list: statement_list statement
-   71               | empty
+   70 end_of_statement_block: /* empty */
 
-   72 statement: if_statement
-   73          | for_statement
-   74          | assign_statement T_SEMIC
-   75          | print_statement T_SEMIC
-   76          | exit_statement T_SEMIC
+   71 statement_list: statement_list statement
+   72               | empty
 
-   77 if_statement: T_IF T_LPAREN expression T_RPAREN if_block
-   78             | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
+   73 statement: if_statement
+   74          | for_statement
+   75          | assign_statement T_SEMIC
+   76          | print_statement T_SEMIC
+   77          | exit_statement T_SEMIC
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+   78 if_statement: T_IF T_LPAREN expression T_RPAREN if_block
+   79             | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block
 
-   80 print_statement: T_PRINT T_LPAREN expression T_RPAREN
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
 
-   81 exit_statement: T_EXIT T_LPAREN expression T_RPAREN
+   81 print_statement: T_PRINT T_LPAREN expression T_RPAREN
 
-   82 assign_statement: variable T_ASSIGN expression
-   83                 | variable T_PLUS_ASSIGN expression
-   84                 | variable T_MINUS_ASSIGN expression
+   82 exit_statement: T_EXIT T_LPAREN expression T_RPAREN
 
-   85 variable: T_ID
-   86         | T_ID T_LBRACKET expression T_RBRACKET
-   87         | T_ID T_PERIOD T_ID
-   88         | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
+   83 assign_statement: variable T_ASSIGN expression
+   84                 | variable T_PLUS_ASSIGN expression
+   85                 | variable T_MINUS_ASSIGN expression
 
-   89 expression: primary_expression
-   90           | expression T_OR expression
-   91           | expression T_AND expression
-   92           | expression T_LESS_EQUAL expression
-   93           | expression T_GREATER_EQUAL expression
-   94           | expression T_LESS expression
-   95           | expression T_GREATER expression
-   96           | expression T_EQUAL expression
-   97           | expression T_NOT_EQUAL expression
-   98           | expression T_PLUS expression
-   99           | expression T_MINUS expression
-  100           | expression T_ASTERISK expression
-  101           | expression T_DIVIDE expression
-  102           | expression T_MOD expression
-  103           | T_MINUS expression
-  104           | T_NOT expression
-  105           | math_operator T_LPAREN expression T_RPAREN
+   86 variable: T_ID
+   87         | T_ID T_LBRACKET expression T_RBRACKET
+   88         | T_ID T_PERIOD T_ID
+   89         | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
 
-  106 primary_expression: T_LPAREN expression T_RPAREN
-  107                   | variable
-  108                   | T_INT_CONSTANT
-  109                   | T_TRUE
-  110                   | T_FALSE
-  111                   | T_DOUBLE_CONSTANT
-  112                   | T_STRING_CONSTANT
+   90 expression: primary_expression
+   91           | expression T_OR expression
+   92           | expression T_AND expression
+   93           | expression T_LESS_EQUAL expression
+   94           | expression T_GREATER_EQUAL expression
+   95           | expression T_LESS expression
+   96           | expression T_GREATER expression
+   97           | expression T_EQUAL expression
+   98           | expression T_NOT_EQUAL expression
+   99           | expression T_PLUS expression
+  100           | expression T_MINUS expression
+  101           | expression T_ASTERISK expression
+  102           | expression T_DIVIDE expression
+  103           | expression T_MOD expression
+  104           | T_MINUS expression
+  105           | T_NOT expression
+  106           | math_operator T_LPAREN expression T_RPAREN
 
-  113 math_operator: T_SIN
-  114              | T_COS
-  115              | T_TAN
-  116              | T_ASIN
-  117              | T_ACOS
-  118              | T_ATAN
-  119              | T_SQRT
-  120              | T_ABS
-  121              | T_FLOOR
-  122              | T_RANDOM
+  107 primary_expression: T_LPAREN expression T_RPAREN
+  108                   | variable
+  109                   | T_INT_CONSTANT
+  110                   | T_TRUE
+  111                   | T_FALSE
+  112                   | T_DOUBLE_CONSTANT
+  113                   | T_STRING_CONSTANT
 
-  123 empty: /* empty */
+  114 math_operator: T_SIN
+  115              | T_COS
+  116              | T_TAN
+  117              | T_ASIN
+  118              | T_ACOS
+  119              | T_ATAN
+  120              | T_SQRT
+  121              | T_ABS
+  122              | T_FLOOR
+  123              | T_RANDOM
+
+  124 empty: /* empty */
 
 
 Terminals, with rules where they appear
@@ -190,90 +192,90 @@ error (256)
 T_INT (258) 9
 T_DOUBLE (259) 10
 T_STRING (260) 11
-T_TRIANGLE (261) 16 36
-T_PIXMAP (262) 17 37
-T_CIRCLE (263) 18 38
-T_RECTANGLE (264) 19 39
-T_TEXTBOX (265) 20 40
-T_FORWARD (266) 26
-T_INITIALIZATION (267) 32
-T_TRUE (268) 109
-T_FALSE (269) 110
-T_ON (270) 41
-T_SPACE (271) 42
-T_LEFTARROW (272) 45
-T_RIGHTARROW (273) 46
-T_UPARROW (274) 43
-T_DOWNARROW (275) 44
-T_LEFTMOUSE_DOWN (276) 47
-T_MIDDLEMOUSE_DOWN (277) 48
-T_RIGHTMOUSE_DOWN (278) 49
-T_LEFTMOUSE_UP (279) 50
-T_MIDDLEMOUSE_UP (280) 51
-T_RIGHTMOUSE_UP (281) 52
-T_MOUSE_MOVE (282) 53
-T_MOUSE_DRAG (283) 54
-T_F1 (284) 64
-T_AKEY (285) 55
-T_SKEY (286) 56
-T_DKEY (287) 57
-T_FKEY (288) 58
-T_HKEY (289) 59
-T_JKEY (290) 60
-T_KKEY (291) 61
-T_LKEY (292) 62
-T_WKEY (293) 63
+T_TRIANGLE (261) 17 37
+T_PIXMAP (262) 18 38
+T_CIRCLE (263) 19 39
+T_RECTANGLE (264) 20 40
+T_TEXTBOX (265) 21 41
+T_FORWARD (266) 27
+T_INITIALIZATION (267) 33
+T_TRUE (268) 110
+T_FALSE (269) 111
+T_ON (270) 42
+T_SPACE (271) 43
+T_LEFTARROW (272) 46
+T_RIGHTARROW (273) 47
+T_UPARROW (274) 44
+T_DOWNARROW (275) 45
+T_LEFTMOUSE_DOWN (276) 48
+T_MIDDLEMOUSE_DOWN (277) 49
+T_RIGHTMOUSE_DOWN (278) 50
+T_LEFTMOUSE_UP (279) 51
+T_MIDDLEMOUSE_UP (280) 52
+T_RIGHTMOUSE_UP (281) 53
+T_MOUSE_MOVE (282) 54
+T_MOUSE_DRAG (283) 55
+T_F1 (284) 65
+T_AKEY (285) 56
+T_SKEY (286) 57
+T_DKEY (287) 58
+T_FKEY (288) 59
+T_HKEY (289) 60
+T_JKEY (290) 61
+T_KKEY (291) 62
+T_LKEY (292) 63
+T_WKEY (293) 64
 T_TOUCHES (294)
 T_NEAR (295)
-T_ANIMATION (296) 26 34
-T_IF (297) 77 78
-T_FOR (298) 79
-T_ELSE (299) 78
-T_EXIT (300) 81
-T_PRINT (301) 80
-T_LPAREN (302) 14 26 34 77 78 79 80 81 105 106
-T_RPAREN (303) 14 26 34 77 78 79 80 81 105 106
-T_LBRACE (304) 34 67
-T_RBRACE (305) 34 67
-T_LBRACKET (306) 8 15 86 88
-T_RBRACKET (307) 8 15 86 88
-T_SEMIC (308) 4 5 6 74 75 76 79
-T_COMMA (309) 23
-T_PERIOD (310) 87 88
-T_ASSIGN (311) 12 25 82
-T_PLUS_ASSIGN (312) 83
-T_MINUS_ASSIGN (313) 84
+T_ANIMATION (296) 27 35
+T_IF (297) 78 79
+T_FOR (298) 80
+T_ELSE (299) 79
+T_EXIT (300) 82
+T_PRINT (301) 81
+T_LPAREN (302) 15 27 35 78 79 80 81 82 106 107
+T_RPAREN (303) 15 27 35 78 79 80 81 82 106 107
+T_LBRACE (304) 35 68
+T_RBRACE (305) 35 68
+T_LBRACKET (306) 8 16 87 89
+T_RBRACKET (307) 8 16 87 89
+T_SEMIC (308) 4 5 6 75 76 77 80
+T_COMMA (309) 24
+T_PERIOD (310) 88 89
+T_ASSIGN (311) 12 26 83
+T_PLUS_ASSIGN (312) 84
+T_MINUS_ASSIGN (313) 85
 T_PLUS_PLUS (314)
 T_MINUS_MINUS (315)
-T_ASTERISK (316) 100
-T_DIVIDE (317) 101
-T_MOD (318) 102
-T_PLUS (319) 98
-T_MINUS (320) 99 103
-T_SIN (321) 113
-T_COS (322) 114
-T_TAN (323) 115
-T_ASIN (324) 116
-T_ACOS (325) 117
-T_ATAN (326) 118
-T_SQRT (327) 119
-T_FLOOR (328) 121
-T_ABS (329) 120
-T_RANDOM (330) 122
-T_LESS (331) 94
-T_GREATER (332) 95
-T_LESS_EQUAL (333) 92
-T_GREATER_EQUAL (334) 93
-T_EQUAL (335) 96
-T_NOT_EQUAL (336) 97
-T_AND (337) 91
-T_OR (338) 90
-T_NOT (339) 104
-T_INT_CONSTANT (340) 108
-T_ID (341) 7 8 14 15 25 26 34 35 36 37 38 39 40 85 86 87 88
+T_ASTERISK (316) 101
+T_DIVIDE (317) 102
+T_MOD (318) 103
+T_PLUS (319) 99
+T_MINUS (320) 100 104
+T_SIN (321) 114
+T_COS (322) 115
+T_TAN (323) 116
+T_ASIN (324) 117
+T_ACOS (325) 118
+T_ATAN (326) 119
+T_SQRT (327) 120
+T_FLOOR (328) 122
+T_ABS (329) 121
+T_RANDOM (330) 123
+T_LESS (331) 95
+T_GREATER (332) 96
+T_LESS_EQUAL (333) 93
+T_GREATER_EQUAL (334) 94
+T_EQUAL (335) 97
+T_NOT_EQUAL (336) 98
+T_AND (337) 92
+T_OR (338) 91
+T_NOT (339) 105
+T_INT_CONSTANT (340) 109
+T_ID (341) 7 8 15 16 26 27 35 36 37 38 39 40 41 86 87 88 89
 T_ERROR (342)
-T_DOUBLE_CONSTANT (343) 111
-T_STRING_CONSTANT (344) 112
+T_DOUBLE_CONSTANT (343) 112
+T_STRING_CONSTANT (344) 113
 IF_NO_ELSE (345)
 IF_ELSE (346)
 UNARY_OPS (347)
@@ -296,78 +298,80 @@ simple_type (98)
 optional_initializer (99)
     on left: 12 13, on right: 7
 object_declaration (100)
-    on left: 14 15, on right: 5
-object_type (101)
-    on left: 16 17 18 19 20, on right: 14 15 35
-parameter_list_or_empty (102)
-    on left: 21 22, on right: 14
-parameter_list (103)
-    on left: 23 24, on right: 21 23
-parameter (104)
-    on left: 25, on right: 23 24
-forward_declaration (105)
-    on left: 26, on right: 6
-block_list (106)
-    on left: 27 28, on right: 1 27
-block (107)
-    on left: 29 30 31, on right: 27
-initialization_block (108)
-    on left: 32, on right: 29
-animation_block (109)
-    on left: 34, on right: 30
-@1 (110)
-    on left: 33, on right: 34
-animation_parameter (111)
-    on left: 35, on right: 26
-check_animation_parameter (112)
-    on left: 36 37 38 39 40, on right: 34
-on_block (113)
-    on left: 41, on right: 31
-keystroke (114)
-    on left: 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
-    60 61 62 63 64, on right: 41
-if_block (115)
-    on left: 65 66, on right: 77 78
-statement_block (116)
-    on left: 67, on right: 32 41 66 79
-statement_block_creator (117)
-    on left: 68, on right: 65 67 79
-end_of_statement_block (118)
-    on left: 69, on right: 34 65 67 79
-statement_list (119)
-    on left: 70 71, on right: 34 67 70
-statement (120)
-    on left: 72 73 74 75 76, on right: 65 70
-if_statement (121)
-    on left: 77 78, on right: 72
-for_statement (122)
-    on left: 79, on right: 73
-print_statement (123)
-    on left: 80, on right: 75
-exit_statement (124)
+    on left: 15 16, on right: 5
+@1 (101)
+    on left: 14, on right: 15
+object_type (102)
+    on left: 17 18 19 20 21, on right: 15 16 36
+parameter_list_or_empty (103)
+    on left: 22 23, on right: 15
+parameter_list (104)
+    on left: 24 25, on right: 22 24
+parameter (105)
+    on left: 26, on right: 24 25
+forward_declaration (106)
+    on left: 27, on right: 6
+block_list (107)
+    on left: 28 29, on right: 1 28
+block (108)
+    on left: 30 31 32, on right: 28
+initialization_block (109)
+    on left: 33, on right: 30
+animation_block (110)
+    on left: 35, on right: 31
+@2 (111)
+    on left: 34, on right: 35
+animation_parameter (112)
+    on left: 36, on right: 27
+check_animation_parameter (113)
+    on left: 37 38 39 40 41, on right: 35
+on_block (114)
+    on left: 42, on right: 32
+keystroke (115)
+    on left: 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
+    61 62 63 64 65, on right: 42
+if_block (116)
+    on left: 66 67, on right: 78 79
+statement_block (117)
+    on left: 68, on right: 33 42 67 80
+statement_block_creator (118)
+    on left: 69, on right: 66 68 80
+end_of_statement_block (119)
+    on left: 70, on right: 35 66 68 80
+statement_list (120)
+    on left: 71 72, on right: 35 68 71
+statement (121)
+    on left: 73 74 75 76 77, on right: 66 71
+if_statement (122)
+    on left: 78 79, on right: 73
+for_statement (123)
+    on left: 80, on right: 74
+print_statement (124)
     on left: 81, on right: 76
-assign_statement (125)
-    on left: 82 83 84, on right: 74 79
-variable (126)
-    on left: 85 86 87 88, on right: 82 83 84 107
-expression (127)
-    on left: 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105
-   , on right: 8 12 15 25 77 78 79 80 81 82 83 84 86 88 90 91 92 93
-    94 95 96 97 98 99 100 101 102 103 104 105 106
-primary_expression (128)
-    on left: 106 107 108 109 110 111 112, on right: 89
-math_operator (129)
-    on left: 113 114 115 116 117 118 119 120 121 122,
-    on right: 105
-empty (130)
-    on left: 123, on right: 3 13 22 28 71
+exit_statement (125)
+    on left: 82, on right: 77
+assign_statement (126)
+    on left: 83 84 85, on right: 75 80
+variable (127)
+    on left: 86 87 88 89, on right: 83 84 85 108
+expression (128)
+    on left: 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105
+    106, on right: 8 12 16 26 78 79 80 81 82 83 84 85 87 89 91 92 93
+    94 95 96 97 98 99 100 101 102 103 104 105 106 107
+primary_expression (129)
+    on left: 107 108 109 110 111 112 113, on right: 90
+math_operator (130)
+    on left: 114 115 116 117 118 119 120 121 122 123,
+    on right: 106
+empty (131)
+    on left: 124, on right: 3 13 23 29 72
 
 
 state 0
 
     0 $accept: . program $end
 
-    $default  reduce using rule 123 (empty)
+    $default  reduce using rule 124 (empty)
 
     program           go to state 1
     declaration_list  go to state 2
@@ -396,7 +400,7 @@ state 2
     T_TEXTBOX    shift, and go to state 12
     T_FORWARD    shift, and go to state 13
 
-    $default  reduce using rule 123 (empty)
+    $default  reduce using rule 124 (empty)
 
     declaration           go to state 14
     variable_declaration  go to state 15
@@ -445,42 +449,42 @@ state 7
 
 state 8
 
-   16 object_type: T_TRIANGLE .
-
-    $default  reduce using rule 16 (object_type)
-
-
-state 9
-
-   17 object_type: T_PIXMAP .
+   17 object_type: T_TRIANGLE .
 
     $default  reduce using rule 17 (object_type)
 
 
-state 10
+state 9
 
-   18 object_type: T_CIRCLE .
+   18 object_type: T_PIXMAP .
 
     $default  reduce using rule 18 (object_type)
 
 
-state 11
+state 10
 
-   19 object_type: T_RECTANGLE .
+   19 object_type: T_CIRCLE .
 
     $default  reduce using rule 19 (object_type)
 
 
-state 12
+state 11
 
-   20 object_type: T_TEXTBOX .
+   20 object_type: T_RECTANGLE .
 
     $default  reduce using rule 20 (object_type)
 
 
+state 12
+
+   21 object_type: T_TEXTBOX .
+
+    $default  reduce using rule 21 (object_type)
+
+
 state 13
 
-   26 forward_declaration: T_FORWARD . T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
+   27 forward_declaration: T_FORWARD . T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN
 
     T_ANIMATION  shift, and go to state 22
 
@@ -516,8 +520,8 @@ state 17
 
 state 18
 
-   14 object_declaration: object_type . T_ID T_LPAREN parameter_list_or_empty T_RPAREN
-   15                   | object_type . T_ID T_LBRACKET expression T_RBRACKET
+   15 object_declaration: object_type . T_ID @1 T_LPAREN parameter_list_or_empty T_RPAREN
+   16                   | object_type . T_ID T_LBRACKET expression T_RBRACKET
 
     T_ID  shift, and go to state 26
 
@@ -532,7 +536,7 @@ state 19
 state 20
 
     1 program: declaration_list block_list .
-   27 block_list: block_list . block
+   28 block_list: block_list . block
 
     T_INITIALIZATION  shift, and go to state 28
     T_ON              shift, and go to state 29
@@ -548,14 +552,14 @@ state 20
 
 state 21
 
-   28 block_list: empty .
+   29 block_list: empty .
 
-    $default  reduce using rule 28 (block_list)
+    $default  reduce using rule 29 (block_list)
 
 
 state 22
 
-   26 forward_declaration: T_FORWARD T_ANIMATION . T_ID T_LPAREN animation_parameter T_RPAREN
+   27 forward_declaration: T_FORWARD T_ANIMATION . T_ID T_LPAREN animation_parameter T_RPAREN
 
     T_ID  shift, and go to state 35
 
@@ -575,7 +579,7 @@ state 24
     T_LBRACKET  shift, and go to state 36
     T_ASSIGN    shift, and go to state 37
 
-    $default  reduce using rule 123 (empty)
+    $default  reduce using rule 124 (empty)
 
     optional_initializer  go to state 38
     empty                 go to state 39
@@ -590,11 +594,14 @@ state 25
 
 state 26
 
-   14 object_declaration: object_type T_ID . T_LPAREN parameter_list_or_empty T_RPAREN
-   15                   | object_type T_ID . T_LBRACKET expression T_RBRACKET
+   15 object_declaration: object_type T_ID . @1 T_LPAREN parameter_list_or_empty T_RPAREN
+   16                   | object_type T_ID . T_LBRACKET expression T_RBRACKET
 
-    T_LPAREN    shift, and go to state 40
-    T_LBRACKET  shift, and go to state 41
+    T_LBRACKET  shift, and go to state 40
+
+    $default  reduce using rule 14 (@1)
+
+    @1  go to state 41
 
 
 state 27
@@ -606,7 +613,7 @@ state 27
 
 state 28
 
-   32 initialization_block: T_INITIALIZATION . statement_block
+   33 initialization_block: T_INITIALIZATION . statement_block
 
     T_LBRACE  shift, and go to state 42
 
@@ -615,7 +622,7 @@ state 28
 
 state 29
 
-   41 on_block: T_ON . keystroke statement_block
+   42 on_block: T_ON . keystroke statement_block
 
     T_SPACE             shift, and go to state 44
     T_LEFTARROW         shift, and go to state 45
@@ -646,42 +653,42 @@ state 29
 
 state 30
 
-   34 animation_block: T_ANIMATION . T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
+   35 animation_block: T_ANIMATION . T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
 
     T_ID  shift, and go to state 68
 
 
 state 31
 
-   27 block_list: block_list block .
+   28 block_list: block_list block .
 
-    $default  reduce using rule 27 (block_list)
+    $default  reduce using rule 28 (block_list)
 
 
 state 32
 
-   29 block: initialization_block .
-
-    $default  reduce using rule 29 (block)
-
-
-state 33
-
-   30 block: animation_block .
+   30 block: initialization_block .
 
     $default  reduce using rule 30 (block)
 
 
-state 34
+state 33
 
-   31 block: on_block .
+   31 block: animation_block .
 
     $default  reduce using rule 31 (block)
 
 
+state 34
+
+   32 block: on_block .
+
+    $default  reduce using rule 32 (block)
+
+
 state 35
 
-   26 forward_declaration: T_FORWARD T_ANIMATION T_ID . T_LPAREN animation_parameter T_RPAREN
+   27 forward_declaration: T_FORWARD T_ANIMATION T_ID . T_LPAREN animation_parameter T_RPAREN
 
     T_LPAREN  shift, and go to state 69
 
@@ -762,21 +769,7 @@ state 39
 
 state 40
 
-   14 object_declaration: object_type T_ID T_LPAREN . parameter_list_or_empty T_RPAREN
-
-    T_ID  shift, and go to state 94
-
-    $default  reduce using rule 123 (empty)
-
-    parameter_list_or_empty  go to state 95
-    parameter_list           go to state 96
-    parameter                go to state 97
-    empty                    go to state 98
-
-
-state 41
-
-   15 object_declaration: object_type T_ID T_LBRACKET . expression T_RBRACKET
+   16 object_declaration: object_type T_ID T_LBRACKET . expression T_RBRACKET
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -799,207 +792,214 @@ state 41
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 99
+    expression          go to state 94
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
+state 41
+
+   15 object_declaration: object_type T_ID @1 . T_LPAREN parameter_list_or_empty T_RPAREN
+
+    T_LPAREN  shift, and go to state 95
+
+
 state 42
 
-   67 statement_block: T_LBRACE . statement_block_creator statement_list T_RBRACE end_of_statement_block
+   68 statement_block: T_LBRACE . statement_block_creator statement_list T_RBRACE end_of_statement_block
 
-    $default  reduce using rule 68 (statement_block_creator)
+    $default  reduce using rule 69 (statement_block_creator)
 
-    statement_block_creator  go to state 100
+    statement_block_creator  go to state 96
 
 
 state 43
 
-   32 initialization_block: T_INITIALIZATION statement_block .
+   33 initialization_block: T_INITIALIZATION statement_block .
 
-    $default  reduce using rule 32 (initialization_block)
+    $default  reduce using rule 33 (initialization_block)
 
 
 state 44
 
-   42 keystroke: T_SPACE .
-
-    $default  reduce using rule 42 (keystroke)
-
-
-state 45
-
-   45 keystroke: T_LEFTARROW .
-
-    $default  reduce using rule 45 (keystroke)
-
-
-state 46
-
-   46 keystroke: T_RIGHTARROW .
-
-    $default  reduce using rule 46 (keystroke)
-
-
-state 47
-
-   43 keystroke: T_UPARROW .
+   43 keystroke: T_SPACE .
 
     $default  reduce using rule 43 (keystroke)
 
 
-state 48
+state 45
 
-   44 keystroke: T_DOWNARROW .
+   46 keystroke: T_LEFTARROW .
 
-    $default  reduce using rule 44 (keystroke)
+    $default  reduce using rule 46 (keystroke)
 
 
-state 49
+state 46
 
-   47 keystroke: T_LEFTMOUSE_DOWN .
+   47 keystroke: T_RIGHTARROW .
 
     $default  reduce using rule 47 (keystroke)
 
 
-state 50
+state 47
 
-   48 keystroke: T_MIDDLEMOUSE_DOWN .
+   44 keystroke: T_UPARROW .
+
+    $default  reduce using rule 44 (keystroke)
+
+
+state 48
+
+   45 keystroke: T_DOWNARROW .
+
+    $default  reduce using rule 45 (keystroke)
+
+
+state 49
+
+   48 keystroke: T_LEFTMOUSE_DOWN .
 
     $default  reduce using rule 48 (keystroke)
 
 
-state 51
+state 50
 
-   49 keystroke: T_RIGHTMOUSE_DOWN .
+   49 keystroke: T_MIDDLEMOUSE_DOWN .
 
     $default  reduce using rule 49 (keystroke)
 
 
-state 52
+state 51
 
-   50 keystroke: T_LEFTMOUSE_UP .
+   50 keystroke: T_RIGHTMOUSE_DOWN .
 
     $default  reduce using rule 50 (keystroke)
 
 
-state 53
+state 52
 
-   51 keystroke: T_MIDDLEMOUSE_UP .
+   51 keystroke: T_LEFTMOUSE_UP .
 
     $default  reduce using rule 51 (keystroke)
 
 
-state 54
+state 53
 
-   52 keystroke: T_RIGHTMOUSE_UP .
+   52 keystroke: T_MIDDLEMOUSE_UP .
 
     $default  reduce using rule 52 (keystroke)
 
 
-state 55
+state 54
 
-   53 keystroke: T_MOUSE_MOVE .
+   53 keystroke: T_RIGHTMOUSE_UP .
 
     $default  reduce using rule 53 (keystroke)
 
 
-state 56
+state 55
 
-   54 keystroke: T_MOUSE_DRAG .
+   54 keystroke: T_MOUSE_MOVE .
 
     $default  reduce using rule 54 (keystroke)
 
 
-state 57
+state 56
 
-   64 keystroke: T_F1 .
-
-    $default  reduce using rule 64 (keystroke)
-
-
-state 58
-
-   55 keystroke: T_AKEY .
+   55 keystroke: T_MOUSE_DRAG .
 
     $default  reduce using rule 55 (keystroke)
 
 
-state 59
+state 57
 
-   56 keystroke: T_SKEY .
+   65 keystroke: T_F1 .
+
+    $default  reduce using rule 65 (keystroke)
+
+
+state 58
+
+   56 keystroke: T_AKEY .
 
     $default  reduce using rule 56 (keystroke)
 
 
-state 60
+state 59
 
-   57 keystroke: T_DKEY .
+   57 keystroke: T_SKEY .
 
     $default  reduce using rule 57 (keystroke)
 
 
-state 61
+state 60
 
-   58 keystroke: T_FKEY .
+   58 keystroke: T_DKEY .
 
     $default  reduce using rule 58 (keystroke)
 
 
-state 62
+state 61
 
-   59 keystroke: T_HKEY .
+   59 keystroke: T_FKEY .
 
     $default  reduce using rule 59 (keystroke)
 
 
-state 63
+state 62
 
-   60 keystroke: T_JKEY .
+   60 keystroke: T_HKEY .
 
     $default  reduce using rule 60 (keystroke)
 
 
-state 64
+state 63
 
-   61 keystroke: T_KKEY .
+   61 keystroke: T_JKEY .
 
     $default  reduce using rule 61 (keystroke)
 
 
-state 65
+state 64
 
-   62 keystroke: T_LKEY .
+   62 keystroke: T_KKEY .
 
     $default  reduce using rule 62 (keystroke)
 
 
-state 66
+state 65
 
-   63 keystroke: T_WKEY .
+   63 keystroke: T_LKEY .
 
     $default  reduce using rule 63 (keystroke)
 
 
+state 66
+
+   64 keystroke: T_WKEY .
+
+    $default  reduce using rule 64 (keystroke)
+
+
 state 67
 
-   41 on_block: T_ON keystroke . statement_block
+   42 on_block: T_ON keystroke . statement_block
 
     T_LBRACE  shift, and go to state 42
 
-    statement_block  go to state 101
+    statement_block  go to state 97
 
 
 state 68
 
-   34 animation_block: T_ANIMATION T_ID . T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
+   35 animation_block: T_ANIMATION T_ID . T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
 
-    T_LPAREN  shift, and go to state 102
+    T_LPAREN  shift, and go to state 98
 
 
 state 69
 
-   26 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN . animation_parameter T_RPAREN
+   27 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN . animation_parameter T_RPAREN
 
     T_TRIANGLE   shift, and go to state 8
     T_PIXMAP     shift, and go to state 9
@@ -1007,27 +1007,27 @@ state 69
     T_RECTANGLE  shift, and go to state 11
     T_TEXTBOX    shift, and go to state 12
 
-    object_type          go to state 103
-    animation_parameter  go to state 104
+    object_type          go to state 99
+    animation_parameter  go to state 100
 
 
 state 70
 
-  109 primary_expression: T_TRUE .
-
-    $default  reduce using rule 109 (primary_expression)
-
-
-state 71
-
-  110 primary_expression: T_FALSE .
+  110 primary_expression: T_TRUE .
 
     $default  reduce using rule 110 (primary_expression)
 
 
+state 71
+
+  111 primary_expression: T_FALSE .
+
+    $default  reduce using rule 111 (primary_expression)
+
+
 state 72
 
-  106 primary_expression: T_LPAREN . expression T_RPAREN
+  107 primary_expression: T_LPAREN . expression T_RPAREN
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1050,14 +1050,14 @@ state 72
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 105
+    expression          go to state 101
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
 state 73
 
-  103 expression: T_MINUS . expression
+  104 expression: T_MINUS . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1080,84 +1080,84 @@ state 73
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 106
+    expression          go to state 102
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
 state 74
 
-  113 math_operator: T_SIN .
-
-    $default  reduce using rule 113 (math_operator)
-
-
-state 75
-
-  114 math_operator: T_COS .
+  114 math_operator: T_SIN .
 
     $default  reduce using rule 114 (math_operator)
 
 
-state 76
+state 75
 
-  115 math_operator: T_TAN .
+  115 math_operator: T_COS .
 
     $default  reduce using rule 115 (math_operator)
 
 
-state 77
+state 76
 
-  116 math_operator: T_ASIN .
+  116 math_operator: T_TAN .
 
     $default  reduce using rule 116 (math_operator)
 
 
-state 78
+state 77
 
-  117 math_operator: T_ACOS .
+  117 math_operator: T_ASIN .
 
     $default  reduce using rule 117 (math_operator)
 
 
-state 79
+state 78
 
-  118 math_operator: T_ATAN .
+  118 math_operator: T_ACOS .
 
     $default  reduce using rule 118 (math_operator)
 
 
-state 80
+state 79
 
-  119 math_operator: T_SQRT .
+  119 math_operator: T_ATAN .
 
     $default  reduce using rule 119 (math_operator)
 
 
-state 81
+state 80
 
-  121 math_operator: T_FLOOR .
-
-    $default  reduce using rule 121 (math_operator)
-
-
-state 82
-
-  120 math_operator: T_ABS .
+  120 math_operator: T_SQRT .
 
     $default  reduce using rule 120 (math_operator)
 
 
-state 83
+state 81
 
-  122 math_operator: T_RANDOM .
+  122 math_operator: T_FLOOR .
 
     $default  reduce using rule 122 (math_operator)
 
 
+state 82
+
+  121 math_operator: T_ABS .
+
+    $default  reduce using rule 121 (math_operator)
+
+
+state 83
+
+  123 math_operator: T_RANDOM .
+
+    $default  reduce using rule 123 (math_operator)
+
+
 state 84
 
-  104 expression: T_NOT . expression
+  105 expression: T_NOT . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1180,325 +1180,345 @@ state 84
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 107
+    expression          go to state 103
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
 state 85
 
-  108 primary_expression: T_INT_CONSTANT .
+  109 primary_expression: T_INT_CONSTANT .
 
-    $default  reduce using rule 108 (primary_expression)
+    $default  reduce using rule 109 (primary_expression)
 
 
 state 86
 
-   85 variable: T_ID .
-   86         | T_ID . T_LBRACKET expression T_RBRACKET
-   87         | T_ID . T_PERIOD T_ID
-   88         | T_ID . T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
+   86 variable: T_ID .
+   87         | T_ID . T_LBRACKET expression T_RBRACKET
+   88         | T_ID . T_PERIOD T_ID
+   89         | T_ID . T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
 
-    T_LBRACKET  shift, and go to state 108
-    T_PERIOD    shift, and go to state 109
+    T_LBRACKET  shift, and go to state 104
+    T_PERIOD    shift, and go to state 105
 
-    $default  reduce using rule 85 (variable)
+    $default  reduce using rule 86 (variable)
 
 
 state 87
 
-  111 primary_expression: T_DOUBLE_CONSTANT .
-
-    $default  reduce using rule 111 (primary_expression)
-
-
-state 88
-
-  112 primary_expression: T_STRING_CONSTANT .
+  112 primary_expression: T_DOUBLE_CONSTANT .
 
     $default  reduce using rule 112 (primary_expression)
 
 
+state 88
+
+  113 primary_expression: T_STRING_CONSTANT .
+
+    $default  reduce using rule 113 (primary_expression)
+
+
 state 89
 
-  107 primary_expression: variable .
+  108 primary_expression: variable .
 
-    $default  reduce using rule 107 (primary_expression)
+    $default  reduce using rule 108 (primary_expression)
 
 
 state 90
 
     8 variable_declaration: simple_type T_ID T_LBRACKET expression . T_RBRACKET
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_RBRACKET       shift, and go to state 110
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    T_RBRACKET       shift, and go to state 106
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
 
 state 91
 
-   89 expression: primary_expression .
+   90 expression: primary_expression .
 
-    $default  reduce using rule 89 (expression)
+    $default  reduce using rule 90 (expression)
 
 
 state 92
 
-  105 expression: math_operator . T_LPAREN expression T_RPAREN
+  106 expression: math_operator . T_LPAREN expression T_RPAREN
 
-    T_LPAREN  shift, and go to state 124
+    T_LPAREN  shift, and go to state 120
 
 
 state 93
 
    12 optional_initializer: T_ASSIGN expression .
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
     $default  reduce using rule 12 (optional_initializer)
 
 
 state 94
 
-   25 parameter: T_ID . T_ASSIGN expression
+   16 object_declaration: object_type T_ID T_LBRACKET expression . T_RBRACKET
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASSIGN  shift, and go to state 125
+    T_RBRACKET       shift, and go to state 121
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
 
 state 95
 
-   14 object_declaration: object_type T_ID T_LPAREN parameter_list_or_empty . T_RPAREN
+   15 object_declaration: object_type T_ID @1 T_LPAREN . parameter_list_or_empty T_RPAREN
 
-    T_RPAREN  shift, and go to state 126
+    T_ID  shift, and go to state 122
+
+    $default  reduce using rule 124 (empty)
+
+    parameter_list_or_empty  go to state 123
+    parameter_list           go to state 124
+    parameter                go to state 125
+    empty                    go to state 126
 
 
 state 96
 
-   21 parameter_list_or_empty: parameter_list .
-   23 parameter_list: parameter_list . T_COMMA parameter
+   68 statement_block: T_LBRACE statement_block_creator . statement_list T_RBRACE end_of_statement_block
 
-    T_COMMA  shift, and go to state 127
+    $default  reduce using rule 124 (empty)
 
-    $default  reduce using rule 21 (parameter_list_or_empty)
+    statement_list  go to state 127
+    empty           go to state 128
 
 
 state 97
 
-   24 parameter_list: parameter .
+   42 on_block: T_ON keystroke statement_block .
 
-    $default  reduce using rule 24 (parameter_list)
+    $default  reduce using rule 42 (on_block)
 
 
 state 98
 
-   22 parameter_list_or_empty: empty .
+   35 animation_block: T_ANIMATION T_ID T_LPAREN . check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
 
-    $default  reduce using rule 22 (parameter_list_or_empty)
+    T_TRIANGLE   shift, and go to state 129
+    T_PIXMAP     shift, and go to state 130
+    T_CIRCLE     shift, and go to state 131
+    T_RECTANGLE  shift, and go to state 132
+    T_TEXTBOX    shift, and go to state 133
+
+    check_animation_parameter  go to state 134
 
 
 state 99
 
-   15 object_declaration: object_type T_ID T_LBRACKET expression . T_RBRACKET
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   36 animation_parameter: object_type . T_ID
 
-    T_RBRACKET       shift, and go to state 128
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    T_ID  shift, and go to state 135
 
 
 state 100
 
-   67 statement_block: T_LBRACE statement_block_creator . statement_list T_RBRACE end_of_statement_block
+   27 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter . T_RPAREN
 
-    $default  reduce using rule 123 (empty)
-
-    statement_list  go to state 129
-    empty           go to state 130
+    T_RPAREN  shift, and go to state 136
 
 
 state 101
 
-   41 on_block: T_ON keystroke statement_block .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+  107 primary_expression: T_LPAREN expression . T_RPAREN
 
-    $default  reduce using rule 41 (on_block)
+    T_RPAREN         shift, and go to state 137
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
 
 state 102
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN . check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
-
-    T_TRIANGLE   shift, and go to state 131
-    T_PIXMAP     shift, and go to state 132
-    T_CIRCLE     shift, and go to state 133
-    T_RECTANGLE  shift, and go to state 134
-    T_TEXTBOX    shift, and go to state 135
-
-    check_animation_parameter  go to state 136
-
-
-state 103
-
-   35 animation_parameter: object_type . T_ID
-
-    T_ID  shift, and go to state 137
-
-
-state 104
-
-   26 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter . T_RPAREN
-
-    T_RPAREN  shift, and go to state 138
-
-
-state 105
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-  106 primary_expression: T_LPAREN expression . T_RPAREN
-
-    T_RPAREN         shift, and go to state 139
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-
-state 106
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-  103           | T_MINUS expression .
-
-    $default  reduce using rule 103 (expression)
-
-
-state 107
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-  104           | T_NOT expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+  104           | T_MINUS expression .
 
     $default  reduce using rule 104 (expression)
 
 
-state 108
+state 103
 
-   86 variable: T_ID T_LBRACKET . expression T_RBRACKET
-   88         | T_ID T_LBRACKET . expression T_RBRACKET T_PERIOD T_ID
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+  105           | T_NOT expression .
+
+    $default  reduce using rule 105 (expression)
+
+
+state 104
+
+   87 variable: T_ID T_LBRACKET . expression T_RBRACKET
+   89         | T_ID T_LBRACKET . expression T_RBRACKET T_PERIOD T_ID
+
+    T_TRUE             shift, and go to state 70
+    T_FALSE            shift, and go to state 71
+    T_LPAREN           shift, and go to state 72
+    T_MINUS            shift, and go to state 73
+    T_SIN              shift, and go to state 74
+    T_COS              shift, and go to state 75
+    T_TAN              shift, and go to state 76
+    T_ASIN             shift, and go to state 77
+    T_ACOS             shift, and go to state 78
+    T_ATAN             shift, and go to state 79
+    T_SQRT             shift, and go to state 80
+    T_FLOOR            shift, and go to state 81
+    T_ABS              shift, and go to state 82
+    T_RANDOM           shift, and go to state 83
+    T_NOT              shift, and go to state 84
+    T_INT_CONSTANT     shift, and go to state 85
+    T_ID               shift, and go to state 86
+    T_DOUBLE_CONSTANT  shift, and go to state 87
+    T_STRING_CONSTANT  shift, and go to state 88
+
+    variable            go to state 89
+    expression          go to state 138
+    primary_expression  go to state 91
+    math_operator       go to state 92
+
+
+state 105
+
+   88 variable: T_ID T_PERIOD . T_ID
+
+    T_ID  shift, and go to state 139
+
+
+state 106
+
+    8 variable_declaration: simple_type T_ID T_LBRACKET expression T_RBRACKET .
+
+    $default  reduce using rule 8 (variable_declaration)
+
+
+state 107
+
+  101 expression: expression T_ASTERISK . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1526,23 +1546,39 @@ state 108
     math_operator       go to state 92
 
 
+state 108
+
+  102 expression: expression T_DIVIDE . expression
+
+    T_TRUE             shift, and go to state 70
+    T_FALSE            shift, and go to state 71
+    T_LPAREN           shift, and go to state 72
+    T_MINUS            shift, and go to state 73
+    T_SIN              shift, and go to state 74
+    T_COS              shift, and go to state 75
+    T_TAN              shift, and go to state 76
+    T_ASIN             shift, and go to state 77
+    T_ACOS             shift, and go to state 78
+    T_ATAN             shift, and go to state 79
+    T_SQRT             shift, and go to state 80
+    T_FLOOR            shift, and go to state 81
+    T_ABS              shift, and go to state 82
+    T_RANDOM           shift, and go to state 83
+    T_NOT              shift, and go to state 84
+    T_INT_CONSTANT     shift, and go to state 85
+    T_ID               shift, and go to state 86
+    T_DOUBLE_CONSTANT  shift, and go to state 87
+    T_STRING_CONSTANT  shift, and go to state 88
+
+    variable            go to state 89
+    expression          go to state 141
+    primary_expression  go to state 91
+    math_operator       go to state 92
+
+
 state 109
 
-   87 variable: T_ID T_PERIOD . T_ID
-
-    T_ID  shift, and go to state 141
-
-
-state 110
-
-    8 variable_declaration: simple_type T_ID T_LBRACKET expression T_RBRACKET .
-
-    $default  reduce using rule 8 (variable_declaration)
-
-
-state 111
-
-  100 expression: expression T_ASTERISK . expression
+  103 expression: expression T_MOD . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1570,9 +1606,9 @@ state 111
     math_operator       go to state 92
 
 
-state 112
+state 110
 
-  101 expression: expression T_DIVIDE . expression
+   99 expression: expression T_PLUS . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1600,9 +1636,9 @@ state 112
     math_operator       go to state 92
 
 
-state 113
+state 111
 
-  102 expression: expression T_MOD . expression
+  100 expression: expression T_MINUS . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1630,9 +1666,9 @@ state 113
     math_operator       go to state 92
 
 
-state 114
+state 112
 
-   98 expression: expression T_PLUS . expression
+   95 expression: expression T_LESS . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1660,9 +1696,9 @@ state 114
     math_operator       go to state 92
 
 
-state 115
+state 113
 
-   99 expression: expression T_MINUS . expression
+   96 expression: expression T_GREATER . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1690,9 +1726,9 @@ state 115
     math_operator       go to state 92
 
 
-state 116
+state 114
 
-   94 expression: expression T_LESS . expression
+   93 expression: expression T_LESS_EQUAL . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1720,9 +1756,9 @@ state 116
     math_operator       go to state 92
 
 
-state 117
+state 115
 
-   95 expression: expression T_GREATER . expression
+   94 expression: expression T_GREATER_EQUAL . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1750,9 +1786,9 @@ state 117
     math_operator       go to state 92
 
 
-state 118
+state 116
 
-   92 expression: expression T_LESS_EQUAL . expression
+   97 expression: expression T_EQUAL . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1780,9 +1816,9 @@ state 118
     math_operator       go to state 92
 
 
-state 119
+state 117
 
-   93 expression: expression T_GREATER_EQUAL . expression
+   98 expression: expression T_NOT_EQUAL . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1810,9 +1846,9 @@ state 119
     math_operator       go to state 92
 
 
-state 120
+state 118
 
-   96 expression: expression T_EQUAL . expression
+   92 expression: expression T_AND . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1840,9 +1876,9 @@ state 120
     math_operator       go to state 92
 
 
-state 121
+state 119
 
-   97 expression: expression T_NOT_EQUAL . expression
+   91 expression: expression T_OR . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1870,9 +1906,9 @@ state 121
     math_operator       go to state 92
 
 
-state 122
+state 120
 
-   91 expression: expression T_AND . expression
+  106 expression: math_operator T_LPAREN . expression T_RPAREN
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -1900,855 +1936,794 @@ state 122
     math_operator       go to state 92
 
 
+state 121
+
+   16 object_declaration: object_type T_ID T_LBRACKET expression T_RBRACKET .
+
+    $default  reduce using rule 16 (object_declaration)
+
+
+state 122
+
+   26 parameter: T_ID . T_ASSIGN expression
+
+    T_ASSIGN  shift, and go to state 154
+
+
 state 123
 
-   90 expression: expression T_OR . expression
+   15 object_declaration: object_type T_ID @1 T_LPAREN parameter_list_or_empty . T_RPAREN
 
-    T_TRUE             shift, and go to state 70
-    T_FALSE            shift, and go to state 71
-    T_LPAREN           shift, and go to state 72
-    T_MINUS            shift, and go to state 73
-    T_SIN              shift, and go to state 74
-    T_COS              shift, and go to state 75
-    T_TAN              shift, and go to state 76
-    T_ASIN             shift, and go to state 77
-    T_ACOS             shift, and go to state 78
-    T_ATAN             shift, and go to state 79
-    T_SQRT             shift, and go to state 80
-    T_FLOOR            shift, and go to state 81
-    T_ABS              shift, and go to state 82
-    T_RANDOM           shift, and go to state 83
-    T_NOT              shift, and go to state 84
-    T_INT_CONSTANT     shift, and go to state 85
-    T_ID               shift, and go to state 86
-    T_DOUBLE_CONSTANT  shift, and go to state 87
-    T_STRING_CONSTANT  shift, and go to state 88
-
-    variable            go to state 89
-    expression          go to state 154
-    primary_expression  go to state 91
-    math_operator       go to state 92
+    T_RPAREN  shift, and go to state 155
 
 
 state 124
 
-  105 expression: math_operator T_LPAREN . expression T_RPAREN
+   22 parameter_list_or_empty: parameter_list .
+   24 parameter_list: parameter_list . T_COMMA parameter
 
-    T_TRUE             shift, and go to state 70
-    T_FALSE            shift, and go to state 71
-    T_LPAREN           shift, and go to state 72
-    T_MINUS            shift, and go to state 73
-    T_SIN              shift, and go to state 74
-    T_COS              shift, and go to state 75
-    T_TAN              shift, and go to state 76
-    T_ASIN             shift, and go to state 77
-    T_ACOS             shift, and go to state 78
-    T_ATAN             shift, and go to state 79
-    T_SQRT             shift, and go to state 80
-    T_FLOOR            shift, and go to state 81
-    T_ABS              shift, and go to state 82
-    T_RANDOM           shift, and go to state 83
-    T_NOT              shift, and go to state 84
-    T_INT_CONSTANT     shift, and go to state 85
-    T_ID               shift, and go to state 86
-    T_DOUBLE_CONSTANT  shift, and go to state 87
-    T_STRING_CONSTANT  shift, and go to state 88
+    T_COMMA  shift, and go to state 156
 
-    variable            go to state 89
-    expression          go to state 155
-    primary_expression  go to state 91
-    math_operator       go to state 92
+    $default  reduce using rule 22 (parameter_list_or_empty)
 
 
 state 125
 
-   25 parameter: T_ID T_ASSIGN . expression
+   25 parameter_list: parameter .
 
-    T_TRUE             shift, and go to state 70
-    T_FALSE            shift, and go to state 71
-    T_LPAREN           shift, and go to state 72
-    T_MINUS            shift, and go to state 73
-    T_SIN              shift, and go to state 74
-    T_COS              shift, and go to state 75
-    T_TAN              shift, and go to state 76
-    T_ASIN             shift, and go to state 77
-    T_ACOS             shift, and go to state 78
-    T_ATAN             shift, and go to state 79
-    T_SQRT             shift, and go to state 80
-    T_FLOOR            shift, and go to state 81
-    T_ABS              shift, and go to state 82
-    T_RANDOM           shift, and go to state 83
-    T_NOT              shift, and go to state 84
-    T_INT_CONSTANT     shift, and go to state 85
-    T_ID               shift, and go to state 86
-    T_DOUBLE_CONSTANT  shift, and go to state 87
-    T_STRING_CONSTANT  shift, and go to state 88
-
-    variable            go to state 89
-    expression          go to state 156
-    primary_expression  go to state 91
-    math_operator       go to state 92
+    $default  reduce using rule 25 (parameter_list)
 
 
 state 126
 
-   14 object_declaration: object_type T_ID T_LPAREN parameter_list_or_empty T_RPAREN .
+   23 parameter_list_or_empty: empty .
 
-    $default  reduce using rule 14 (object_declaration)
+    $default  reduce using rule 23 (parameter_list_or_empty)
 
 
 state 127
 
-   23 parameter_list: parameter_list T_COMMA . parameter
+   68 statement_block: T_LBRACE statement_block_creator statement_list . T_RBRACE end_of_statement_block
+   71 statement_list: statement_list . statement
 
-    T_ID  shift, and go to state 94
+    T_IF      shift, and go to state 157
+    T_FOR     shift, and go to state 158
+    T_EXIT    shift, and go to state 159
+    T_PRINT   shift, and go to state 160
+    T_RBRACE  shift, and go to state 161
+    T_ID      shift, and go to state 86
 
-    parameter  go to state 157
+    statement         go to state 162
+    if_statement      go to state 163
+    for_statement     go to state 164
+    print_statement   go to state 165
+    exit_statement    go to state 166
+    assign_statement  go to state 167
+    variable          go to state 168
 
 
 state 128
 
-   15 object_declaration: object_type T_ID T_LBRACKET expression T_RBRACKET .
+   72 statement_list: empty .
 
-    $default  reduce using rule 15 (object_declaration)
+    $default  reduce using rule 72 (statement_list)
 
 
 state 129
 
-   67 statement_block: T_LBRACE statement_block_creator statement_list . T_RBRACE end_of_statement_block
-   70 statement_list: statement_list . statement
+   37 check_animation_parameter: T_TRIANGLE . T_ID
 
-    T_IF      shift, and go to state 158
-    T_FOR     shift, and go to state 159
-    T_EXIT    shift, and go to state 160
-    T_PRINT   shift, and go to state 161
-    T_RBRACE  shift, and go to state 162
-    T_ID      shift, and go to state 86
-
-    statement         go to state 163
-    if_statement      go to state 164
-    for_statement     go to state 165
-    print_statement   go to state 166
-    exit_statement    go to state 167
-    assign_statement  go to state 168
-    variable          go to state 169
+    T_ID  shift, and go to state 169
 
 
 state 130
 
-   71 statement_list: empty .
-
-    $default  reduce using rule 71 (statement_list)
-
-
-state 131
-
-   36 check_animation_parameter: T_TRIANGLE . T_ID
+   38 check_animation_parameter: T_PIXMAP . T_ID
 
     T_ID  shift, and go to state 170
 
 
-state 132
+state 131
 
-   37 check_animation_parameter: T_PIXMAP . T_ID
+   39 check_animation_parameter: T_CIRCLE . T_ID
 
     T_ID  shift, and go to state 171
 
 
-state 133
+state 132
 
-   38 check_animation_parameter: T_CIRCLE . T_ID
+   40 check_animation_parameter: T_RECTANGLE . T_ID
 
     T_ID  shift, and go to state 172
 
 
-state 134
+state 133
 
-   39 check_animation_parameter: T_RECTANGLE . T_ID
+   41 check_animation_parameter: T_TEXTBOX . T_ID
 
     T_ID  shift, and go to state 173
 
 
+state 134
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter . T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
+
+    T_RPAREN  shift, and go to state 174
+
+
 state 135
 
-   40 check_animation_parameter: T_TEXTBOX . T_ID
+   36 animation_parameter: object_type T_ID .
 
-    T_ID  shift, and go to state 174
+    $default  reduce using rule 36 (animation_parameter)
 
 
 state 136
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter . T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
+   27 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN .
 
-    T_RPAREN  shift, and go to state 175
+    $default  reduce using rule 27 (forward_declaration)
 
 
 state 137
 
-   35 animation_parameter: object_type T_ID .
+  107 primary_expression: T_LPAREN expression T_RPAREN .
 
-    $default  reduce using rule 35 (animation_parameter)
+    $default  reduce using rule 107 (primary_expression)
 
 
 state 138
 
-   26 forward_declaration: T_FORWARD T_ANIMATION T_ID T_LPAREN animation_parameter T_RPAREN .
+   87 variable: T_ID T_LBRACKET expression . T_RBRACKET
+   89         | T_ID T_LBRACKET expression . T_RBRACKET T_PERIOD T_ID
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    $default  reduce using rule 26 (forward_declaration)
+    T_RBRACKET       shift, and go to state 175
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
 
 state 139
 
-  106 primary_expression: T_LPAREN expression T_RPAREN .
+   88 variable: T_ID T_PERIOD T_ID .
 
-    $default  reduce using rule 106 (primary_expression)
+    $default  reduce using rule 88 (variable)
 
 
 state 140
 
-   86 variable: T_ID T_LBRACKET expression . T_RBRACKET
-   88         | T_ID T_LBRACKET expression . T_RBRACKET T_PERIOD T_ID
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_RBRACKET       shift, and go to state 176
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-
-state 141
-
-   87 variable: T_ID T_PERIOD T_ID .
-
-    $default  reduce using rule 87 (variable)
-
-
-state 142
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  100           | expression T_ASTERISK expression .
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    $default  reduce using rule 100 (expression)
-
-
-state 143
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  101           | expression T_DIVIDE expression .
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  101           | expression T_ASTERISK expression .
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
     $default  reduce using rule 101 (expression)
 
 
-state 144
+state 141
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-  102           | expression T_MOD expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  102           | expression T_DIVIDE expression .
+  103           | expression . T_MOD expression
 
     $default  reduce using rule 102 (expression)
 
 
-state 145
+state 142
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   98           | expression T_PLUS expression .
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+  103           | expression T_MOD expression .
 
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
-
-    $default  reduce using rule 98 (expression)
+    $default  reduce using rule 103 (expression)
 
 
-state 146
+state 143
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-   99           | expression T_MINUS expression .
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+   99           | expression T_PLUS expression .
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
 
     $default  reduce using rule 99 (expression)
 
 
-state 147
+state 144
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   94           | expression T_LESS expression .
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  100           | expression T_MINUS expression .
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
-    T_PLUS      shift, and go to state 114
-    T_MINUS     shift, and go to state 115
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
 
-    $default  reduce using rule 94 (expression)
+    $default  reduce using rule 100 (expression)
 
 
-state 148
+state 145
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   95           | expression T_GREATER expression .
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   95           | expression T_LESS expression .
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
-    T_PLUS      shift, and go to state 114
-    T_MINUS     shift, and go to state 115
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
+    T_PLUS      shift, and go to state 110
+    T_MINUS     shift, and go to state 111
 
     $default  reduce using rule 95 (expression)
 
 
-state 149
+state 146
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   92           | expression T_LESS_EQUAL expression .
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   96           | expression T_GREATER expression .
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
-    T_PLUS      shift, and go to state 114
-    T_MINUS     shift, and go to state 115
-
-    $default  reduce using rule 92 (expression)
-
-
-state 150
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   93           | expression T_GREATER_EQUAL expression .
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_ASTERISK  shift, and go to state 111
-    T_DIVIDE    shift, and go to state 112
-    T_MOD       shift, and go to state 113
-    T_PLUS      shift, and go to state 114
-    T_MINUS     shift, and go to state 115
-
-    $default  reduce using rule 93 (expression)
-
-
-state 151
-
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   96           | expression T_EQUAL expression .
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
+    T_PLUS      shift, and go to state 110
+    T_MINUS     shift, and go to state 111
 
     $default  reduce using rule 96 (expression)
 
 
-state 152
+state 147
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   97           | expression T_NOT_EQUAL expression .
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   93           | expression T_LESS_EQUAL expression .
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
+    T_PLUS      shift, and go to state 110
+    T_MINUS     shift, and go to state 111
+
+    $default  reduce using rule 93 (expression)
+
+
+state 148
+
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   94           | expression T_GREATER_EQUAL expression .
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK  shift, and go to state 107
+    T_DIVIDE    shift, and go to state 108
+    T_MOD       shift, and go to state 109
+    T_PLUS      shift, and go to state 110
+    T_MINUS     shift, and go to state 111
+
+    $default  reduce using rule 94 (expression)
+
+
+state 149
+
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   97           | expression T_EQUAL expression .
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
 
     $default  reduce using rule 97 (expression)
 
 
-state 153
+state 150
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   91           | expression T_AND expression .
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   98           | expression T_NOT_EQUAL expression .
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+
+    $default  reduce using rule 98 (expression)
+
+
+state 151
+
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   92           | expression T_AND expression .
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+
+    $default  reduce using rule 92 (expression)
+
+
+state 152
+
+   91 expression: expression . T_OR expression
+   91           | expression T_OR expression .
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
 
     $default  reduce using rule 91 (expression)
 
 
+state 153
+
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+  106           | math_operator T_LPAREN expression . T_RPAREN
+
+    T_RPAREN         shift, and go to state 176
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+
 state 154
 
-   90 expression: expression . T_OR expression
-   90           | expression T_OR expression .
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   26 parameter: T_ID T_ASSIGN . expression
 
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
+    T_TRUE             shift, and go to state 70
+    T_FALSE            shift, and go to state 71
+    T_LPAREN           shift, and go to state 72
+    T_MINUS            shift, and go to state 73
+    T_SIN              shift, and go to state 74
+    T_COS              shift, and go to state 75
+    T_TAN              shift, and go to state 76
+    T_ASIN             shift, and go to state 77
+    T_ACOS             shift, and go to state 78
+    T_ATAN             shift, and go to state 79
+    T_SQRT             shift, and go to state 80
+    T_FLOOR            shift, and go to state 81
+    T_ABS              shift, and go to state 82
+    T_RANDOM           shift, and go to state 83
+    T_NOT              shift, and go to state 84
+    T_INT_CONSTANT     shift, and go to state 85
+    T_ID               shift, and go to state 86
+    T_DOUBLE_CONSTANT  shift, and go to state 87
+    T_STRING_CONSTANT  shift, and go to state 88
 
-    $default  reduce using rule 90 (expression)
+    variable            go to state 89
+    expression          go to state 177
+    primary_expression  go to state 91
+    math_operator       go to state 92
 
 
 state 155
 
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-  105           | math_operator T_LPAREN expression . T_RPAREN
+   15 object_declaration: object_type T_ID @1 T_LPAREN parameter_list_or_empty T_RPAREN .
 
-    T_RPAREN         shift, and go to state 177
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    $default  reduce using rule 15 (object_declaration)
 
 
 state 156
 
-   25 parameter: T_ID T_ASSIGN expression .
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   24 parameter_list: parameter_list T_COMMA . parameter
 
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    T_ID  shift, and go to state 122
 
-    $default  reduce using rule 25 (parameter)
+    parameter  go to state 178
 
 
 state 157
 
-   23 parameter_list: parameter_list T_COMMA parameter .
-
-    $default  reduce using rule 23 (parameter_list)
-
-
-state 158
-
-   77 if_statement: T_IF . T_LPAREN expression T_RPAREN if_block
-   78             | T_IF . T_LPAREN expression T_RPAREN if_block T_ELSE if_block
-
-    T_LPAREN  shift, and go to state 178
-
-
-state 159
-
-   79 for_statement: T_FOR . T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+   78 if_statement: T_IF . T_LPAREN expression T_RPAREN if_block
+   79             | T_IF . T_LPAREN expression T_RPAREN if_block T_ELSE if_block
 
     T_LPAREN  shift, and go to state 179
 
 
-state 160
+state 158
 
-   81 exit_statement: T_EXIT . T_LPAREN expression T_RPAREN
+   80 for_statement: T_FOR . T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
 
     T_LPAREN  shift, and go to state 180
 
 
-state 161
+state 159
 
-   80 print_statement: T_PRINT . T_LPAREN expression T_RPAREN
+   82 exit_statement: T_EXIT . T_LPAREN expression T_RPAREN
 
     T_LPAREN  shift, and go to state 181
 
 
+state 160
+
+   81 print_statement: T_PRINT . T_LPAREN expression T_RPAREN
+
+    T_LPAREN  shift, and go to state 182
+
+
+state 161
+
+   68 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE . end_of_statement_block
+
+    $default  reduce using rule 70 (end_of_statement_block)
+
+    end_of_statement_block  go to state 183
+
+
 state 162
 
-   67 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE . end_of_statement_block
+   71 statement_list: statement_list statement .
 
-    $default  reduce using rule 69 (end_of_statement_block)
-
-    end_of_statement_block  go to state 182
+    $default  reduce using rule 71 (statement_list)
 
 
 state 163
 
-   70 statement_list: statement_list statement .
-
-    $default  reduce using rule 70 (statement_list)
-
-
-state 164
-
-   72 statement: if_statement .
-
-    $default  reduce using rule 72 (statement)
-
-
-state 165
-
-   73 statement: for_statement .
+   73 statement: if_statement .
 
     $default  reduce using rule 73 (statement)
 
 
-state 166
+state 164
 
-   75 statement: print_statement . T_SEMIC
+   74 statement: for_statement .
 
-    T_SEMIC  shift, and go to state 183
+    $default  reduce using rule 74 (statement)
 
 
-state 167
+state 165
 
-   76 statement: exit_statement . T_SEMIC
+   76 statement: print_statement . T_SEMIC
 
     T_SEMIC  shift, and go to state 184
 
 
-state 168
+state 166
 
-   74 statement: assign_statement . T_SEMIC
+   77 statement: exit_statement . T_SEMIC
 
     T_SEMIC  shift, and go to state 185
 
 
+state 167
+
+   75 statement: assign_statement . T_SEMIC
+
+    T_SEMIC  shift, and go to state 186
+
+
+state 168
+
+   83 assign_statement: variable . T_ASSIGN expression
+   84                 | variable . T_PLUS_ASSIGN expression
+   85                 | variable . T_MINUS_ASSIGN expression
+
+    T_ASSIGN        shift, and go to state 187
+    T_PLUS_ASSIGN   shift, and go to state 188
+    T_MINUS_ASSIGN  shift, and go to state 189
+
+
 state 169
 
-   82 assign_statement: variable . T_ASSIGN expression
-   83                 | variable . T_PLUS_ASSIGN expression
-   84                 | variable . T_MINUS_ASSIGN expression
-
-    T_ASSIGN        shift, and go to state 186
-    T_PLUS_ASSIGN   shift, and go to state 187
-    T_MINUS_ASSIGN  shift, and go to state 188
-
-
-state 170
-
-   36 check_animation_parameter: T_TRIANGLE T_ID .
-
-    $default  reduce using rule 36 (check_animation_parameter)
-
-
-state 171
-
-   37 check_animation_parameter: T_PIXMAP T_ID .
+   37 check_animation_parameter: T_TRIANGLE T_ID .
 
     $default  reduce using rule 37 (check_animation_parameter)
 
 
-state 172
+state 170
 
-   38 check_animation_parameter: T_CIRCLE T_ID .
+   38 check_animation_parameter: T_PIXMAP T_ID .
 
     $default  reduce using rule 38 (check_animation_parameter)
 
 
-state 173
+state 171
 
-   39 check_animation_parameter: T_RECTANGLE T_ID .
+   39 check_animation_parameter: T_CIRCLE T_ID .
 
     $default  reduce using rule 39 (check_animation_parameter)
 
 
-state 174
+state 172
 
-   40 check_animation_parameter: T_TEXTBOX T_ID .
+   40 check_animation_parameter: T_RECTANGLE T_ID .
 
     $default  reduce using rule 40 (check_animation_parameter)
 
 
+state 173
+
+   41 check_animation_parameter: T_TEXTBOX T_ID .
+
+    $default  reduce using rule 41 (check_animation_parameter)
+
+
+state 174
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN . T_LBRACE @2 statement_list T_RBRACE end_of_statement_block
+
+    T_LBRACE  shift, and go to state 190
+
+
 state 175
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN . T_LBRACE @1 statement_list T_RBRACE end_of_statement_block
+   87 variable: T_ID T_LBRACKET expression T_RBRACKET .
+   89         | T_ID T_LBRACKET expression T_RBRACKET . T_PERIOD T_ID
 
-    T_LBRACE  shift, and go to state 189
+    T_PERIOD  shift, and go to state 191
+
+    $default  reduce using rule 87 (variable)
 
 
 state 176
 
-   86 variable: T_ID T_LBRACKET expression T_RBRACKET .
-   88         | T_ID T_LBRACKET expression T_RBRACKET . T_PERIOD T_ID
+  106 expression: math_operator T_LPAREN expression T_RPAREN .
 
-    T_PERIOD  shift, and go to state 190
-
-    $default  reduce using rule 86 (variable)
+    $default  reduce using rule 106 (expression)
 
 
 state 177
 
-  105 expression: math_operator T_LPAREN expression T_RPAREN .
+   26 parameter: T_ID T_ASSIGN expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    $default  reduce using rule 105 (expression)
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+    $default  reduce using rule 26 (parameter)
 
 
 state 178
 
-   77 if_statement: T_IF T_LPAREN . expression T_RPAREN if_block
-   78             | T_IF T_LPAREN . expression T_RPAREN if_block T_ELSE if_block
+   24 parameter_list: parameter_list T_COMMA parameter .
 
-    T_TRUE             shift, and go to state 70
-    T_FALSE            shift, and go to state 71
-    T_LPAREN           shift, and go to state 72
-    T_MINUS            shift, and go to state 73
-    T_SIN              shift, and go to state 74
-    T_COS              shift, and go to state 75
-    T_TAN              shift, and go to state 76
-    T_ASIN             shift, and go to state 77
-    T_ACOS             shift, and go to state 78
-    T_ATAN             shift, and go to state 79
-    T_SQRT             shift, and go to state 80
-    T_FLOOR            shift, and go to state 81
-    T_ABS              shift, and go to state 82
-    T_RANDOM           shift, and go to state 83
-    T_NOT              shift, and go to state 84
-    T_INT_CONSTANT     shift, and go to state 85
-    T_ID               shift, and go to state 86
-    T_DOUBLE_CONSTANT  shift, and go to state 87
-    T_STRING_CONSTANT  shift, and go to state 88
-
-    variable            go to state 89
-    expression          go to state 191
-    primary_expression  go to state 91
-    math_operator       go to state 92
+    $default  reduce using rule 24 (parameter_list)
 
 
 state 179
 
-   79 for_statement: T_FOR T_LPAREN . statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
-
-    $default  reduce using rule 68 (statement_block_creator)
-
-    statement_block_creator  go to state 192
-
-
-state 180
-
-   81 exit_statement: T_EXIT T_LPAREN . expression T_RPAREN
+   78 if_statement: T_IF T_LPAREN . expression T_RPAREN if_block
+   79             | T_IF T_LPAREN . expression T_RPAREN if_block T_ELSE if_block
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -2771,14 +2746,23 @@ state 180
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 193
+    expression          go to state 192
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
+state 180
+
+   80 for_statement: T_FOR T_LPAREN . statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+
+    $default  reduce using rule 69 (statement_block_creator)
+
+    statement_block_creator  go to state 193
+
+
 state 181
 
-   80 print_statement: T_PRINT T_LPAREN . expression T_RPAREN
+   82 exit_statement: T_EXIT T_LPAREN . expression T_RPAREN
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -2808,35 +2792,7 @@ state 181
 
 state 182
 
-   67 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block .
-
-    $default  reduce using rule 67 (statement_block)
-
-
-state 183
-
-   75 statement: print_statement T_SEMIC .
-
-    $default  reduce using rule 75 (statement)
-
-
-state 184
-
-   76 statement: exit_statement T_SEMIC .
-
-    $default  reduce using rule 76 (statement)
-
-
-state 185
-
-   74 statement: assign_statement T_SEMIC .
-
-    $default  reduce using rule 74 (statement)
-
-
-state 186
-
-   82 assign_statement: variable T_ASSIGN . expression
+   81 print_statement: T_PRINT T_LPAREN . expression T_RPAREN
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -2864,9 +2820,37 @@ state 186
     math_operator       go to state 92
 
 
+state 183
+
+   68 statement_block: T_LBRACE statement_block_creator statement_list T_RBRACE end_of_statement_block .
+
+    $default  reduce using rule 68 (statement_block)
+
+
+state 184
+
+   76 statement: print_statement T_SEMIC .
+
+    $default  reduce using rule 76 (statement)
+
+
+state 185
+
+   77 statement: exit_statement T_SEMIC .
+
+    $default  reduce using rule 77 (statement)
+
+
+state 186
+
+   75 statement: assign_statement T_SEMIC .
+
+    $default  reduce using rule 75 (statement)
+
+
 state 187
 
-   83 assign_statement: variable T_PLUS_ASSIGN . expression
+   83 assign_statement: variable T_ASSIGN . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -2896,7 +2880,7 @@ state 187
 
 state 188
 
-   84 assign_statement: variable T_MINUS_ASSIGN . expression
+   84 assign_statement: variable T_PLUS_ASSIGN . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -2926,384 +2910,7 @@ state 188
 
 state 189
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE . @1 statement_list T_RBRACE end_of_statement_block
-
-    $default  reduce using rule 33 (@1)
-
-    @1  go to state 198
-
-
-state 190
-
-   88 variable: T_ID T_LBRACKET expression T_RBRACKET T_PERIOD . T_ID
-
-    T_ID  shift, and go to state 199
-
-
-state 191
-
-   77 if_statement: T_IF T_LPAREN expression . T_RPAREN if_block
-   78             | T_IF T_LPAREN expression . T_RPAREN if_block T_ELSE if_block
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_RPAREN         shift, and go to state 200
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-
-state 192
-
-   79 for_statement: T_FOR T_LPAREN statement_block_creator . assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
-
-    T_ID  shift, and go to state 86
-
-    assign_statement  go to state 201
-    variable          go to state 169
-
-
-state 193
-
-   81 exit_statement: T_EXIT T_LPAREN expression . T_RPAREN
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_RPAREN         shift, and go to state 202
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-
-state 194
-
-   80 print_statement: T_PRINT T_LPAREN expression . T_RPAREN
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_RPAREN         shift, and go to state 203
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-
-state 195
-
-   82 assign_statement: variable T_ASSIGN expression .
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-    $default  reduce using rule 82 (assign_statement)
-
-
-state 196
-
-   83 assign_statement: variable T_PLUS_ASSIGN expression .
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-    $default  reduce using rule 83 (assign_statement)
-
-
-state 197
-
-   84 assign_statement: variable T_MINUS_ASSIGN expression .
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
-
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
-
-    $default  reduce using rule 84 (assign_statement)
-
-
-state 198
-
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 . statement_list T_RBRACE end_of_statement_block
-
-    $default  reduce using rule 123 (empty)
-
-    statement_list  go to state 204
-    empty           go to state 130
-
-
-state 199
-
-   88 variable: T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID .
-
-    $default  reduce using rule 88 (variable)
-
-
-state 200
-
-   77 if_statement: T_IF T_LPAREN expression T_RPAREN . if_block
-   78             | T_IF T_LPAREN expression T_RPAREN . if_block T_ELSE if_block
-
-    T_LBRACE  shift, and go to state 42
-
-    $default  reduce using rule 68 (statement_block_creator)
-
-    if_block                 go to state 205
-    statement_block          go to state 206
-    statement_block_creator  go to state 207
-
-
-state 201
-
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement . end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
-
-    $default  reduce using rule 69 (end_of_statement_block)
-
-    end_of_statement_block  go to state 208
-
-
-state 202
-
-   81 exit_statement: T_EXIT T_LPAREN expression T_RPAREN .
-
-    $default  reduce using rule 81 (exit_statement)
-
-
-state 203
-
-   80 print_statement: T_PRINT T_LPAREN expression T_RPAREN .
-
-    $default  reduce using rule 80 (print_statement)
-
-
-state 204
-
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list . T_RBRACE end_of_statement_block
-   70 statement_list: statement_list . statement
-
-    T_IF      shift, and go to state 158
-    T_FOR     shift, and go to state 159
-    T_EXIT    shift, and go to state 160
-    T_PRINT   shift, and go to state 161
-    T_RBRACE  shift, and go to state 209
-    T_ID      shift, and go to state 86
-
-    statement         go to state 163
-    if_statement      go to state 164
-    for_statement     go to state 165
-    print_statement   go to state 166
-    exit_statement    go to state 167
-    assign_statement  go to state 168
-    variable          go to state 169
-
-
-state 205
-
-   77 if_statement: T_IF T_LPAREN expression T_RPAREN if_block .
-   78             | T_IF T_LPAREN expression T_RPAREN if_block . T_ELSE if_block
-
-    T_ELSE  shift, and go to state 210
-
-    $default  reduce using rule 77 (if_statement)
-
-
-state 206
-
-   66 if_block: statement_block .
-
-    $default  reduce using rule 66 (if_block)
-
-
-state 207
-
-   65 if_block: statement_block_creator . statement end_of_statement_block
-
-    T_IF     shift, and go to state 158
-    T_FOR    shift, and go to state 159
-    T_EXIT   shift, and go to state 160
-    T_PRINT  shift, and go to state 161
-    T_ID     shift, and go to state 86
-
-    statement         go to state 211
-    if_statement      go to state 164
-    for_statement     go to state 165
-    print_statement   go to state 166
-    exit_statement    go to state 167
-    assign_statement  go to state 168
-    variable          go to state 169
-
-
-state 208
-
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block . T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
-
-    T_SEMIC  shift, and go to state 212
-
-
-state 209
-
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE . end_of_statement_block
-
-    $default  reduce using rule 69 (end_of_statement_block)
-
-    end_of_statement_block  go to state 213
-
-
-state 210
-
-   78 if_statement: T_IF T_LPAREN expression T_RPAREN if_block T_ELSE . if_block
-
-    T_LBRACE  shift, and go to state 42
-
-    $default  reduce using rule 68 (statement_block_creator)
-
-    if_block                 go to state 214
-    statement_block          go to state 206
-    statement_block_creator  go to state 207
-
-
-state 211
-
-   65 if_block: statement_block_creator statement . end_of_statement_block
-
-    $default  reduce using rule 69 (end_of_statement_block)
-
-    end_of_statement_block  go to state 215
-
-
-state 212
-
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC . expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+   85 assign_statement: variable T_MINUS_ASSIGN . expression
 
     T_TRUE             shift, and go to state 70
     T_FALSE            shift, and go to state 71
@@ -3326,111 +2933,518 @@ state 212
     T_STRING_CONSTANT  shift, and go to state 88
 
     variable            go to state 89
-    expression          go to state 216
+    expression          go to state 198
     primary_expression  go to state 91
     math_operator       go to state 92
 
 
-state 213
+state 190
 
-   34 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @1 statement_list T_RBRACE end_of_statement_block .
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE . @2 statement_list T_RBRACE end_of_statement_block
 
-    $default  reduce using rule 34 (animation_block)
+    $default  reduce using rule 34 (@2)
+
+    @2  go to state 199
 
 
-state 214
+state 191
 
-   78 if_statement: T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block .
+   89 variable: T_ID T_LBRACKET expression T_RBRACKET T_PERIOD . T_ID
+
+    T_ID  shift, and go to state 200
+
+
+state 192
+
+   78 if_statement: T_IF T_LPAREN expression . T_RPAREN if_block
+   79             | T_IF T_LPAREN expression . T_RPAREN if_block T_ELSE if_block
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_RPAREN         shift, and go to state 201
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+
+state 193
+
+   80 for_statement: T_FOR T_LPAREN statement_block_creator . assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+
+    T_ID  shift, and go to state 86
+
+    assign_statement  go to state 202
+    variable          go to state 168
+
+
+state 194
+
+   82 exit_statement: T_EXIT T_LPAREN expression . T_RPAREN
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_RPAREN         shift, and go to state 203
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+
+state 195
+
+   81 print_statement: T_PRINT T_LPAREN expression . T_RPAREN
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_RPAREN         shift, and go to state 204
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+
+state 196
+
+   83 assign_statement: variable T_ASSIGN expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+    $default  reduce using rule 83 (assign_statement)
+
+
+state 197
+
+   84 assign_statement: variable T_PLUS_ASSIGN expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+    $default  reduce using rule 84 (assign_statement)
+
+
+state 198
+
+   85 assign_statement: variable T_MINUS_ASSIGN expression .
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
+
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
+
+    $default  reduce using rule 85 (assign_statement)
+
+
+state 199
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 . statement_list T_RBRACE end_of_statement_block
+
+    $default  reduce using rule 124 (empty)
+
+    statement_list  go to state 205
+    empty           go to state 128
+
+
+state 200
+
+   89 variable: T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID .
+
+    $default  reduce using rule 89 (variable)
+
+
+state 201
+
+   78 if_statement: T_IF T_LPAREN expression T_RPAREN . if_block
+   79             | T_IF T_LPAREN expression T_RPAREN . if_block T_ELSE if_block
+
+    T_LBRACE  shift, and go to state 42
+
+    $default  reduce using rule 69 (statement_block_creator)
+
+    if_block                 go to state 206
+    statement_block          go to state 207
+    statement_block_creator  go to state 208
+
+
+state 202
+
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement . end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+
+    $default  reduce using rule 70 (end_of_statement_block)
+
+    end_of_statement_block  go to state 209
+
+
+state 203
+
+   82 exit_statement: T_EXIT T_LPAREN expression T_RPAREN .
+
+    $default  reduce using rule 82 (exit_statement)
+
+
+state 204
+
+   81 print_statement: T_PRINT T_LPAREN expression T_RPAREN .
+
+    $default  reduce using rule 81 (print_statement)
+
+
+state 205
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list . T_RBRACE end_of_statement_block
+   71 statement_list: statement_list . statement
+
+    T_IF      shift, and go to state 157
+    T_FOR     shift, and go to state 158
+    T_EXIT    shift, and go to state 159
+    T_PRINT   shift, and go to state 160
+    T_RBRACE  shift, and go to state 210
+    T_ID      shift, and go to state 86
+
+    statement         go to state 162
+    if_statement      go to state 163
+    for_statement     go to state 164
+    print_statement   go to state 165
+    exit_statement    go to state 166
+    assign_statement  go to state 167
+    variable          go to state 168
+
+
+state 206
+
+   78 if_statement: T_IF T_LPAREN expression T_RPAREN if_block .
+   79             | T_IF T_LPAREN expression T_RPAREN if_block . T_ELSE if_block
+
+    T_ELSE  shift, and go to state 211
 
     $default  reduce using rule 78 (if_statement)
 
 
+state 207
+
+   67 if_block: statement_block .
+
+    $default  reduce using rule 67 (if_block)
+
+
+state 208
+
+   66 if_block: statement_block_creator . statement end_of_statement_block
+
+    T_IF     shift, and go to state 157
+    T_FOR    shift, and go to state 158
+    T_EXIT   shift, and go to state 159
+    T_PRINT  shift, and go to state 160
+    T_ID     shift, and go to state 86
+
+    statement         go to state 212
+    if_statement      go to state 163
+    for_statement     go to state 164
+    print_statement   go to state 165
+    exit_statement    go to state 166
+    assign_statement  go to state 167
+    variable          go to state 168
+
+
+state 209
+
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block . T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+
+    T_SEMIC  shift, and go to state 213
+
+
+state 210
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE . end_of_statement_block
+
+    $default  reduce using rule 70 (end_of_statement_block)
+
+    end_of_statement_block  go to state 214
+
+
+state 211
+
+   79 if_statement: T_IF T_LPAREN expression T_RPAREN if_block T_ELSE . if_block
+
+    T_LBRACE  shift, and go to state 42
+
+    $default  reduce using rule 69 (statement_block_creator)
+
+    if_block                 go to state 215
+    statement_block          go to state 207
+    statement_block_creator  go to state 208
+
+
+state 212
+
+   66 if_block: statement_block_creator statement . end_of_statement_block
+
+    $default  reduce using rule 70 (end_of_statement_block)
+
+    end_of_statement_block  go to state 216
+
+
+state 213
+
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC . expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+
+    T_TRUE             shift, and go to state 70
+    T_FALSE            shift, and go to state 71
+    T_LPAREN           shift, and go to state 72
+    T_MINUS            shift, and go to state 73
+    T_SIN              shift, and go to state 74
+    T_COS              shift, and go to state 75
+    T_TAN              shift, and go to state 76
+    T_ASIN             shift, and go to state 77
+    T_ACOS             shift, and go to state 78
+    T_ATAN             shift, and go to state 79
+    T_SQRT             shift, and go to state 80
+    T_FLOOR            shift, and go to state 81
+    T_ABS              shift, and go to state 82
+    T_RANDOM           shift, and go to state 83
+    T_NOT              shift, and go to state 84
+    T_INT_CONSTANT     shift, and go to state 85
+    T_ID               shift, and go to state 86
+    T_DOUBLE_CONSTANT  shift, and go to state 87
+    T_STRING_CONSTANT  shift, and go to state 88
+
+    variable            go to state 89
+    expression          go to state 217
+    primary_expression  go to state 91
+    math_operator       go to state 92
+
+
+state 214
+
+   35 animation_block: T_ANIMATION T_ID T_LPAREN check_animation_parameter T_RPAREN T_LBRACE @2 statement_list T_RBRACE end_of_statement_block .
+
+    $default  reduce using rule 35 (animation_block)
+
+
 state 215
 
-   65 if_block: statement_block_creator statement end_of_statement_block .
+   79 if_statement: T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block .
 
-    $default  reduce using rule 65 (if_block)
+    $default  reduce using rule 79 (if_statement)
 
 
 state 216
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression . T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
-   90 expression: expression . T_OR expression
-   91           | expression . T_AND expression
-   92           | expression . T_LESS_EQUAL expression
-   93           | expression . T_GREATER_EQUAL expression
-   94           | expression . T_LESS expression
-   95           | expression . T_GREATER expression
-   96           | expression . T_EQUAL expression
-   97           | expression . T_NOT_EQUAL expression
-   98           | expression . T_PLUS expression
-   99           | expression . T_MINUS expression
-  100           | expression . T_ASTERISK expression
-  101           | expression . T_DIVIDE expression
-  102           | expression . T_MOD expression
+   66 if_block: statement_block_creator statement end_of_statement_block .
 
-    T_SEMIC          shift, and go to state 217
-    T_ASTERISK       shift, and go to state 111
-    T_DIVIDE         shift, and go to state 112
-    T_MOD            shift, and go to state 113
-    T_PLUS           shift, and go to state 114
-    T_MINUS          shift, and go to state 115
-    T_LESS           shift, and go to state 116
-    T_GREATER        shift, and go to state 117
-    T_LESS_EQUAL     shift, and go to state 118
-    T_GREATER_EQUAL  shift, and go to state 119
-    T_EQUAL          shift, and go to state 120
-    T_NOT_EQUAL      shift, and go to state 121
-    T_AND            shift, and go to state 122
-    T_OR             shift, and go to state 123
+    $default  reduce using rule 66 (if_block)
 
 
 state 217
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC . statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression . T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+   91 expression: expression . T_OR expression
+   92           | expression . T_AND expression
+   93           | expression . T_LESS_EQUAL expression
+   94           | expression . T_GREATER_EQUAL expression
+   95           | expression . T_LESS expression
+   96           | expression . T_GREATER expression
+   97           | expression . T_EQUAL expression
+   98           | expression . T_NOT_EQUAL expression
+   99           | expression . T_PLUS expression
+  100           | expression . T_MINUS expression
+  101           | expression . T_ASTERISK expression
+  102           | expression . T_DIVIDE expression
+  103           | expression . T_MOD expression
 
-    $default  reduce using rule 68 (statement_block_creator)
-
-    statement_block_creator  go to state 218
+    T_SEMIC          shift, and go to state 218
+    T_ASTERISK       shift, and go to state 107
+    T_DIVIDE         shift, and go to state 108
+    T_MOD            shift, and go to state 109
+    T_PLUS           shift, and go to state 110
+    T_MINUS          shift, and go to state 111
+    T_LESS           shift, and go to state 112
+    T_GREATER        shift, and go to state 113
+    T_LESS_EQUAL     shift, and go to state 114
+    T_GREATER_EQUAL  shift, and go to state 115
+    T_EQUAL          shift, and go to state 116
+    T_NOT_EQUAL      shift, and go to state 117
+    T_AND            shift, and go to state 118
+    T_OR             shift, and go to state 119
 
 
 state 218
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator . assign_statement end_of_statement_block T_RPAREN statement_block
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC . statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
 
-    T_ID  shift, and go to state 86
+    $default  reduce using rule 69 (statement_block_creator)
 
-    assign_statement  go to state 219
-    variable          go to state 169
+    statement_block_creator  go to state 219
 
 
 state 219
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement . end_of_statement_block T_RPAREN statement_block
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator . assign_statement end_of_statement_block T_RPAREN statement_block
 
-    $default  reduce using rule 69 (end_of_statement_block)
+    T_ID  shift, and go to state 86
 
-    end_of_statement_block  go to state 220
+    assign_statement  go to state 220
+    variable          go to state 168
 
 
 state 220
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block . T_RPAREN statement_block
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement . end_of_statement_block T_RPAREN statement_block
 
-    T_RPAREN  shift, and go to state 221
+    $default  reduce using rule 70 (end_of_statement_block)
+
+    end_of_statement_block  go to state 221
 
 
 state 221
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN . statement_block
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block . T_RPAREN statement_block
 
-    T_LBRACE  shift, and go to state 42
-
-    statement_block  go to state 222
+    T_RPAREN  shift, and go to state 222
 
 
 state 222
 
-   79 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block .
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN . statement_block
 
-    $default  reduce using rule 79 (for_statement)
+    T_LBRACE  shift, and go to state 42
+
+    statement_block  go to state 223
+
+
+state 223
+
+   80 for_statement: T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block .
+
+    $default  reduce using rule 80 (for_statement)

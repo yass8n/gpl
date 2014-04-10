@@ -5,7 +5,7 @@ gpl.cpp::main()
   dump_pixels(false)
   symbol_table(true)
   print_symbol_table(true)
-  graphics(false)
+  graphics(true)
 
 gpl.cpp::main() Calling yyparse()
 
