@@ -5,10 +5,12 @@
 # include "error.h"
 Variable::Variable()
 {
+  m_game_object_member_set = false;
   m_included = true;
 }
 Variable::Variable(string id)
 {
+  m_game_object_member_set = false;
   m_included = true;
   Symbol_table *sym_table = Symbol_table::instance();
   m_id = id;
@@ -26,6 +28,7 @@ Variable::Variable(string id)
 }
 Variable::Variable(string id, Expression *exp)
 {
+  m_game_object_member_set = false;
   m_included = true;
   Symbol_table *sym_table = Symbol_table::instance();
   assert(!sym_table->lookup(id));
@@ -36,6 +39,37 @@ Variable::Variable(string id, Expression *exp)
   stringstream name;
   name << id << '[' << x << ']';
   m_sym = sym_table->get(name.str());
+}
+Variable::Variable(string id1, string id3)
+{
+  m_included = true;
+  Symbol_table *sym_table = Symbol_table::instance();
+  assert(!sym_table->lookup(id1));
+  m_id = id1;
+  m_string_type = "member";
+  m_sym = sym_table->get(id1);
+  m_sym->get_member_variable_type(id3, m_type);
+  set_member_variable_of_this_variable(id3);
+}
+void Variable::set_member_variable_of_this_variable(string id3)
+{
+  m_game_object_member_set = true;
+  if (m_type == 1)
+  {
+    m_sym->get_member_variable(id3, m_member_variable_int);
+  }
+  if (m_type == 2)
+  {
+   m_sym->get_member_variable(id3, m_member_variable_double);
+  }
+  if (m_type == 4)
+  {
+    m_sym->get_member_variable(id3, m_member_variable_string);
+  }
+  if (m_type == 16)
+  {
+    m_sym->get_member_variable(id3, m_member_variable_animation_block);
+  }
 }
 string Variable::eval_string()
 {
@@ -88,27 +122,37 @@ int Variable::eval_int()
 
 string Variable::get_string_value()
 {
+  if (m_game_object_member_set == true)
+    return m_member_variable_string;
   if (m_sym == NULL)
     return "";
   return m_sym->return_string();
 }
 double Variable::get_double_value()
 {
+  if (m_game_object_member_set ==true)
+    return m_member_variable_double;
   if (m_sym == NULL)
     return 0;
   return m_sym->return_double();
 }
 int Variable::get_int_value()
 {
+  if (m_game_object_member_set ==true)
+    return m_member_variable_int;
   if (m_sym == NULL)
     return 0;
   return m_sym->return_int();
 }
 Gpl_type Variable::get_type()
 {
-  if (m_included == true)
+  if (m_included == true && m_game_object_member_set == false)
   {
     return m_sym->get_type();
+  }
+  else if (m_included == true && m_game_object_member_set == true)
+  {
+    return m_type;
   }
   else
   {

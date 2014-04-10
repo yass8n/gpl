@@ -18,6 +18,26 @@ void Symbol::set(string name, string type, int int_val, double double_val, strin
   m_string = string_val;
   m_double = double_val;
 }
+void Symbol::get_member_variable(string id3, int &i)
+{
+  m_game_object->get_member_variable(id3, i);
+}
+void Symbol::get_member_variable(string id3, double &d)
+{
+  m_game_object->get_member_variable(id3, d);
+}
+void Symbol::get_member_variable(string id3, string  &s)
+{
+  m_game_object->get_member_variable(id3, s);
+}
+void Symbol::get_member_variable(string id3, Animation_block *&a)
+{
+  m_game_object->get_member_variable(id3, a);
+}
+void Symbol::get_member_variable_type(string id3, Gpl_type &type)
+{
+  m_game_object->get_member_variable_type(id3, type);
+}
 void Symbol::set_game_object(string name, Game_object *game_object)
 {
   m_type = GAME_OBJECT;

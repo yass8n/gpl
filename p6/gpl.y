@@ -748,7 +748,7 @@ variable:
       int index= $3->eval_int();
       stringstream name;
       name << *$1 << '[' << 0 << ']';
-      if(!sym_table->lookup(name.str()))
+      if(!sym_table->lookup(name.str())) 
       {
          name.str("");
          name << *$1 << '[' << index << ']';
@@ -769,7 +769,48 @@ variable:
 }
         
     | T_ID T_PERIOD T_ID
+{
+         Symbol_table *sym_table = Symbol_table::instance();
+         if(!sym_table->lookup(*$1))
+           {
+             $$ = new Variable(*$1, *$3);
+           } 
+}
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
+{
+ Symbol_table *sym_table = Symbol_table::instance();
+ string id = *$1;
+     if (!sym_table->lookup(id))
+      {
+         if ($3->get_type()==4)
+           { 
+                cout << "error" << endl;
+           }
+        if ($3->get_type()==2)
+          { 
+                cout << "error" << endl;
+          }
+        else if (!sym_table->lookup(id) )
+          {
+           if( $3->get_type()==1)
+              {
+                   int index = $3->eval_int();
+                   if (index < 0)
+                   {
+                     stringstream num;
+                     num << index;
+                     Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+                    //this error is the declaration error...change it
+                   }
+                        ostringstream name;
+                        name << id  << '[' << index << ']';
+                          {
+                           $$ = new Variable(name.str(), *$6);
+                          } 
+              }
+           }
+      }
+}
     ;
 
 //---------------------------------------------------------------------

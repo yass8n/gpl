@@ -30,6 +30,11 @@ class Symbol{
     string return_string();
     double return_double();
     void print(ostream &os);
+    void get_member_variable_type(string id3, Gpl_type &);
+    void get_member_variable(string id3, int &);
+    void get_member_variable(string id3, double &);
+    void get_member_variable(string id3, string &);
+    void get_member_variable(string id3, Animation_block *&);
     string return_type();
 };
 

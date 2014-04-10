@@ -5,7 +5,7 @@ using namespace std;
 # include "symbol.h"
 # include "symbol_table.h"
 # include <assert.h>
-//# include "saver.h"
+# include "gpl_type.h"
 class Animation_block;
 class Expression;
 class Variable{
@@ -13,6 +13,7 @@ class Variable{
     Variable(string id);
     Variable();
     Variable(string id, Expression *exp);
+    Variable(string id1, string id3);
     int get_int_value();
     Animation_block* return_animation_block();
     double get_double_value();
@@ -26,8 +27,15 @@ class Variable{
     double eval_double();
   private:
     string m_string_type;
+    int m_member_variable_int;
+    double m_member_variable_double;
+    string m_member_variable_string;
+    Animation_block*  m_member_variable_animation_block;
+    void set_member_variable_of_this_variable(string id3);
     bool m_included;
     Symbol *m_sym;
     Expression *m_exp;
+    Gpl_type m_type;
+    bool m_game_object_member_set;
 };
 #endif
