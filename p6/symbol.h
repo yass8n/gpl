@@ -10,7 +10,6 @@ class Animation_block;
 class Symbol{
   private:
     Gpl_type m_type;
-    bool m_taken;
     vector <string> id_vect;
     int m_int;
     double m_double;
@@ -25,6 +24,7 @@ class Symbol{
     void set_game_object(string name, Game_object *game_object);
     Symbol();
     Gpl_type get_type();
+    Game_object * return_game_object();
     string return_name();
     int return_int();
     string return_string();

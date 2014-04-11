@@ -15,7 +15,7 @@ Variable::Variable(string id)
   Symbol_table *sym_table = Symbol_table::instance();
   m_id = id;
   m_string_type = "simple";
-  if (!sym_table->lookup(id))//its in the table
+  if (sym_table->lookup(id))//its in the table
   { 
     m_sym = sym_table->get(id);
   }
@@ -26,12 +26,21 @@ Variable::Variable(string id)
     m_sym = NULL;
   }
 }
+Variable::Variable(string id, int x)
+{
+  m_game_object_member_set = false;
+  Symbol_table *sym_table = Symbol_table::instance();
+  m_id = id;
+  m_string_type = "simple";
+  m_included = false;
+  m_sym = NULL;
+}
 Variable::Variable(string id, Expression *exp)
 {
   m_game_object_member_set = false;
   m_included = true;
   Symbol_table *sym_table = Symbol_table::instance();
-  assert(!sym_table->lookup(id));
+  assert(sym_table->lookup(id));
   m_id = id;
   m_exp = exp;
   int x =m_exp -> eval_int();
@@ -44,7 +53,7 @@ Variable::Variable(string id1, string id3)
 {
   m_included = true;
   Symbol_table *sym_table = Symbol_table::instance();
-  assert(!sym_table->lookup(id1));
+  assert(sym_table->lookup(id1));
   m_id = id1;
   m_string_type = "member";
   m_sym = sym_table->get(id1);

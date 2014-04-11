@@ -29,6 +29,7 @@ How to use class Window
 #define WINDOW_H
 
 #include <string>
+# include "symbol_table.h"
 
 class Window
 {

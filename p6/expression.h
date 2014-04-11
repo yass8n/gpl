@@ -1,7 +1,7 @@
 #ifndef EXPRESSION_H_
 #define EXPRESSION_H_
 //# include "saver.h"
-# include "Gpl_type.h"
+# include "gpl_type.h"
 # include <assert.h>
 # include <string>
 # include "animation_block.h"

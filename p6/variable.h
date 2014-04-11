@@ -11,6 +11,7 @@ class Expression;
 class Variable{
   public:
     Variable(string id);
+    Variable(string id, int x);
     Variable();
     Variable(string id, Expression *exp);
     Variable(string id1, string id3);

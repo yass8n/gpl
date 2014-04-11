@@ -285,6 +285,7 @@ using namespace std;
 // use this global variable to store all the values in the array
 // add vectors here for additional types
 Game_object* cur_object;
+string name_of_object = "";
 // bison syntax to indicate the end of the header
 
 
@@ -308,7 +309,7 @@ Game_object* cur_object;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 34 "gpl.y"
+#line 35 "gpl.y"
 {
  int                  union_int;
  std::string         *union_string;  // MUST be a pointer to a string (this sucks!)
@@ -320,7 +321,7 @@ typedef union YYSTYPE
  Operator_type        union_operator_type;
 }
 /* Line 193 of yacc.c.  */
-#line 324 "y.tab.c"
+#line 325 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -333,7 +334,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 337 "y.tab.c"
+#line 338 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -673,19 +674,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   180,   180,   185,   186,   191,   192,   193,   198,   290,
-     356,   361,   366,   374,   378,   387,   386,   406,   481,   485,
-     489,   493,   497,   505,   506,   511,   512,   517,   582,   604,
-     605,   610,   611,   612,   617,   622,   622,   627,   650,   651,
-     652,   653,   654,   659,   664,   665,   666,   667,   668,   669,
-     670,   671,   672,   673,   674,   675,   676,   677,   678,   679,
-     680,   681,   682,   683,   684,   685,   686,   691,   692,   697,
-     701,   706,   712,   713,   718,   719,   720,   721,   722,   727,
-     728,   733,   738,   743,   748,   749,   750,   755,   759,   800,
-     808,   847,   851,   879,   907,   922,   937,   952,   967,   982,
-     997,  1012,  1041,  1069,  1097,  1126,  1145,  1164,  1324,  1328,
-    1332,  1336,  1340,  1344,  1348,  1363,  1367,  1371,  1375,  1379,
-    1383,  1387,  1391,  1395,  1399,  1406
+       0,   181,   181,   186,   187,   192,   193,   194,   199,   291,
+     357,   362,   367,   375,   379,   388,   387,   408,   483,   487,
+     491,   495,   499,   507,   508,   513,   514,   519,   596,   630,
+     631,   636,   637,   638,   643,   648,   648,   653,   674,   675,
+     676,   677,   678,   683,   688,   689,   690,   691,   692,   693,
+     694,   695,   696,   697,   698,   699,   700,   701,   702,   703,
+     704,   705,   706,   707,   708,   709,   710,   715,   716,   721,
+     725,   730,   736,   737,   742,   743,   744,   745,   746,   751,
+     752,   757,   762,   767,   772,   773,   774,   779,   783,   824,
+     857,   942,   946,   974,  1002,  1017,  1032,  1047,  1062,  1077,
+    1092,  1107,  1136,  1164,  1192,  1221,  1240,  1259,  1419,  1423,
+    1427,  1431,  1435,  1439,  1443,  1458,  1462,  1466,  1470,  1474,
+    1478,  1482,  1486,  1490,  1494,  1501
 };
 #endif
 
@@ -1789,13 +1790,13 @@ yyreduce:
   switch (yyn)
     {
         case 8:
-#line 199 "gpl.y"
+#line 200 "gpl.y"
     {
 Expression *error_exp = new Expression();
  Symbol_table *sym_table = Symbol_table::instance();
 //sym_table is a singleton so we always get the same symbol table
  string id = *(yyvsp[(2) - (3)].union_string);
-     if (sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
+     if (!sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
      {
           if ((yyvsp[(3) - (3)].union_expression_type) != NULL)
           {
@@ -1883,11 +1884,11 @@ int ti;
     break;
 
   case 9:
-#line 292 "gpl.y"
+#line 293 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (5)].union_string);
-     if (sym_table->lookup(id))
+     if (!sym_table->lookup(id))
       {
          if ((yyvsp[(4) - (5)].union_expression_type)->get_type()==4)
            { 
@@ -1903,7 +1904,7 @@ int ti;
             num << array_size;
             Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
           }
-        else if (sym_table->lookup(id) )
+        else if (!sym_table->lookup(id) )
           {
            if( (yyvsp[(4) - (5)].union_expression_type)->get_type()==1)
               {
@@ -1947,43 +1948,44 @@ int ti;
     break;
 
   case 10:
-#line 357 "gpl.y"
+#line 358 "gpl.y"
     {
      (yyval.union_gpl_type) = INT;
     }
     break;
 
   case 11:
-#line 362 "gpl.y"
+#line 363 "gpl.y"
     {
      (yyval.union_gpl_type) = DOUBLE;
     }
     break;
 
   case 12:
-#line 367 "gpl.y"
+#line 368 "gpl.y"
     {
      (yyval.union_gpl_type) = STRING;
     }
     break;
 
   case 13:
-#line 375 "gpl.y"
+#line 376 "gpl.y"
     {
       (yyval.union_expression_type) = (yyvsp[(2) - (2)].union_expression_type);
     }
     break;
 
   case 14:
-#line 379 "gpl.y"
+#line 380 "gpl.y"
     {
       (yyval.union_expression_type) = NULL;
     }
     break;
 
   case 15:
-#line 387 "gpl.y"
+#line 388 "gpl.y"
     {
+name_of_object = *(yyvsp[(2) - (2)].union_string);
 if ((yyvsp[(1) - (2)].union_int) == T_TRIANGLE)
 cur_object = new Triangle();
 if ((yyvsp[(1) - (2)].union_int) == T_PIXMAP)
@@ -1996,23 +1998,23 @@ if ((yyvsp[(1) - (2)].union_int) == T_TEXTBOX)
 cur_object = new Textbox();
           Symbol_table *sym_table = Symbol_table::instance();
 	  Symbol * sym = new Symbol();
-          (*sym).set_game_object(*(yyvsp[(2) - (2)].union_string), cur_object);
-          sym_table->set_sym(*(yyvsp[(2) - (2)].union_string), *sym);
+          (*sym).set_game_object(name_of_object, cur_object);
+          sym_table->set_sym(name_of_object, *sym);
 }
     break;
 
   case 16:
-#line 404 "gpl.y"
+#line 406 "gpl.y"
     {
 }
     break;
 
   case 17:
-#line 407 "gpl.y"
+#line 409 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
  string id = *(yyvsp[(2) - (5)].union_string);
-     if (sym_table->lookup(id))
+     if (!sym_table->lookup(id))
       {
          if ((yyvsp[(4) - (5)].union_expression_type)->get_type()==4)
            { 
@@ -2028,7 +2030,7 @@ cur_object = new Textbox();
             num << array_size;
             Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
           }
-        else if (sym_table->lookup(id) )
+        else if (!sym_table->lookup(id) )
           {
            if( (yyvsp[(4) - (5)].union_expression_type)->get_type()==1)
               {
@@ -2082,131 +2084,155 @@ cur_object = new Textbox();
     break;
 
   case 18:
-#line 482 "gpl.y"
+#line 484 "gpl.y"
     {
  (yyval.union_int) = T_TRIANGLE;
 }
     break;
 
   case 19:
-#line 486 "gpl.y"
+#line 488 "gpl.y"
     {
  (yyval.union_int) = T_PIXMAP;
 }
     break;
 
   case 20:
-#line 490 "gpl.y"
+#line 492 "gpl.y"
     {
  (yyval.union_int) = T_CIRCLE;
 }
     break;
 
   case 21:
-#line 494 "gpl.y"
+#line 496 "gpl.y"
     {
  (yyval.union_int) = T_RECTANGLE;
 }
     break;
 
   case 22:
-#line 498 "gpl.y"
+#line 500 "gpl.y"
     {
  (yyval.union_int) = T_TEXTBOX;
 }
     break;
 
   case 27:
-#line 518 "gpl.y"
+#line 520 "gpl.y"
     {  
+string param = *(yyvsp[(1) - (3)].union_string);
+Gpl_type gpl_type;
+Symbol_table *sym_table = Symbol_table::instance();
+Status status = cur_object->get_member_variable_type(param, gpl_type);
+if (status == MEMBER_NOT_DECLARED)
+         Error::error(Error::UNKNOWN_CONSTRUCTOR_PARAMETER, cur_object->type(), param);
+if (status == MEMBER_NOT_OF_GIVEN_TYPE)
+        cout << "member not of given type" << endl;
+
 int type = (yyvsp[(3) - (3)].union_expression_type)->get_type();
-    string id = *(yyvsp[(1) - (3)].union_string);
-    if (type == 1 && id != "text" && id != "blue" 
-        && id != "red" && id != "green" && id != "swek" 
-        && id != "user_double" && id != "rotation" )
-             cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), (yyvsp[(3) - (3)].union_expression_type)->eval_int());
-    else if ((type == 2 && id != "text") || id == "red" || id == "blue" 
-              || id == "green" || id == "user_double" || id == "rotation" || id == "size")
-         {
-           if (type == 1)
-            {     
-              double d = (double)(yyvsp[(3) - (3)].union_expression_type)->eval_int();
-              cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), d);
-            } 
-           if (type == 2)
+    if (gpl_type == INT)
+       {
+          if(type != INT)
+            {
+               Error::error(Error::INCORRECT_CONSTRUCTOR_PARAMETER_TYPE, name_of_object, param);
+            }
+          else 
+             cur_object->set_member_variable(param, (yyvsp[(3) - (3)].union_expression_type)->eval_int());
+       }
+    else if (gpl_type == DOUBLE)
+       {
+          if(type != INT && type != DOUBLE)
+             { cout << "error2" << endl; }
+          else if (type == INT)
+             {
+              double d = ((double) (yyvsp[(3) - (3)].union_expression_type)->eval_int()); 
+             cur_object->set_member_variable(param, d); 
+             }
+           else if (type == DOUBLE)
+             {
               cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), (yyvsp[(3) - (3)].union_expression_type)->eval_double());
+             }
+        }
+    else if (gpl_type == STRING)
+       {
+          if(type != INT && type != DOUBLE && type != STRING)
+             { cout << "error3" << endl; }
+          else if (type == INT)
+             {
+               int name= (yyvsp[(3) - (3)].union_expression_type)->eval_int();
+               stringstream parameter;
+               parameter<< name;
+               cur_object->set_member_variable(param, parameter.str());
+             }
+           else if (type == DOUBLE)
+             {
+               double name= (yyvsp[(3) - (3)].union_expression_type)->eval_double();
+               stringstream parameter;
+               parameter<< name;
+               cur_object->set_member_variable(param, parameter.str());
+             }
+           else if (type == STRING)
+             {
+               cur_object->set_member_variable(param,(yyvsp[(3) - (3)].union_expression_type)->eval_string()); 
+             }
          }
-    else if (type == 4 || id == "text")
-     {
-        if (type == 4)
-        {
-           cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), (yyvsp[(3) - (3)].union_expression_type)->eval_string());
-        }
-       if (type == 2)
-        {
-           double name= (yyvsp[(3) - (3)].union_expression_type)->eval_double();
-           stringstream param;
-           param<< name;
-           cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), param.str());
-        }
-       if (type == 1)
-        {
-           int name= (yyvsp[(3) - (3)].union_expression_type)->eval_int();
-           stringstream param;
-           param<< name;
-           cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), param.str());
-        }
-      }
-     else 
-          cur_object->set_member_variable(*(yyvsp[(1) - (3)].union_string), (yyvsp[(3) - (3)].union_expression_type)->eval_animation_block());
-                       /* if ($3->get_type() == 1)
-                             (*sym).set(id, "INT", $3->eval_int(), 0, "");
-                        if ($3->get_type() == 2)
-                             (*sym).set(id, "DOUBLE", 0,$3->eval_double(),  "");
-                        if ($3->get_type() == 4)
-                             (*sym).set(id, "STRING", 0, 0, $3->eval_string());
-                        */
-                        if ((yyvsp[(3) - (3)].union_expression_type)->get_type() == 8)
-                            {
-                            Symbol_table *sym_table = Symbol_table::instance();
-                            Symbol *sym = new Symbol();
-                            sym->set_game_object(id, cur_object);
-                            sym_table->set_sym(id, *sym);
-                            }
-/*
-                        if ($3->get_type() == 16)
-                             sym->set_animation_block(id, $3->eval_animation_block());
-*/
+     else if(param  == "animation_block") 
+         {
+             if (gpl_type!= ANIMATION_BLOCK)
+                 cout << "error4" << endl;
+
+          cur_object->set_member_variable(param, (yyvsp[(3) - (3)].union_expression_type)->eval_animation_block());
+         }
+     else  if (type == GAME_OBJECT)
+         {
+            Symbol_table *sym_table = Symbol_table::instance();
+            Symbol *sym = new Symbol();
+            sym->set_game_object(param, cur_object);
+            sym_table->set_sym(param, *sym);
+         }
 }
     break;
 
   case 28:
-#line 583 "gpl.y"
+#line 597 "gpl.y"
     {
 
      Symbol_table *sym_table = Symbol_table::instance();
       string id = *(yyvsp[(3) - (6)].union_string);
-     if (sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
+     if (!sym_table->lookup(id))//if the variable is not on the sym_table, then insert it
      {
         if ((yyvsp[(5) - (6)].union_symbol_type) != NULL)
         {
-                        Animation_block *block = new Animation_block((yyvsp[(1) - (6)].union_int),(yyvsp[(5) - (6)].union_symbol_type),*(yyvsp[(3) - (6)].union_string));
-                        Symbol_table *sym_table = Symbol_table::instance();
-                        Symbol *sym = new Symbol();
-                        sym->set_animation_block(id, block);
-                        sym_table->set_sym(*(yyvsp[(3) - (6)].union_string), *sym);
+                              Symbol *temp1 = (yyvsp[(5) - (6)].union_symbol_type);
+                              if (!sym_table->lookup(temp1->return_name()))//if the variable is not on the sym_table, then insert it
+                                 {
+                                    Animation_block *block = new Animation_block((yyvsp[(1) - (6)].union_int),(yyvsp[(5) - (6)].union_symbol_type),*(yyvsp[(3) - (6)].union_string));
+                                    Symbol_table *sym_table = Symbol_table::instance();
+                                    Symbol *sym = new Symbol();
+                                    sym_table->set_sym(temp1->return_name(), *temp1);
+                                    sym->set_animation_block(id, block);
+                                    sym_table->set_sym(*(yyvsp[(3) - (6)].union_string), *sym);
+                                 }
+                              else
+                                  {
+                                   Error::error(Error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE, temp1->return_name());
+                                   }
+                                  
         }
      }
+    else 
+         Error::error(Error::PREVIOUSLY_DECLARED_VARIABLE, id);
 }
     break;
 
   case 35:
-#line 622 "gpl.y"
+#line 648 "gpl.y"
     { }
     break;
 
   case 37:
-#line 628 "gpl.y"
+#line 654 "gpl.y"
     {   
 Game_object * cur_ob;
 if ((yyvsp[(1) - (2)].union_int) == T_TRIANGLE)
@@ -2219,23 +2245,21 @@ if ((yyvsp[(1) - (2)].union_int) == T_RECTANGLE)
 cur_ob = new Rectangle();
 if ((yyvsp[(1) - (2)].union_int) == T_TEXTBOX)
 cur_ob = new Textbox();
-          Symbol_table *sym_table = Symbol_table::instance();
 	  Symbol * sym = new Symbol();
           sym->set_game_object(*(yyvsp[(2) - (2)].union_string), cur_ob);
-          sym_table->set_sym(*(yyvsp[(2) - (2)].union_string), *sym);
 (yyval.union_symbol_type) = sym;
 }
     break;
 
   case 87:
-#line 756 "gpl.y"
+#line 780 "gpl.y"
     {
       (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
     }
     break;
 
   case 88:
-#line 760 "gpl.y"
+#line 784 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
       if ((yyvsp[(3) - (4)].union_expression_type)->get_type() == 4)
@@ -2256,11 +2280,11 @@ cur_ob = new Textbox();
       int index= (yyvsp[(3) - (4)].union_expression_type)->eval_int();
       stringstream name;
       name << *(yyvsp[(1) - (4)].union_string) << '[' << 0 << ']';
-      if(!sym_table->lookup(name.str())) 
+      if(sym_table->lookup(name.str())) 
       {
          name.str("");
          name << *(yyvsp[(1) - (4)].union_string) << '[' << index << ']';
-         if(sym_table->lookup(name.str()))
+         if(!sym_table->lookup(name.str()))
          { 
          stringstream num;
          num << index;
@@ -2278,33 +2302,44 @@ cur_ob = new Textbox();
     break;
 
   case 89:
-#line 801 "gpl.y"
+#line 825 "gpl.y"
     {
+         string param = *(yyvsp[(3) - (3)].union_string);
+         Gpl_type gpl_type;
          Symbol_table *sym_table = Symbol_table::instance();
-         if(!sym_table->lookup(*(yyvsp[(1) - (3)].union_string)))
+         if(sym_table->lookup(*(yyvsp[(1) - (3)].union_string)))
            {
-             (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (3)].union_string), *(yyvsp[(3) - (3)].union_string));
-           } 
+             Symbol *temp = sym_table->get(*(yyvsp[(1) - (3)].union_string)); 
+               if (temp->get_type() != GAME_OBJECT)
+                  {
+                    Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *(yyvsp[(1) - (3)].union_string));
+                    (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (3)].union_string), 0);
+                  }
+               if (temp->get_type() == GAME_OBJECT)
+                  {
+                         Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
+                         if (status == MEMBER_NOT_DECLARED)
+                            {
+                               Error::error(Error::UNDECLARED_MEMBER, *(yyvsp[(1) - (3)].union_string), param);
+                               (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (3)].union_string), 0);
+                             }
+                         else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
+                              cout << "member not of given type" << endl;
+                         else if (status == OK)
+                               (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (3)].union_string), *(yyvsp[(3) - (3)].union_string));
+                  } 
+            }
+         else 
+           {
+            Error::error(Error::UNDECLARED_VARIABLE, *(yyvsp[(1) - (3)].union_string));
+            (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (3)].union_string), 0);
+           }
 }
     break;
 
   case 90:
-#line 809 "gpl.y"
+#line 858 "gpl.y"
     {
- Symbol_table *sym_table = Symbol_table::instance();
- string id = *(yyvsp[(1) - (6)].union_string);
-     if (!sym_table->lookup(id))
-      {
-         if ((yyvsp[(3) - (6)].union_expression_type)->get_type()==4)
-           { 
-                cout << "error" << endl;
-           }
-        if ((yyvsp[(3) - (6)].union_expression_type)->get_type()==2)
-          { 
-                cout << "error" << endl;
-          }
-        else if (!sym_table->lookup(id) )
-          {
            if( (yyvsp[(3) - (6)].union_expression_type)->get_type()==1)
               {
                    int index = (yyvsp[(3) - (6)].union_expression_type)->eval_int();
@@ -2312,29 +2347,54 @@ cur_ob = new Textbox();
                    {
                      stringstream num;
                      num << index;
-                     Error::error(Error::INVALID_ARRAY_SIZE, id,num.str()); 
+                     Error::error(Error::INVALID_ARRAY_SIZE, *(yyvsp[(1) - (6)].union_string),num.str()); 
                     //this error is the declaration error...change it
                    }
                         ostringstream name;
-                        name << id  << '[' << index << ']';
-                          {
-                           (yyval.union_variable_type) = new Variable(name.str(), *(yyvsp[(6) - (6)].union_string));
-                          } 
-              }
+                        name << *(yyvsp[(1) - (6)].union_string)  << '[' << index << ']';
+         string param = *(yyvsp[(6) - (6)].union_string);
+         Gpl_type gpl_type;
+         Symbol_table *sym_table = Symbol_table::instance();
+         if(sym_table->lookup(name.str()))
+           {
+             Symbol *temp = sym_table->get(name.str()); 
+               if (temp->get_type() != GAME_OBJECT)
+                  {
+                    Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *(yyvsp[(1) - (6)].union_string));
+                    (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
+                  }
+               if (temp->get_type() == GAME_OBJECT)
+                  {
+                         Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
+                         if (status == MEMBER_NOT_DECLARED)
+                            {
+                               Error::error(Error::UNDECLARED_MEMBER, *(yyvsp[(1) - (6)].union_string), param);
+                               (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
+                             }
+                         else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
+                              cout << "member not of given type" << endl;
+                         else if (status == OK)
+                               (yyval.union_variable_type) = new Variable(name.str(), *(yyvsp[(6) - (6)].union_string));
+                  } 
+            }
+         else 
+           {
+            Error::error(Error::UNDECLARED_VARIABLE, *(yyvsp[(1) - (6)].union_string));
+            (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
            }
-      }
+              }
 }
     break;
 
   case 91:
-#line 848 "gpl.y"
+#line 943 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
   case 92:
-#line 852 "gpl.y"
+#line 947 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2365,7 +2425,7 @@ cur_ob = new Textbox();
     break;
 
   case 93:
-#line 880 "gpl.y"
+#line 975 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2396,7 +2456,7 @@ cur_ob = new Textbox();
     break;
 
   case 94:
-#line 908 "gpl.y"
+#line 1003 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2414,7 +2474,7 @@ cur_ob = new Textbox();
     break;
 
   case 95:
-#line 923 "gpl.y"
+#line 1018 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2432,7 +2492,7 @@ cur_ob = new Textbox();
     break;
 
   case 96:
-#line 938 "gpl.y"
+#line 1033 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2450,7 +2510,7 @@ cur_ob = new Textbox();
     break;
 
   case 97:
-#line 953 "gpl.y"
+#line 1048 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2468,7 +2528,7 @@ cur_ob = new Textbox();
     break;
 
   case 98:
-#line 968 "gpl.y"
+#line 1063 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2486,7 +2546,7 @@ cur_ob = new Textbox();
     break;
 
   case 99:
-#line 983 "gpl.y"
+#line 1078 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2504,7 +2564,7 @@ cur_ob = new Textbox();
     break;
 
   case 100:
-#line 998 "gpl.y"
+#line 1093 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2522,7 +2582,7 @@ cur_ob = new Textbox();
     break;
 
   case 101:
-#line 1013 "gpl.y"
+#line 1108 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2554,7 +2614,7 @@ cur_ob = new Textbox();
     break;
 
   case 102:
-#line 1042 "gpl.y"
+#line 1137 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2585,7 +2645,7 @@ cur_ob = new Textbox();
     break;
 
   case 103:
-#line 1070 "gpl.y"
+#line 1165 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2616,7 +2676,7 @@ cur_ob = new Textbox();
     break;
 
   case 104:
-#line 1098 "gpl.y"
+#line 1193 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2647,7 +2707,7 @@ cur_ob = new Textbox();
     break;
 
   case 105:
-#line 1127 "gpl.y"
+#line 1222 "gpl.y"
     {
       if ((yyvsp[(2) - (2)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(2) - (2)].union_expression_type)->exp_var_included())
           {
@@ -2669,7 +2729,7 @@ cur_ob = new Textbox();
     break;
 
   case 106:
-#line 1146 "gpl.y"
+#line 1241 "gpl.y"
     {
       if ((yyvsp[(2) - (2)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(2) - (2)].union_expression_type)->exp_var_included())
           {
@@ -2691,7 +2751,7 @@ cur_ob = new Textbox();
     break;
 
   case 107:
-#line 1165 "gpl.y"
+#line 1260 "gpl.y"
     {
       if ((yyvsp[(3) - (4)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(3) - (4)].union_expression_type)->exp_var_included())
           {
@@ -2849,119 +2909,119 @@ cur_ob = new Textbox();
     break;
 
   case 108:
-#line 1325 "gpl.y"
+#line 1420 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (3)].union_expression_type);
 }
     break;
 
   case 109:
-#line 1329 "gpl.y"
+#line 1424 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
 }
     break;
 
   case 110:
-#line 1333 "gpl.y"
+#line 1428 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
 }
     break;
 
   case 111:
-#line 1337 "gpl.y"
+#line 1432 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, 1);
 }
     break;
 
   case 112:
-#line 1341 "gpl.y"
+#line 1436 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, 0);
 }
     break;
 
   case 113:
-#line 1345 "gpl.y"
+#line 1440 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(DOUBLE, (yyvsp[(1) - (1)].union_double));
 }
     break;
 
   case 114:
-#line 1349 "gpl.y"
+#line 1444 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(STRING, *(yyvsp[(1) - (1)].union_string));
 }
     break;
 
   case 115:
-#line 1364 "gpl.y"
+#line 1459 "gpl.y"
     {
    (yyval.union_operator_type) = SIN;
 }
     break;
 
   case 116:
-#line 1368 "gpl.y"
+#line 1463 "gpl.y"
     {  
     (yyval.union_operator_type) = COS;
 }
     break;
 
   case 117:
-#line 1372 "gpl.y"
+#line 1467 "gpl.y"
     { 
     (yyval.union_operator_type) = TAN;
 }
     break;
 
   case 118:
-#line 1376 "gpl.y"
+#line 1471 "gpl.y"
     { 
     (yyval.union_operator_type) = ASIN;
 }
     break;
 
   case 119:
-#line 1380 "gpl.y"
+#line 1475 "gpl.y"
     {
     (yyval.union_operator_type) = ACOS;
 }
     break;
 
   case 120:
-#line 1384 "gpl.y"
+#line 1479 "gpl.y"
     {
     (yyval.union_operator_type) = ATAN;
 }
     break;
 
   case 121:
-#line 1388 "gpl.y"
+#line 1483 "gpl.y"
     {
     (yyval.union_operator_type) = SQRT;
 }
     break;
 
   case 122:
-#line 1392 "gpl.y"
+#line 1487 "gpl.y"
     {
      (yyval.union_operator_type) = ABS;
 }
     break;
 
   case 123:
-#line 1396 "gpl.y"
+#line 1491 "gpl.y"
     {
      (yyval.union_operator_type) = FLOOR;
 }
     break;
 
   case 124:
-#line 1400 "gpl.y"
+#line 1495 "gpl.y"
     {
     (yyval.union_operator_type) = RANDOM;
 }
@@ -2969,7 +3029,7 @@ cur_ob = new Textbox();
 
 
 /* Line 1267 of yacc.c.  */
-#line 2973 "y.tab.c"
+#line 3033 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

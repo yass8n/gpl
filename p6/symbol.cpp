@@ -18,6 +18,10 @@ void Symbol::set(string name, string type, int int_val, double double_val, strin
   m_string = string_val;
   m_double = double_val;
 }
+Game_object * Symbol::return_game_object()
+{
+  return m_game_object;
+}
 void Symbol::get_member_variable(string id3, int &i)
 {
   m_game_object->get_member_variable(id3, i);

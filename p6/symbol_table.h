@@ -12,22 +12,17 @@ class Symbol_table {
     bool get(string name, double &value);
     bool get(string name, string &value);
     bool get_type(string name, Gpl_type &type);
-    bool set(string name, int value); // used for mouse_x, mouse_y
-    bool set(string name, string value);
-    bool set(string name, double value);
-    bool set(string name, Animation_block * value);
+    bool set(string name, int  value); // used for mouse_x, mouse_y
     static Symbol_table *instance();
     void print(ostream &os);
     void set_sym(string, Symbol&);
-    Symbol* find(string name);
     bool lookup(string id);
     void insert_in_vector(string id);
     Symbol* get(string id);
   private:
     map <string, Symbol*> m_map;
-    int counter;
     vector <string> id_vect;
-    Symbol_table(){counter =0;};
+    Symbol_table(){};
     static Symbol_table *m_instance;
     Symbol *symbols;
     string m_id;

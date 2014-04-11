@@ -155,7 +155,7 @@ class Game_object
     const std::string type() const {return m_object_type_name;}
 
     void draw();
-
+    
     Status set_member_variable(std::string name, int value);
     Status set_member_variable(std::string name, double value);
     Status set_member_variable(std::string name, std::string value);

@@ -23,7 +23,7 @@ Symbol* Symbol_table::get(string id)
   }
   return NULL;
 }
-bool Symbol_table::set(string name, string value)
+bool Symbol_table::set(string name, int  value)
 {
   std::map<string, Symbol*>::iterator it;
   vector <string>::iterator iter;
@@ -31,54 +31,16 @@ bool Symbol_table::set(string name, string value)
   {
     if (name == it->first)
     {
-      it->second->set(name, "STRING", 0, 0.0, value);
+      it->second->set(name, "INT", value, 0, "");
+      return true;
     }
-
   }
-}
-bool Symbol_table::set(string name, Animation_block* value)
-{
-  std::map<string, Symbol*>::iterator it;
-  vector <string>::iterator iter;
-  for (it = m_map.begin(); it != m_map.end(); it ++)
-  {
-    if (name == it->first)
-    {
-      it->second->set_animation_block(name, value);
-    }
-
-  }
-}
-bool Symbol_table::set(string name, double value)
-{
-  std::map<string, Symbol*>::iterator it;
-  vector <string>::iterator iter;
-  for (it = m_map.begin(); it != m_map.end(); it ++)
-  {
-    if (name == it->first)
-    {
-      it->second->set(name, "DOUBLE", 0, value, "");
-    }
-
-  }
-}
-bool Symbol_table::set(string name, int value)
-{
-  std::map<string, Symbol*>::iterator it;
-  vector <string>::iterator iter;
-  for (it = m_map.begin(); it != m_map.end(); it ++)
-  {
-    if (name == it->first)
-    {
-      it->second->set(name, "INT", value, 0.0, "");
-    }
-
-  }
+  return false;
 }
 bool Symbol_table::get(string name, int &value)
 {
-  Symbol *cur = find(name);
-  if (!cur || !cur->get_type()==1)
+  Symbol *cur = get(name);
+  if (!cur || cur->get_type()!=1)
     return false;
 
   value = cur->return_int();
@@ -86,39 +48,30 @@ bool Symbol_table::get(string name, int &value)
 }
 bool Symbol_table::get(string name, double &value)
 {
-  Symbol *cur = find(name);
-  if (!cur || !cur->get_type()==2)
+  Symbol *cur = get(name);
+  if (!cur || cur->get_type()!=2)
     return false;
 
-  value = cur->return_int();
+  value = cur->return_double();
   return true;
 }
 bool Symbol_table::get(string name, string &value)
 {
-  Symbol *cur = find(name);
-  if (!cur || !cur->get_type()==4)
+  Symbol *cur = get(name);
+  if (!cur || cur->get_type()!=4)
     return false;
 
-  value = cur->return_int();
+  value = cur->return_string();
   return true;
 }
 bool Symbol_table::get_type(string name, Gpl_type &type)
 {
-  Symbol *cur = find(name);
-  if (!cur || !cur->get_type()==0)
+  Symbol *cur = get(name);
+  if (!cur)
     return false;
+  type = cur->get_type();
 
   return true;
-}
-Symbol* Symbol_table::find(string name)
-{
-  std::map<string, Symbol*>::iterator it;
-  vector <string>::iterator iter;
-  for (it = m_map.begin(); it != m_map.end(); it ++)
-  {
-    if (name == it->first)
-      return it->second;
-  }
 }
 
 void Symbol_table::print(ostream &os)
@@ -144,12 +97,12 @@ bool Symbol_table::lookup(string name)
   for (it = m_map.begin(); it != m_map.end(); it ++)
   {
     if (name == it->first)
-      return false;
+      return true;
   }
   for (iter = id_vect.begin(); iter != id_vect.end(); iter ++)
   {
     if (name == *iter)
-      return false;
+      return true;
   }
-  return true;
+  return false;
 }
