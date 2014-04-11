@@ -578,8 +578,14 @@ int type = $3->get_type();
          {
              if (gpl_type!= ANIMATION_BLOCK)
                  cout << "error4" << endl;
-
-          cur_object->set_member_variable(param, $3->eval_animation_block());
+            Symbol_table *sym_table = Symbol_table::instance();
+             Symbol *s = sym_table->get($3->get_var_name());
+            if (s->return_animation_block()->get_parameter_symbol()->return_game_object()->type() != cur_object->type())
+               {
+                Error::error(Error::TYPE_MISMATCH_BETWEEN_ANIMATION_BLOCK_AND_OBJECT, name_of_object,s->return_name() );
+               }    
+            else
+               cur_object->set_member_variable(param, $3->eval_animation_block());
          }
      else  if (type == GAME_OBJECT)
          {

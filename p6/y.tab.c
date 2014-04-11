@@ -676,17 +676,17 @@ static const yytype_uint16 yyrline[] =
 {
        0,   181,   181,   186,   187,   192,   193,   194,   199,   291,
      357,   362,   367,   375,   379,   388,   387,   408,   483,   487,
-     491,   495,   499,   507,   508,   513,   514,   519,   596,   630,
-     631,   636,   637,   638,   643,   648,   648,   653,   674,   675,
-     676,   677,   678,   683,   688,   689,   690,   691,   692,   693,
-     694,   695,   696,   697,   698,   699,   700,   701,   702,   703,
-     704,   705,   706,   707,   708,   709,   710,   715,   716,   721,
-     725,   730,   736,   737,   742,   743,   744,   745,   746,   751,
-     752,   757,   762,   767,   772,   773,   774,   779,   783,   824,
-     857,   942,   946,   974,  1002,  1017,  1032,  1047,  1062,  1077,
-    1092,  1107,  1136,  1164,  1192,  1221,  1240,  1259,  1419,  1423,
-    1427,  1431,  1435,  1439,  1443,  1458,  1462,  1466,  1470,  1474,
-    1478,  1482,  1486,  1490,  1494,  1501
+     491,   495,   499,   507,   508,   513,   514,   519,   602,   636,
+     637,   642,   643,   644,   649,   654,   654,   659,   680,   681,
+     682,   683,   684,   689,   694,   695,   696,   697,   698,   699,
+     700,   701,   702,   703,   704,   705,   706,   707,   708,   709,
+     710,   711,   712,   713,   714,   715,   716,   721,   722,   727,
+     731,   736,   742,   743,   748,   749,   750,   751,   752,   757,
+     758,   763,   768,   773,   778,   779,   780,   785,   789,   830,
+     863,   914,   918,   946,   974,   989,  1004,  1019,  1034,  1049,
+    1064,  1079,  1108,  1136,  1164,  1193,  1212,  1231,  1391,  1395,
+    1399,  1403,  1407,  1411,  1415,  1430,  1434,  1438,  1442,  1446,
+    1450,  1454,  1458,  1462,  1466,  1473
 };
 #endif
 
@@ -2181,8 +2181,14 @@ int type = (yyvsp[(3) - (3)].union_expression_type)->get_type();
          {
              if (gpl_type!= ANIMATION_BLOCK)
                  cout << "error4" << endl;
-
-          cur_object->set_member_variable(param, (yyvsp[(3) - (3)].union_expression_type)->eval_animation_block());
+            Symbol_table *sym_table = Symbol_table::instance();
+             Symbol *s = sym_table->get((yyvsp[(3) - (3)].union_expression_type)->get_var_name());
+            if (s->return_animation_block()->get_parameter_symbol()->return_game_object()->type() != cur_object->type())
+               {
+                Error::error(Error::TYPE_MISMATCH_BETWEEN_ANIMATION_BLOCK_AND_OBJECT, name_of_object,s->return_name() );
+               }    
+            else
+               cur_object->set_member_variable(param, (yyvsp[(3) - (3)].union_expression_type)->eval_animation_block());
          }
      else  if (type == GAME_OBJECT)
          {
@@ -2195,7 +2201,7 @@ int type = (yyvsp[(3) - (3)].union_expression_type)->get_type();
     break;
 
   case 28:
-#line 597 "gpl.y"
+#line 603 "gpl.y"
     {
 
      Symbol_table *sym_table = Symbol_table::instance();
@@ -2227,12 +2233,12 @@ int type = (yyvsp[(3) - (3)].union_expression_type)->get_type();
     break;
 
   case 35:
-#line 648 "gpl.y"
+#line 654 "gpl.y"
     { }
     break;
 
   case 37:
-#line 654 "gpl.y"
+#line 660 "gpl.y"
     {   
 Game_object * cur_ob;
 if ((yyvsp[(1) - (2)].union_int) == T_TRIANGLE)
@@ -2252,14 +2258,14 @@ cur_ob = new Textbox();
     break;
 
   case 87:
-#line 780 "gpl.y"
+#line 786 "gpl.y"
     {
       (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (1)].union_string));
     }
     break;
 
   case 88:
-#line 784 "gpl.y"
+#line 790 "gpl.y"
     {
  Symbol_table *sym_table = Symbol_table::instance();
       if ((yyvsp[(3) - (4)].union_expression_type)->get_type() == 4)
@@ -2302,7 +2308,7 @@ cur_ob = new Textbox();
     break;
 
   case 89:
-#line 825 "gpl.y"
+#line 831 "gpl.y"
     {
          string param = *(yyvsp[(3) - (3)].union_string);
          Gpl_type gpl_type;
@@ -2338,7 +2344,7 @@ cur_ob = new Textbox();
     break;
 
   case 90:
-#line 858 "gpl.y"
+#line 864 "gpl.y"
     {
            if( (yyvsp[(3) - (6)].union_expression_type)->get_type()==1)
               {
@@ -2352,49 +2358,50 @@ cur_ob = new Textbox();
                    }
                         ostringstream name;
                         name << *(yyvsp[(1) - (6)].union_string)  << '[' << index << ']';
-         string param = *(yyvsp[(6) - (6)].union_string);
-         Gpl_type gpl_type;
-         Symbol_table *sym_table = Symbol_table::instance();
-         if(sym_table->lookup(name.str()))
-           {
-             Symbol *temp = sym_table->get(name.str()); 
-               if (temp->get_type() != GAME_OBJECT)
-                  {
-                    Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *(yyvsp[(1) - (6)].union_string));
-                    (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
-                  }
-               if (temp->get_type() == GAME_OBJECT)
-                  {
-                         Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
-                         if (status == MEMBER_NOT_DECLARED)
+                        string param = *(yyvsp[(6) - (6)].union_string);
+                        Gpl_type gpl_type;
+                        Symbol_table *sym_table = Symbol_table::instance();
+
+                       if(sym_table->lookup(name.str()))
+                         {
+                           Symbol *temp = sym_table->get(name.str()); 
+                           if (temp->get_type() != GAME_OBJECT)
                             {
-                               Error::error(Error::UNDECLARED_MEMBER, *(yyvsp[(1) - (6)].union_string), param);
-                               (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
-                             }
-                         else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
-                              cout << "member not of given type" << endl;
-                         else if (status == OK)
-                               (yyval.union_variable_type) = new Variable(name.str(), *(yyvsp[(6) - (6)].union_string));
-                  } 
-            }
-         else 
-           {
-            Error::error(Error::UNDECLARED_VARIABLE, *(yyvsp[(1) - (6)].union_string));
-            (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
-           }
+                              Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *(yyvsp[(1) - (6)].union_string));
+                              (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
+                              }
+                           if (temp->get_type() == GAME_OBJECT)
+                               {
+                                   Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
+                                   if (status == MEMBER_NOT_DECLARED)
+                                    {
+                                      Error::error(Error::UNDECLARED_MEMBER, *(yyvsp[(1) - (6)].union_string), param);
+                                      (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
+                                    }
+                                   else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
+                                      cout << "member not of given type" << endl;
+                                   else if (status == OK)
+                                      (yyval.union_variable_type) = new Variable(name.str(), *(yyvsp[(6) - (6)].union_string));
+                               } 
+                         }
+                       else 
+                         {
+                           Error::error(Error::UNDECLARED_VARIABLE, *(yyvsp[(1) - (6)].union_string));
+                           (yyval.union_variable_type) = new Variable(*(yyvsp[(1) - (6)].union_string), 0);
+                         }
               }
 }
     break;
 
   case 91:
-#line 943 "gpl.y"
+#line 915 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(1) - (1)].union_expression_type);
 }
     break;
 
   case 92:
-#line 947 "gpl.y"
+#line 919 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2425,7 +2432,7 @@ cur_ob = new Textbox();
     break;
 
   case 93:
-#line 975 "gpl.y"
+#line 947 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2456,7 +2463,7 @@ cur_ob = new Textbox();
     break;
 
   case 94:
-#line 1003 "gpl.y"
+#line 975 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2474,7 +2481,7 @@ cur_ob = new Textbox();
     break;
 
   case 95:
-#line 1018 "gpl.y"
+#line 990 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2492,7 +2499,7 @@ cur_ob = new Textbox();
     break;
 
   case 96:
-#line 1033 "gpl.y"
+#line 1005 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2510,7 +2517,7 @@ cur_ob = new Textbox();
     break;
 
   case 97:
-#line 1048 "gpl.y"
+#line 1020 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2528,7 +2535,7 @@ cur_ob = new Textbox();
     break;
 
   case 98:
-#line 1063 "gpl.y"
+#line 1035 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2546,7 +2553,7 @@ cur_ob = new Textbox();
     break;
 
   case 99:
-#line 1078 "gpl.y"
+#line 1050 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2564,7 +2571,7 @@ cur_ob = new Textbox();
     break;
 
   case 100:
-#line 1093 "gpl.y"
+#line 1065 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2582,7 +2589,7 @@ cur_ob = new Textbox();
     break;
 
   case 101:
-#line 1108 "gpl.y"
+#line 1080 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2614,7 +2621,7 @@ cur_ob = new Textbox();
     break;
 
   case 102:
-#line 1137 "gpl.y"
+#line 1109 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2645,7 +2652,7 @@ cur_ob = new Textbox();
     break;
 
   case 103:
-#line 1165 "gpl.y"
+#line 1137 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2676,7 +2683,7 @@ cur_ob = new Textbox();
     break;
 
   case 104:
-#line 1193 "gpl.y"
+#line 1165 "gpl.y"
     {
       if ((yyvsp[(1) - (3)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(1) - (3)].union_expression_type)->exp_var_included())
           {
@@ -2707,7 +2714,7 @@ cur_ob = new Textbox();
     break;
 
   case 105:
-#line 1222 "gpl.y"
+#line 1194 "gpl.y"
     {
       if ((yyvsp[(2) - (2)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(2) - (2)].union_expression_type)->exp_var_included())
           {
@@ -2729,7 +2736,7 @@ cur_ob = new Textbox();
     break;
 
   case 106:
-#line 1241 "gpl.y"
+#line 1213 "gpl.y"
     {
       if ((yyvsp[(2) - (2)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(2) - (2)].union_expression_type)->exp_var_included())
           {
@@ -2751,7 +2758,7 @@ cur_ob = new Textbox();
     break;
 
   case 107:
-#line 1260 "gpl.y"
+#line 1232 "gpl.y"
     {
       if ((yyvsp[(3) - (4)].union_expression_type)->the_type_of_exp() == "variable" && !(yyvsp[(3) - (4)].union_expression_type)->exp_var_included())
           {
@@ -2909,119 +2916,119 @@ cur_ob = new Textbox();
     break;
 
   case 108:
-#line 1420 "gpl.y"
+#line 1392 "gpl.y"
     {
     (yyval.union_expression_type) = (yyvsp[(2) - (3)].union_expression_type);
 }
     break;
 
   case 109:
-#line 1424 "gpl.y"
+#line 1396 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression((yyvsp[(1) - (1)].union_variable_type));
 }
     break;
 
   case 110:
-#line 1428 "gpl.y"
+#line 1400 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, (yyvsp[(1) - (1)].union_int));
 }
     break;
 
   case 111:
-#line 1432 "gpl.y"
+#line 1404 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, 1);
 }
     break;
 
   case 112:
-#line 1436 "gpl.y"
+#line 1408 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(INT, 0);
 }
     break;
 
   case 113:
-#line 1440 "gpl.y"
+#line 1412 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(DOUBLE, (yyvsp[(1) - (1)].union_double));
 }
     break;
 
   case 114:
-#line 1444 "gpl.y"
+#line 1416 "gpl.y"
     {
     (yyval.union_expression_type) = new Expression(STRING, *(yyvsp[(1) - (1)].union_string));
 }
     break;
 
   case 115:
-#line 1459 "gpl.y"
+#line 1431 "gpl.y"
     {
    (yyval.union_operator_type) = SIN;
 }
     break;
 
   case 116:
-#line 1463 "gpl.y"
+#line 1435 "gpl.y"
     {  
     (yyval.union_operator_type) = COS;
 }
     break;
 
   case 117:
-#line 1467 "gpl.y"
+#line 1439 "gpl.y"
     { 
     (yyval.union_operator_type) = TAN;
 }
     break;
 
   case 118:
-#line 1471 "gpl.y"
+#line 1443 "gpl.y"
     { 
     (yyval.union_operator_type) = ASIN;
 }
     break;
 
   case 119:
-#line 1475 "gpl.y"
+#line 1447 "gpl.y"
     {
     (yyval.union_operator_type) = ACOS;
 }
     break;
 
   case 120:
-#line 1479 "gpl.y"
+#line 1451 "gpl.y"
     {
     (yyval.union_operator_type) = ATAN;
 }
     break;
 
   case 121:
-#line 1483 "gpl.y"
+#line 1455 "gpl.y"
     {
     (yyval.union_operator_type) = SQRT;
 }
     break;
 
   case 122:
-#line 1487 "gpl.y"
+#line 1459 "gpl.y"
     {
      (yyval.union_operator_type) = ABS;
 }
     break;
 
   case 123:
-#line 1491 "gpl.y"
+#line 1463 "gpl.y"
     {
      (yyval.union_operator_type) = FLOOR;
 }
     break;
 
   case 124:
-#line 1495 "gpl.y"
+#line 1467 "gpl.y"
     {
     (yyval.union_operator_type) = RANDOM;
 }
@@ -3029,7 +3036,7 @@ cur_ob = new Textbox();
 
 
 /* Line 1267 of yacc.c.  */
-#line 3033 "y.tab.c"
+#line 3040 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
