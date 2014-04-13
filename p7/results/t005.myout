@@ -1,0 +1,64 @@
+gpl.cpp::main()
+  input file(tests/t005.gpl)
+  random seed(42)
+  read_keypresses_from_standard_input(true)
+  dump_pixels(false)
+  symbol_table(true)
+  print_symbol_table(true)
+  graphics(true)
+
+gpl.cpp::main() Calling yyparse()
+
+
+gpl.cpp::main() after call to yyparse().
+
+
+Printing the symbol table from main()
+gpl.cpp::main() Calling window->initialize().
+at event manager
+done event manager
+gpl.cpp::main() Passing control to window->main_loop().
+at event manager
+gpl[1]: space
+done event manager
+at event manager
+gpl[2]: leftarrow
+done event manager
+at event manager
+gpl[3]: rightarrow
+done event manager
+at event manager
+gpl[4]: uparrow
+done event manager
+at event manager
+gpl[5]: downarrow
+done event manager
+at event manager
+gpl[6]: f1
+done event manager
+at event manager
+gpl[7]: akey
+done event manager
+at event manager
+gpl[8]: skey
+done event manager
+at event manager
+gpl[9]: dkey
+done event manager
+at event manager
+gpl[10]: fkey
+done event manager
+at event manager
+gpl[11]: hkey
+done event manager
+at event manager
+gpl[12]: jkey
+done event manager
+at event manager
+gpl[13]: kkey
+done event manager
+at event manager
+gpl[14]: lkey
+done event manager
+
+Printing the symbol table from signal_handler()
