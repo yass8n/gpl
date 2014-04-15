@@ -18,14 +18,10 @@ int i 42
 string str "hello world"
 double x 3.145
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
 gpl[7]: i = 42
 gpl[8]: x = 3.145
 gpl[9]: str = hello world
-done event manager
 
 Printing the symbol table from signal_handler()
 int i 42

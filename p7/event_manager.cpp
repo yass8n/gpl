@@ -26,9 +26,7 @@ void Event_manager::insert(Statement_block * statement_block, int index)
 void 
 Event_manager::execute_handlers(Window::Keystroke keystroke)
 {
-  cout << "at event manager" << endl;
   int index = keystroke;
   for (int i = 0; i < m_vect[index].size(); i++)
    m_vect[index][i]->execute();
-  cout << "done event manager" << endl;
 }

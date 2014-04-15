@@ -219,7 +219,6 @@ Status Game_object::get_member_variable_type(string name, Gpl_type &type)
 
 Status Game_object::set_member_variable(string name, int value)
 {
-  cout << name <<  "  " << value << endl;
   graphics_dirty = true;
   Typed_void_ptr *variable = lookup_registered_member_variable(name);
   if (!variable)

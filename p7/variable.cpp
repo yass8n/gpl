@@ -62,6 +62,7 @@ Variable::Variable(string id1, string param)
   m_string_type = "member";
   m_sym = sym_table->get(id1);
   m_sym->get_member_variable_type(param, m_type);
+  //m_type is used in the set_member_var function
   set_member_variable_of_this_variable(param);
 }
 void Variable::set_member_variable_of_this_variable(string param)
@@ -153,7 +154,14 @@ int Variable::eval_int()
 string Variable::get_string_value()
 {
   if (m_game_object_member_set == true)
+  {
+    set_member_variable_of_this_variable(return_param_id());
+    //calling again because when the "on print" is called,
+    //it calls eval string on this variable and we need it to update again...
+    //if the expression class got the value from the symbol table, there would 
+    //be no problem...but it does not do that
     return m_member_variable_string;
+  }
   if (m_sym == NULL)
     return "";
   return m_sym->return_string();
@@ -161,7 +169,14 @@ string Variable::get_string_value()
 double Variable::get_double_value()
 {
   if (m_game_object_member_set ==true)
+  {
+    set_member_variable_of_this_variable(return_param_id());
+    //calling again because when the "on print" is called,
+    //it calls eval double on this variable and we need it to update again...
+    //if the expression class got the value from the symbol table, there would 
+    //be no problem...but it does not do that
     return m_member_variable_double;
+  }
   if (m_sym == NULL)
     return 0;
   return m_sym->return_double();
@@ -169,7 +184,14 @@ double Variable::get_double_value()
 int Variable::get_int_value()
 {
   if (m_game_object_member_set ==true)
+  {
+    set_member_variable_of_this_variable(return_param_id());
+    //calling again because when the "on print" is called,
+    //it calls eval int on this variable and we need it to update again...
+    //if the expression class got the value from the symbol table, there would 
+    //be no problem...but it does not do that
     return m_member_variable_int;
+  }
   if (m_sym == NULL)
     return 0;
   return m_sym->return_int();

@@ -18,6 +18,7 @@ class Symbol{
     Game_object *m_game_object;
     Animation_block *m_animation_block;
   public:  
+    void set_member_variable(string param, int value);
     void set_animation_block(string name, Animation_block *block);
     Animation_block * return_animation_block();
     void set (string name,string type, int int_val, double double_val, string string_val);

@@ -22,14 +22,8 @@ int nums[2] 0
 int nums[3] 0
 string s ""
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
-done event manager
-at event manager
 gpl[14]: nums[i-j] = nums[2] = 42
-done event manager
 
 Printing the symbol table from signal_handler()
 int i 4

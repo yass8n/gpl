@@ -117,18 +117,7 @@ string strings[0] ""
 string strings[1] ""
 string strings[2] ""
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
-circles[0] its INT 0  x
-x  0
-circles[1] its INT 1  x
-x  1
-circles[2] its INT 2  x
-x  2
-done event manager
-at event manager
 gpl[24]: ints[0] = 0
 gpl[25]: ints[1] = 1
 gpl[26]: ints[2] = 2
@@ -139,9 +128,8 @@ gpl[30]: strings[0] = zero
 gpl[31]: strings[1] = one
 gpl[32]: strings[2] = two
 gpl[33]: circles[0].x = 0
-gpl[34]: circles[1].x = 0
-gpl[35]: circles[2].x = 0
-done event manager
+gpl[34]: circles[1].x = 1
+gpl[35]: circles[2].x = 2
 
 Printing the symbol table from signal_handler()
 game_object circles[0]

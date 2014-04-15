@@ -18,16 +18,10 @@ double a 20.1251
 double b 21.875
 double c -9
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
-done event manager
-at event manager
 gpl[12]: a = 20.1251
 gpl[13]: b = 21.875
 gpl[14]: c = 42.0001
-done event manager
 
 Printing the symbol table from signal_handler()
 double a 20.1251

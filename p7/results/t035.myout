@@ -109,22 +109,10 @@ game_object rects[2]
   }
 gpl.cpp::main() Calling window->initialize().
 gpl.cpp::main() Passing control to window->main_loop().
-rects[0] its INT 1  x
-x  1
-x asdasdasdasd  0x7f80e9c12918
-rects[0] its INT 2  y
-y  2
-y asdasdasdasd  0x7f80e9c1291c
-rects[0] its INT 3  w
-w  3
-w asdasdasdasd  0x7f80e9c12920
-rects[0] its INT 4  h
-h  4
-h asdasdasdasd  0x7f80e9c12924
-gpl[13]: rects[0].x = 0
-gpl[14]: rects[0].y = 0
-gpl[15]: rects[0].w = 10
-gpl[16]: rects[0].h = 10
+gpl[13]: rects[0].x = 1
+gpl[14]: rects[0].y = 2
+gpl[15]: rects[0].w = 3
+gpl[16]: rects[0].h = 4
 
 Printing the symbol table from signal_handler()
 game_object rects[0]

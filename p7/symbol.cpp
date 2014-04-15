@@ -2,8 +2,25 @@
 # include "animation_block.h"
 # include "game_object.h"
 # include "indent.h"
-
   
+Symbol::Symbol()
+{
+  m_string= "NULL";
+  m_int = 0;
+  m_double = 0;
+}
+void Symbol::set_game_object(string name, Game_object *game_object)
+{
+  m_type = GAME_OBJECT;
+  m_name = name;
+  m_game_object = game_object;
+}
+void Symbol::set_animation_block(string name, Animation_block * block)
+{
+  m_type = ANIMATION_BLOCK;
+  m_name = name;
+  m_animation_block = block;
+}
 void Symbol::set(string name, string type, int int_val, double double_val, string string_val)
 {
   m_name = name;
@@ -22,6 +39,11 @@ Game_object * Symbol::return_game_object()
 {
   return m_game_object;
 }
+void Symbol::set_member_variable(string param, int value)
+{
+  m_game_object->set_member_variable(param, value);
+}
+
 void Symbol::get_member_variable(string id3, int &i)
 {
   m_game_object->get_member_variable(id3, i);
@@ -41,24 +63,6 @@ void Symbol::get_member_variable(string id3, Animation_block *&a)
 void Symbol::get_member_variable_type(string id3, Gpl_type &type)
 {
   m_game_object->get_member_variable_type(id3, type);
-}
-void Symbol::set_game_object(string name, Game_object *game_object)
-{
-  m_type = GAME_OBJECT;
-  m_name = name;
-  m_game_object = game_object;
-}
-void Symbol::set_animation_block(string name, Animation_block * block)
-{
-  m_type = ANIMATION_BLOCK;
-  m_name = name;
-  m_animation_block = block;
-}
-Symbol::Symbol()
-{
-  m_string= "NULL";
-  m_int = 0;
-  m_double = 0;
 }
 Gpl_type Symbol::get_type()
 {

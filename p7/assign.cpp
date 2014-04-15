@@ -30,9 +30,10 @@ void Assign::execute()
       temp_object->get_member_variable_type(m_var->return_param_id(), type);
       if (type == INT)
       {
-        cout << name << " its INT " << m_exp->eval_int() << "  " << m_var->return_param_id() << endl;
         temp_object->set_member_variable(m_var->return_param_id(), m_exp->eval_int());
+        s->set_member_variable(m_var->return_param_id(), m_exp->eval_int());
       }
+
       if (type == DOUBLE)
         temp_object->set_member_variable(m_var->return_param_id(), m_exp->eval_double());
       if (type == STRING)

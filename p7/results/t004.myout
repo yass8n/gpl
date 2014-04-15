@@ -9,10 +9,6 @@ gpl.cpp::main()
 
 gpl.cpp::main() Calling yyparse()
 
-x  1
-y  2
-w  3
-h  4
 
 gpl.cpp::main() after call to yyparse().
 
@@ -50,15 +46,11 @@ game_object my_rect
     y = int(2)
   }
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
 gpl[5]: my_rect.x = 1
 gpl[6]: my_rect.y = 2
 gpl[7]: my_rect.w = 3
 gpl[8]: my_rect.h = 4
-done event manager
 
 Printing the symbol table from signal_handler()
 game_object my_rect

@@ -15,11 +15,7 @@ gpl.cpp::main() after call to yyparse().
 
 Printing the symbol table from main()
 gpl.cpp::main() Calling window->initialize().
-at event manager
-done event manager
 gpl.cpp::main() Passing control to window->main_loop().
-at event manager
 gpl[3]: hello -- space key was pressed
-done event manager
 
 Printing the symbol table from signal_handler()
