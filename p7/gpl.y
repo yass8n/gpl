@@ -236,21 +236,21 @@ string ts;
 double td;
 int ti;
           int type = $3->get_type();
-           if (type == 1)
+           if (type == INT)
               ti = $3->eval_int();
-           if (type == 2)
+           if (type == DOUBLE)
               td = $3->eval_double();
-           if (type == 4)
+           if (type == STRING)
               ts = $3->eval_string();
 
           if ($1 == INT)//put into symbol table
           {
              int initial_value = 0;
-             if (type == 1)
+             if (type == INT)
 	       initial_value = (int)ti;
-             if (type == 2)
+             if (type == DOUBLE)
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
-             if (type == 4)
+             if (type == STRING)
                Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
             Symbol *sym = new Symbol();
             (*sym).set(id, "INT", initial_value, 0, "");
@@ -259,11 +259,11 @@ int ti;
            if ($1 == DOUBLE)//put into symbol table
           {
              double initial_value = 0.0;
-             if (type == 1)
+             if (type == INT)
               initial_value = (double)ti;
-             if (type == 2)
+             if (type == DOUBLE)
               initial_value = (double)td;
-             if (type == 4)
+             if (type == STRING)
               Error::error(Error::INVALID_TYPE_FOR_INITIAL_VALUE, id); 
            Symbol *sym = new Symbol();
            (*sym).set(id, "DOUBLE", 0, initial_value, "");
@@ -272,11 +272,11 @@ int ti;
            if ($1 == STRING)//put into symbol table
           {
              stringstream initial;
-             if (type == 1)
+             if (type == INT)
               initial << ti;
-             if (type == 2)
+             if (type == DOUBLE)
               initial << td;
-             if (type == 4)
+             if (type == STRING)
               initial  << ts;
              string initial_value = initial.str();
            Symbol *sym = new Symbol();
@@ -320,14 +320,14 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
  string id = *$2;
      if (!sym_table->lookup(id))
       {
-         if ($4->get_type()==4)
+         if ($4->get_type()== STRING)
            { 
             string array_size = $4->eval_string();
             stringstream num;
             num << array_size;
             Error::error(Error::INVALID_ARRAY_SIZE, id, num.str()); 
            }
-        if ($4->get_type()==2)
+        if ($4->get_type()== STRING)
           { 
             double array_size = $4->eval_double();
             stringstream num;
@@ -336,7 +336,7 @@ simple_type  T_ID  T_LBRACKET expression T_RBRACKET
           }
         else if (!sym_table->lookup(id) )
           {
-           if( $4->get_type()==1)
+           if( $4->get_type()== INT)
               {
               int array_size = $4->eval_int();
               if (array_size <= 0)
@@ -436,14 +436,14 @@ cur_object = new Textbox();
  string id = *$2;
      if (!sym_table->lookup(id))
       {
-         if ($4->get_type()==4)
+         if ($4->get_type()== STRING)
            { 
             string array_size = $4->eval_string();
             stringstream num;
             num << array_size;
             Error::error(Error::INVALID_ARRAY_SIZE, id, num.str()); 
            }
-        if ($4->get_type()==2)
+        if ($4->get_type()== STRING)
           { 
             double array_size = $4->eval_double();
             stringstream num;
@@ -452,7 +452,7 @@ cur_object = new Textbox();
           }
         else if (!sym_table->lookup(id) )
           {
-           if( $4->get_type()==1)
+           if( $4->get_type()== INT)
               {
               int array_size = $4->eval_int();
               if (array_size <= 0)
@@ -605,9 +605,9 @@ int type = $3->get_type();
                  cout << "error4" << endl;
             Symbol_table *sym_table = Symbol_table::instance();
              Symbol *s = sym_table->get($3->get_var_name());
-            if (s->return_animation_block()->get_parameter_symbol()->return_game_object()->type() != cur_object->type())
+            if (s->get_animation_block()->get_parameter_symbol()->get_game_object()->type() != cur_object->type())
                {
-                Error::error(Error::TYPE_MISMATCH_BETWEEN_ANIMATION_BLOCK_AND_OBJECT, name_of_object,s->return_name() );
+                Error::error(Error::TYPE_MISMATCH_BETWEEN_ANIMATION_BLOCK_AND_OBJECT, name_of_object,s->get_name() );
                }    
             else
                cur_object->set_member_variable(param, $3->eval_animation_block());
@@ -634,18 +634,18 @@ forward_declaration:
         if ($5 != NULL)
         {
                               Symbol *temp1 = $5;
-                              if (!sym_table->lookup(temp1->return_name()))//if the variable is not on the sym_table, then insert it
+                              if (!sym_table->lookup(temp1->get_name()))//if the variable is not on the sym_table, then insert it
                                  {
                                     Animation_block *block = new Animation_block($1,$5,*$3);
                                     Symbol_table *sym_table = Symbol_table::instance();
                                     Symbol *sym = new Symbol();
-                                    sym_table->set_sym(temp1->return_name(), *temp1);
+                                    sym_table->set_sym(temp1->get_name(), *temp1);
                                     sym->set_animation_block(id, block);
                                     sym_table->set_sym(*$3, *sym);
                                  }
                               else
                                   {
-                                   Error::error(Error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE, temp1->return_name());
+                                   Error::error(Error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE, temp1->get_name());
                                    }
                                   
         }
@@ -1065,20 +1065,20 @@ variable:
     | T_ID T_LBRACKET expression T_RBRACKET
 {
  Symbol_table *sym_table = Symbol_table::instance();
-      if ($3->get_type() == 4)
+      if ($3->get_type() == STRING)
       {
          Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A string expression"); 
          Expression *error_exp = new Expression(INT, 0);
          $$ = new Variable(*$1, error_exp);
 
       }
-      if ($3->get_type() == 2)
+      if ($3->get_type() == DOUBLE)
       {
          Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A double expression"); 
          Expression *error_exp = new Expression(INT, 0);
          $$ = new Variable(*$1, error_exp);
       }
-   if ($3->get_type() == 1)
+   if ($3->get_type() == INT)
     {
       int index= $3->eval_int();
       stringstream name;
@@ -1127,7 +1127,7 @@ variable:
                   }
                if (temp->get_type() == GAME_OBJECT)
                   {
-                         Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
+                         Status status = temp->get_game_object()->get_member_variable_type(param,gpl_type);
                          if (status == MEMBER_NOT_DECLARED)
                             {
                                Error::error(Error::UNDECLARED_MEMBER, *$1, param);
@@ -1147,7 +1147,7 @@ variable:
 }
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
 {
-           if( $3->get_type()==1)
+           if( $3->get_type()== INT)
               {
                    int index = $3->eval_int();
                    if (index < 0)
@@ -1179,7 +1179,7 @@ variable:
                               }
                            if (temp->get_type() == GAME_OBJECT)
                                {
-                                   Status status = temp->return_game_object()->get_member_variable_type(param,gpl_type);
+                                   Status status = temp->get_game_object()->get_member_variable_type(param,gpl_type);
                                    if (status == MEMBER_NOT_DECLARED)
                                     {
                                       Error::error(Error::UNDECLARED_MEMBER, *$1, param);
@@ -1229,12 +1229,12 @@ expression:
           {
             int type1 = $1->get_type();
             int type3 = $3->get_type();
-             if (type1 == 4)
+             if (type1 == STRING)
                {
                  Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "||"); 
                  $$ = new Expression(INT,0); 
                } 
-             else if (type3 == 4)
+             else if (type3 == STRING)
                 {
                   Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "||"); 
                   $$ = new Expression(INT,0); 
@@ -1257,12 +1257,12 @@ expression:
           {
             int type1 = $1->get_type();
             int type3 = $3->get_type();
-             if (type1 == 4)
+             if (type1 == STRING)
                {
                  Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "&&"); 
                  $$ = new Expression(INT,0); 
                } 
-             else if (type3 == 4)
+             else if (type3 == STRING)
                 {
                   Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "&&"); 
                   $$ = new Expression(INT,0); 
@@ -1390,12 +1390,12 @@ expression:
           {
         int type1 = $1->get_type();
         int type3 = $3->get_type();
-      if (type1 == 4)
+      if (type1 == STRING)
           {
          Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "-"); 
             $$ = new Expression(INT,0); 
           } 
-      else if (type3 == 4)
+      else if (type3 == STRING)
           {
          Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "-"); 
             $$ = new Expression(INT,0); 
@@ -1419,12 +1419,12 @@ expression:
           {
             int type1 = $1->get_type();
             int type3 = $3->get_type();
-             if (type1 == 4)
+             if (type1 == STRING)
                {
                  Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "*"); 
                  $$ = new Expression(INT,0); 
                } 
-             else if (type3 == 4)
+             else if (type3 == STRING)
                 {
                   Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "*"); 
                   $$ = new Expression(INT,0); 
@@ -1447,12 +1447,12 @@ expression:
          {
         int type1 = $1->get_type();
         int type3 = $3->get_type();
-      if (type1 == 4)
+      if (type1 == STRING)
           {
          Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "/"); 
             $$ = new Expression(INT,0); 
           } 
-      else if (type3 == 4)
+      else if (type3 == STRING)
           {
          Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "/"); 
             $$ = new Expression(INT,0); 
@@ -1475,12 +1475,12 @@ expression:
          {
         int type1 = $1->get_type();
         int type3 = $3->get_type();
-      if (type1 == 4)
+      if (type1 == STRING)
           {
          Error::error(Error::INVALID_LEFT_OPERAND_TYPE, "mod"); 
             $$ = new Expression(INT,0); 
           } 
-      else if (type3 == 4)
+      else if (type3 == STRING)
           {
          Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "mod"); 
             $$ = new Expression(INT,0); 
@@ -1499,7 +1499,7 @@ expression:
       else
          {
        int type = $2->get_type();
-       if (type == 4)
+       if (type == STRING)
        {
            $$ = new Expression(INT, 0); 
        }
@@ -1518,7 +1518,7 @@ expression:
       else
          {
      int type = $2->get_type();
-     if (type == 4)
+     if (type == STRING)
        {
           $$ = new Expression(INT,0); 
        }
@@ -1539,7 +1539,7 @@ expression:
        if ($1 == SIN)
         {
            int type = $3->get_type();
-           if (type == 4)
+           if (type == STRING)
             { 
                $$ = new Expression(INT, 0);
             }
@@ -1551,7 +1551,7 @@ expression:
        if ($1 == COS)
         {
             int type = $3->get_type();
-             if (type == 4)
+             if (type == STRING)
                { 
                 $$ = new Expression(INT, 0);
                }
@@ -1563,7 +1563,7 @@ expression:
        if ($1 == TAN)
        {
            int type = $3->get_type();
-           if (type == 4)
+           if (type == STRING)
            { 
             $$ = new Expression(INT,0);
            }
@@ -1575,7 +1575,7 @@ expression:
        if ($1 == ASIN)
        {
            int type = $3->get_type();
-           if (type == 4)
+           if (type == STRING)
             { 
               $$ = new Expression(INT, 0);
             }
@@ -1587,7 +1587,7 @@ expression:
        if ($1 == ACOS)
          {
            int type = $3->get_type();
-           if (type == 4)
+           if (type == STRING)
             { 
               $$ = new Expression(INT,0);
             }
@@ -1599,7 +1599,7 @@ expression:
        if ($1 == ATAN)
          {
             int type = $3->get_type();
-            if (type == 4)
+            if (type == STRING)
             { 
               $$ = new Expression(INT,0);
             }
@@ -1611,7 +1611,7 @@ expression:
        if ($1 == SQRT)
          {
           int type = $3->get_type();
-          if (type == 4)
+          if (type == STRING)
           { 
              Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "sqrt"); 
             $$ = new Expression(INT,0);
@@ -1619,7 +1619,7 @@ expression:
           else 
           { 
             int type = $3->get_type();
-            if (type == 1)
+            if (type == INT)
             {
                 if ($3->eval_int() < 0)
                  {
@@ -1630,7 +1630,7 @@ expression:
                   $$ = new Expression(SQRT, $3);
                 }
            }
-           if (type == 2)
+           if (type == DOUBLE)
            {
               if ($3->eval_double() < 0)
                 {
@@ -1645,7 +1645,7 @@ expression:
          if ($1 == FLOOR)
          {
            int type = $3->get_type();
-           if (type == 4)
+           if (type == STRING)
             { 
                 Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "floor"); 
                 $$ = new Expression(INT,0);
@@ -1658,7 +1658,7 @@ expression:
          if ($1 == ABS)
          {
             int type = $3->get_type();
-            if (type == 4)
+            if (type == STRING)
              { 
              Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "abs"); 
                 $$ = new Expression(INT,0);
@@ -1671,7 +1671,7 @@ expression:
           if ($1 == RANDOM)
              {
                 int type = $3->get_type();
-                if (type == 4)
+                if (type == STRING)
                  { 
                     Error::error(Error::INVALID_RIGHT_OPERAND_TYPE, "random"); 
                     $$ = new Expression(INT,0);

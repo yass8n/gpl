@@ -35,7 +35,7 @@ void Symbol::set(string name, string type, int int_val, double double_val, strin
   m_string = string_val;
   m_double = double_val;
 }
-Game_object * Symbol::return_game_object()
+Game_object * Symbol::get_game_object()
 {
   return m_game_object;
 }
@@ -68,65 +68,37 @@ Gpl_type Symbol::get_type()
 {
   return m_type;
 }
-string Symbol::return_name()
+string Symbol::get_name()
 {
   return m_name;
 }
-int Symbol::return_int()
+int Symbol::get_int()
 {
   return m_int;
 }
-double Symbol::return_double()
+double Symbol::get_double()
 {
   return m_double;
 }
-string Symbol::return_string()
+string Symbol::get_string()
 {
   return m_string;
 }
-Animation_block * Symbol::return_animation_block()
+Animation_block * Symbol::get_animation_block()
 {
   return m_animation_block;
 }
-string Symbol::return_type()
-{
-  string str;
-  if (m_type == 1)
-  {
-    str = "INT";
-    return str;
-  }
-  if (m_type == 2)
-  {
-    str = "DOUBLE";
-    return str;
-  }
-  if (m_type == 4)
-  {
-    str = "STRING";
-    return str;
-  }
-  if (m_type == 8)
-  {
-    str = "GAME_OBJECT";
-    return str;
-  }
-  if (m_type == 16)
-  {
-    str = "ANIMATION_BLOCK";
-    return str;
-  }
-}
+
    
 void Symbol::print(ostream &os)
 {
-  if (m_type == 1)
+  if (m_type == INT)
     os << "int " << m_name << " " << m_int << endl;
-  if (m_type == 2)
+  if (m_type == DOUBLE)
     os << "double "<< m_name << " " << m_double << endl;
-  if (m_type == 4)
+  if (m_type == STRING)
     os << "string " << m_name << " \"" << m_string << "\""<<endl;
-  if (m_type == 8)
+  if (m_type == GAME_OBJECT)
   {
     os << "game_object ";
     os << m_name << endl;
@@ -134,7 +106,7 @@ void Symbol::print(ostream &os)
     os <<  m_game_object << endl;
     indent--;
   }
-  if (m_type == 16)
+  if (m_type == ANIMATION_BLOCK)
   {
     os << "animation_block ";
     os << m_name << endl;

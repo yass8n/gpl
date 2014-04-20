@@ -43,7 +43,7 @@ bool Symbol_table::get(string name, int &value)
   if (!cur || cur->get_type()!=1)
     return false;
 
-  value = cur->return_int();
+  value = cur->get_int();
   return true;
 }
 bool Symbol_table::get(string name, double &value)
@@ -52,7 +52,7 @@ bool Symbol_table::get(string name, double &value)
   if (!cur || cur->get_type()!=2)
     return false;
 
-  value = cur->return_double();
+  value = cur->get_double();
   return true;
 }
 bool Symbol_table::get(string name, string &value)
@@ -61,7 +61,7 @@ bool Symbol_table::get(string name, string &value)
   if (!cur || cur->get_type()!=4)
     return false;
 
-  value = cur->return_string();
+  value = cur->get_string();
   return true;
 }
 bool Symbol_table::get_type(string name, Gpl_type &type)

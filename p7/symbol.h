@@ -20,23 +20,22 @@ class Symbol{
   public:  
     void set_member_variable(string param, int value);
     void set_animation_block(string name, Animation_block *block);
-    Animation_block * return_animation_block();
+    Animation_block * get_animation_block();
     void set (string name,string type, int int_val, double double_val, string string_val);
     void set_game_object(string name, Game_object *game_object);
     Symbol();
     Gpl_type get_type();
-    Game_object * return_game_object();
-    string return_name();
-    int return_int();
-    string return_string();
-    double return_double();
+    Game_object * get_game_object();
+    string get_name();
+    int get_int();
+    string get_string();
+    double get_double();
     void print(ostream &os);
     void get_member_variable_type(string id3, Gpl_type &);
     void get_member_variable(string id3, int &);
     void get_member_variable(string id3, double &);
     void get_member_variable(string id3, string &);
     void get_member_variable(string id3, Animation_block *&);
-    string return_type();
 };
 
 #endif

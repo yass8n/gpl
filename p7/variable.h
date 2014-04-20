@@ -17,9 +17,9 @@ class Variable{
     Variable(string id1, string param);
     Variable(string id1, string param, string name_of_index);
     string get_name_for_assign_statement();
-    string return_string_type();
+    string get_string_type();
     int get_int_value();
-    Animation_block* return_animation_block();
+    Animation_block* get_animation_block();
     double get_double_value();
     string get_string_value();
     string get_name();
@@ -29,8 +29,8 @@ class Variable{
     int eval_int();
     string eval_string();
     double eval_double();
-    string return_param_id();
-    Symbol * return_symbol();
+    string get_param_id();
+    Symbol * get_symbol();
     Expression* get_expression();
   private:
     string m_string_type;

@@ -85,19 +85,19 @@ Variable::Variable(string id1, string param)
 void Variable::set_member_variable_of_this_variable(string param)
   {
     m_game_object_member_set = true;
-    if (m_type == 1)
+    if (m_type == INT)
     {
       m_sym->get_member_variable(param, m_member_variable_int);
     }
-    if (m_type == 2)
+    if (m_type == DOUBLE)
     {
       m_sym->get_member_variable(param, m_member_variable_double);
     }
-    if (m_type == 4)
+    if (m_type == STRING)
     {
       m_sym->get_member_variable(param, m_member_variable_string);
     }
-    if (m_type == 16)
+    if (m_type == ANIMATION_BLOCK)
     {
       m_sym->get_member_variable(param, m_member_variable_animation_block);
     }
@@ -107,30 +107,30 @@ void Variable::set_member_variable_of_this_variable(string param)
     Symbol_table *sym_table = Symbol_table::instance();
     Symbol *s = sym_table->get(name_of_index);
     stringstream id;
-    id<< id1 << '[' << s->return_int() <<']';
+    id<< id1 << '[' << s->get_int() <<']';
     m_id = id.str();
   }
   string Variable::eval_string()
   {
     Symbol_table *sym_table = Symbol_table::instance();
-    assert(m_exp->get_type() == 1);
+    assert(m_exp->get_type() == INT);
     int temp = m_exp->eval_int();
     stringstream id;
     id << m_id<< '[' << temp <<']';
     m_sym = sym_table->get(id.str());
     assert(m_sym != NULL);
-    assert(m_sym->return_type() == "STRING");
-    return m_sym->return_string();
+    assert(m_sym->get_type() == STRING);
+    return m_sym->get_string();
 }
 string Variable::get_name()
 {
   return m_id;
 }
-string Variable::return_param_id()
+string Variable::get_param_id()
 {
   return m_param_id;
 }
-string Variable::return_string_type()
+string Variable::get_string_type()
 {
   return m_string_type;
 }
@@ -141,12 +141,12 @@ string Variable::get_name_for_assign_statement()
     Symbol_table *sym_table = Symbol_table::instance();
     Symbol *s = sym_table->get(m_name_of_index);
     stringstream id;
-    id<< m_id1 << '[' << s->return_int() <<']';
+    id<< m_id1 << '[' << s->get_int() <<']';
     return id.str();
   }
   if (m_string_type == "array")    
   {
-    assert(m_exp->get_type() == 1);
+    assert(m_exp->get_type() == INT);
     int temp = m_exp->eval_int();
     stringstream id;
     id << m_id<< '[' << temp <<']';
@@ -155,13 +155,13 @@ string Variable::get_name_for_assign_statement()
   else
     return m_id;
 }
-Symbol * Variable::return_symbol()
+Symbol * Variable::get_symbol()
 {
   return m_sym;
 }
-Animation_block * Variable::return_animation_block()
+Animation_block * Variable::get_animation_block()
 {
-  return m_sym->return_animation_block();
+  return m_sym->get_animation_block();
 }
 bool Variable::included()
 {
@@ -170,26 +170,26 @@ bool Variable::included()
 double Variable::eval_double()
 {
   Symbol_table *sym_table = Symbol_table::instance();
-  assert(m_exp->get_type() == 1);
+  assert(m_exp->get_type() == INT);
   int temp = m_exp->eval_int();
   stringstream id;
   id << m_id<< '[' << temp <<']';
   m_sym = sym_table->get(id.str());
   assert(m_sym != NULL);
-  assert(m_sym->return_type() == "DOUBLE");
-  return m_sym->return_double();
+  assert(m_sym->get_type() == DOUBLE);
+  return m_sym->get_double();
 }
 int Variable::eval_int()
 {
   Symbol_table *sym_table = Symbol_table::instance();
-  assert(m_exp->get_type() == 1);
+  assert(m_exp->get_type() == INT);
   int temp =  m_exp->eval_int();
   stringstream id;
   id << m_id<< '[' << temp <<']';
   m_sym = sym_table->get(id.str());
   assert(m_sym != NULL);
-  assert(m_sym->return_type() == "INT");
-  return m_sym->return_int();
+  assert(m_sym->get_type() == INT);
+  return m_sym->get_int();
 }
 
 string Variable::get_string_value()
@@ -205,7 +205,7 @@ string Variable::get_string_value()
        m_sym = s;
        }
        */
-    set_member_variable_of_this_variable(return_param_id());
+    set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval string on this variable and we need it to update again...
     //if the expression class got the value from the symbol table, there would 
@@ -217,12 +217,12 @@ string Variable::get_string_value()
   if (m_string_type == "array")
   {
     stringstream name;
-    assert(m_exp->get_type() == 1);
+    assert(m_exp->get_type() == INT);
     int x = m_exp->eval_int();
     name << m_id << '[' << x << ']';
     m_sym = sym_table->get(name.str());
   }
-  return m_sym->return_string();
+  return m_sym->get_string();
 }
 double Variable::get_double_value()
 {
@@ -237,7 +237,7 @@ double Variable::get_double_value()
        m_sym = s;
        }
        */
-    set_member_variable_of_this_variable(return_param_id());
+    set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval double on this variable and we need it to update again...
     //if the expression class got the value from the symbol table, there would 
@@ -249,12 +249,12 @@ double Variable::get_double_value()
   if (m_string_type == "array")
   {
     stringstream name;
-    assert(m_exp->get_type() == 1);
+    assert(m_exp->get_type() == INT);
     int x = m_exp->eval_int();
     name << m_id << '[' << x << ']';
     m_sym = sym_table->get(name.str());
   }
-  return m_sym->return_double();
+  return m_sym->get_double();
 }
 int Variable::get_int_value()
 {
@@ -267,7 +267,7 @@ int Variable::get_int_value()
       Symbol *s = sym_table->get(m_id);
       m_sym = s;
     }
-    set_member_variable_of_this_variable(return_param_id());
+    set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval int on this variable and we need it to update again...
     //if the expression class got the value from the symbol table, there would 
@@ -279,14 +279,14 @@ int Variable::get_int_value()
   if (m_string_type == "array")
   {
     stringstream name;
-    assert(m_exp->get_type() == 1);
+    assert(m_exp->get_type() == INT);
     int x = m_exp->eval_int();
     name << m_id << '[' << x << ']';
     m_sym = sym_table->get(name.str());
   }
   if (m_string_type == "simple")
     m_sym = sym_table->get(m_id);
-  return m_sym->return_int();
+  return m_sym->get_int();
 }
 Gpl_type Variable::get_type()
 {
