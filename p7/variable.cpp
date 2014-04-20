@@ -8,10 +8,6 @@ Variable::Variable()
   m_game_object_member_set = false;
   m_included = true;
 }
-string Variable::return_string_type()
-{
-  return m_string_type;
-}
 Variable::Variable(string id)
 {
   m_game_object_member_set = false;
@@ -19,6 +15,7 @@ Variable::Variable(string id)
   Symbol_table *sym_table = Symbol_table::instance();
   m_id = id;
   m_string_type = "simple";
+  m_exp = NULL;
   if (sym_table->lookup(id))//its in the table
   { 
     m_sym = sym_table->get(id);
@@ -37,6 +34,7 @@ Variable::Variable(string id, int x)
   m_string_type = "error";
   m_included = false;
   m_sym = NULL;
+  m_exp = NULL;
 }
 Variable::Variable(string id, Expression *exp)
 {
@@ -52,9 +50,26 @@ Variable::Variable(string id, Expression *exp)
   name << id << '[' << x << ']';
   m_sym = sym_table->get(name.str());
 }
+Variable::Variable(string id1, string param, string name_of_index)
+{
+  m_included = true;
+  m_exp = NULL;
+  Symbol_table *sym_table = Symbol_table::instance();
+  set_m_id(id1,name_of_index);
+  assert(sym_table->lookup(m_id));
+  m_param_id = param;
+  m_id1 = id1;
+  m_name_of_index = name_of_index;
+  m_string_type = "member with variable index";
+  m_sym = sym_table->get(m_id);
+  m_sym->get_member_variable_type(param, m_type);
+  //m_type is used in the set_member_var function
+  set_member_variable_of_this_variable(param);
+}
 Variable::Variable(string id1, string param)
 {
   m_included = true;
+  m_exp = NULL;
   Symbol_table *sym_table = Symbol_table::instance();
   assert(sym_table->lookup(id1));
   m_id = id1;
@@ -85,9 +100,13 @@ void Variable::set_member_variable_of_this_variable(string param)
     m_sym->get_member_variable(param, m_member_variable_animation_block);
   }
 }
-string Variable::return_param_id()
+void Variable::set_m_id(string id1, string name_of_index)
 {
-  return m_param_id;
+  Symbol_table *sym_table = Symbol_table::instance();
+  Symbol *s = sym_table->get(name_of_index);
+  stringstream id;
+  id<< id1 << '[' << s->return_int() <<']';
+  m_id = id.str();
 }
 string Variable::eval_string()
 {
@@ -105,18 +124,38 @@ string Variable::get_name()
 {
   return m_id;
 }
+string Variable::return_param_id()
+{
+  return m_param_id;
+}
+string Variable::return_string_type()
+{
+  return m_string_type;
+}
 string Variable::get_name_for_assign_statement()
 {
-  if (m_string_type == "array")
+  if (m_string_type == "member with variable index")
   {
-  assert(m_exp->get_type() == 1);
-  int temp = m_exp->eval_int();
-  stringstream id;
-  id << m_id<< '[' << temp <<']';
-  return id.str();
+      Symbol_table *sym_table = Symbol_table::instance();
+      Symbol *s = sym_table->get(m_name_of_index);
+      stringstream id;
+      id<< m_id1 << '[' << s->return_int() <<']';
+      return id.str();
+  }
+  if (m_string_type == "array")    
+  {
+    assert(m_exp->get_type() == 1);
+    int temp = m_exp->eval_int();
+    stringstream id;
+    id << m_id<< '[' << temp <<']';
+    return id.str();
   }
   else
     return m_id;
+}
+Symbol * Variable::return_symbol()
+{
+  return m_sym;
 }
 Animation_block * Variable::return_animation_block()
 {
@@ -185,6 +224,13 @@ int Variable::get_int_value()
 {
   if (m_game_object_member_set ==true)
   {
+    if ( m_string_type== "member with variable index")
+    {
+      set_m_id(m_id1, m_name_of_index);
+      Symbol_table *sym_table = Symbol_table::instance();
+      Symbol *s = sym_table->get(m_id);
+      m_sym = s;
+    }
     set_member_variable_of_this_variable(return_param_id());
     //calling again because when the "on print" is called,
     //it calls eval int on this variable and we need it to update again...
@@ -210,4 +256,8 @@ Gpl_type Variable::get_type()
   {
     return INT;
   }
+}
+Expression * Variable::get_expression()
+{
+  return m_exp;
 }

@@ -1,7 +1,7 @@
 # ifndef PRINT_H_
 # define PRINT_H_
 # include "statement.h"
-# include "Game_object.h"
+# include "game_object.h"
 class Print : public Statement
 {
   public:

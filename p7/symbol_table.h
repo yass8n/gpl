@@ -10,6 +10,7 @@ class Symbol_table {
   public:
     bool get(string name, int &value);
     bool get(string name, double &value);
+    bool in_vector(string name);
     bool get(string name, string &value);
     bool get_type(string name, Gpl_type &type);
     bool set(string name, int  value); // used for mouse_x, mouse_y

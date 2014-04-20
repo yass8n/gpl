@@ -167,7 +167,11 @@ stack <Statement_block*> statement_stack;
 %type <union_variable_type> variable
 %type <union_operator_type> math_operator
 %type <union_statement_type> print_statement
+%type <union_statement_type> for_statement
+%type <union_statement_type> assign_statement
+%type <union_statement_type> if_statement
 %type <union_statementblock_type> end_of_statement_block
+%type <union_statementblock_type> if_block
 %type <union_statementblock_type> statement_block
 %type <union_int> keystroke
 %type <union_int> object_type
@@ -238,7 +242,6 @@ int ti;
               td = $3->eval_double();
            if (type == 4)
               ts = $3->eval_string();
-             
 
           if ($1 == INT)//put into symbol table
           {
@@ -815,7 +818,13 @@ $$ = 13;
 //---------------------------------------------------------------------
 if_block:
     statement_block_creator statement end_of_statement_block
+{
+  $$ = $3;
+}
     | statement_block
+{
+  $$ = $1;
+}
     ;
 
 //---------------------------------------------------------------------
@@ -864,18 +873,43 @@ statement:
 //---------------------------------------------------------------------
 if_statement:
     T_IF T_LPAREN expression T_RPAREN if_block %prec IF_NO_ELSE
+{
+    if($3->get_type()!=INT)
+      Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+    If * if_statement = new If($3, $5, NULL);
+    statement_stack.top()->insert(if_statement);
+}
+   
     | T_IF T_LPAREN expression T_RPAREN if_block T_ELSE if_block %prec IF_ELSE
+{
+    if($3->get_type()!=INT)
+      Error::error(Error::INVALID_TYPE_FOR_IF_STMT_EXPRESSION);
+    If * else_statement = new If($3,$5, $7);
+    statement_stack.top()->insert(else_statement);
+}
     ;
 
 //---------------------------------------------------------------------
 for_statement:
     T_FOR T_LPAREN statement_block_creator assign_statement end_of_statement_block T_SEMIC expression T_SEMIC statement_block_creator assign_statement end_of_statement_block T_RPAREN statement_block
+{
+   if ($7->get_type()!=INT)
+      Error::error(Error::INVALID_TYPE_FOR_FOR_STMT_EXPRESSION);
+
+   For * for_statement = new For($5, $7, $11, $13);
+   statement_stack.top()->insert(for_statement);
+}
+
     ;
 
 //---------------------------------------------------------------------
 print_statement:
     T_PRINT T_LPAREN expression T_RPAREN
     {
+      if($3->get_type()!= INT && 
+         $3->get_type()!= DOUBLE && 
+         $3->get_type()!= STRING)
+         Error::error(Error::INVALID_TYPE_FOR_PRINT_STMT_EXPRESSION);
       Statement *print_statement = new Print($1, $3);
       statement_stack.top()->insert(print_statement);
       
@@ -886,22 +920,142 @@ print_statement:
 //---------------------------------------------------------------------
 exit_statement:
     T_EXIT T_LPAREN expression T_RPAREN
+{
+    if($3->get_type()!=INT)
+     {
+      string type;
+      if ($3->get_type()==DOUBLE)
+         type = "double";
+      if ($3->get_type()==STRING)
+         type = "string";
+      Error::error(Error::EXIT_STATUS_MUST_BE_AN_INTEGER,type );
+     }
+    Exit * exit_statement = new Exit($1,$3);
+    statement_stack.top()->insert(exit_statement);
+}
     ;
 
 //---------------------------------------------------------------------
 assign_statement:
     variable T_ASSIGN expression
     {
+     if ($1->return_string_type()=="error")
+    //look at action of T_ID [] for clarification
+     {
+            Error::error(Error::VARIABLE_NOT_AN_ARRAY, $1->get_name());
+     }
+      Gpl_type type_of_variable = $1->get_type();
+      string type_v;
+      if (type_of_variable == INT)
+         type_v = "int";
+      if (type_of_variable == DOUBLE)
+         type_v = "double";
+      if (type_of_variable == STRING)
+         type_v = "string";
+      if (type_of_variable == ANIMATION_BLOCK)
+         type_v = "animation_block";
+      if (type_of_variable == GAME_OBJECT)
+         type_v = "game_object";
+      Gpl_type type_of_expression = $3->get_type();
+      string type_e;
+      if (type_of_expression == INT)
+         type_e = "int";
+      if (type_of_expression == DOUBLE)
+         type_e = "double";
+      if (type_of_expression == STRING)
+         type_e = "string";
+          if (type_v == "int")
+          {
+             if (type_e == "double" || type_e == "string")
+               Error::error(Error::ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+           if (type_v == "double")
+          {
+             if (type_e == "string")
+               Error::error(Error::ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+          if (type_v == "game_object")
+          {
+               Error::error(Error::INVALID_LHS_OF_ASSIGNMENT,$1->get_name(), type_v ); 
+          }
       Statement * assign_statement = new Assign($1, $3, "=");
       statement_stack.top()->insert(assign_statement);
     }
     | variable T_PLUS_ASSIGN expression
     {
+      Gpl_type type_of_variable = $1->get_type();
+      string type_v;
+      if (type_of_variable == INT)
+         type_v = "int";
+      if (type_of_variable == DOUBLE)
+         type_v = "double";
+      if (type_of_variable == STRING)
+         type_v = "string";
+      if (type_of_variable == ANIMATION_BLOCK)
+         type_v = "animation_block";
+      if (type_of_variable == GAME_OBJECT)
+         type_v = "game_object";
+      Gpl_type type_of_expression = $3->get_type();
+      string type_e;
+      if (type_of_expression == INT)
+         type_e = "int";
+      if (type_of_expression == DOUBLE)
+         type_e = "double";
+      if (type_of_expression == STRING)
+         type_e = "string";
+          if (type_v == "int")
+          {
+             if (type_e == "double" || type_e == "string")
+               Error::error(Error::PLUS_ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+           if (type_v == "double")
+          {
+             if (type_e == "string")
+               Error::error(Error::PLUS_ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+          if (type_v == "animation_block" || type_v == "game_object")
+               Error::error(Error::INVALID_LHS_OF_PLUS_ASSIGNMENT,$1->get_name(), type_v ); 
+
       Statement * assign_statement = new Assign($1, $3, "+=");
       statement_stack.top()->insert(assign_statement);
     }
     | variable T_MINUS_ASSIGN expression
     {
+      Gpl_type type_of_variable = $1->get_type();
+      string type_v;
+      if (type_of_variable == INT)
+         type_v = "int";
+      if (type_of_variable == DOUBLE)
+         type_v = "double";
+      if (type_of_variable == STRING)
+         type_v = "string";
+      if (type_of_variable == ANIMATION_BLOCK)
+         type_v = "animation_block";
+      if (type_of_variable == GAME_OBJECT)
+         type_v = "game_object";
+      Gpl_type type_of_expression = $3->get_type();
+      string type_e;
+      if (type_of_expression == INT)
+         type_e = "int";
+      if (type_of_expression == DOUBLE)
+         type_e = "double";
+      if (type_of_expression == STRING)
+         type_e = "string";
+          if (type_v == "int")
+          {
+             if (type_e == "double" || type_e == "string")
+               Error::error(Error::MINUS_ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+           if (type_v == "double")
+          {
+             if (type_e == "string")
+               Error::error(Error::MINUS_ASSIGNMENT_TYPE_ERROR,type_v, type_e ); 
+          }
+          if (type_v == "game_object" || type_v == "animation_block" || 
+              type_v == "string")
+          {
+               Error::error(Error::INVALID_LHS_OF_MINUS_ASSIGNMENT,$1->get_name(), type_v ); 
+          }
       Statement * assign_statement = new Assign($1, $3, "-=");
       statement_stack.top()->insert(assign_statement);
     }
@@ -951,14 +1105,12 @@ variable:
            $$ = new Variable(*$1, $3);
           }
       }
-/*
-      else
+      else if(sym_table->lookup(*$1))
+        //its in the symbol table but its stored without the brackets...its not an array
+        //so return an "error" variable
       {
-         $$ = new Variable(*$1, error_exp);
-         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, 0);
       }
-//if the array variable given isn in symbol table
-*/
    }
 }
         
@@ -1012,7 +1164,13 @@ variable:
                         string param = *$6;
                         Gpl_type gpl_type;
                         Symbol_table *sym_table = Symbol_table::instance();
-
+                        string name_of_index;
+                        bool index_is_symbol = false;
+                        if ($3->the_type_of_exp() == "variable")
+                         {
+                           index_is_symbol = true;
+                           name_of_index = $3->get_var_name();
+                         }
                        if(sym_table->lookup(name.str()))
                          {
                            Symbol *temp = sym_table->get(name.str()); 
@@ -1032,7 +1190,16 @@ variable:
                                    else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
                                       cout << "member not of given type" << endl;
                                    else if (status == OK)
-                                      $$ = new Variable(name.str(), *$6);
+                                     {
+                                        if (index_is_symbol)
+                                           {
+                                              $$ = new Variable(*$1, *$6, name_of_index);
+                                           }
+                                        else
+                                           {
+                                              $$ = new Variable(name.str(), *$6);
+                                           }
+                                     }
                                } 
                          }
                        else 

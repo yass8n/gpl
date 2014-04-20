@@ -23,6 +23,14 @@ void Event_manager::insert(Statement_block * statement_block, int index)
 {
   m_vect[index].push_back(statement_block);
 }
+bool Event_manager::empty()
+{
+  for (int j = 0; j < 24; j ++)
+    for(int i = 0; i <m_vect[j].size(); i ++)
+      if (!m_vect[i].empty())
+        return false;
+  return true;
+}
 void 
 Event_manager::execute_handlers(Window::Keystroke keystroke)
 {

@@ -34,6 +34,8 @@ class Event_manager
 
     void insert(Statement_block *, int);
 
+    bool empty();
+
     ~Event_manager();
 
   private:

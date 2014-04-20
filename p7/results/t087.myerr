@@ -1,1 +1,1 @@
-Assertion failed: (m_gpl_type == 4), function eval_string, file expression.cpp, line 1141.
+Semantic error on line 5: Incorrect type for expression in a print statement.  Expressions in print statements must be of type INT, DOUBLE, or STRING.

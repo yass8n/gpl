@@ -86,6 +86,17 @@ void Symbol_table::insert_in_vector(string id)
 {
   id_vect.push_back(id);
 }
+bool Symbol_table::in_vector(string name)
+{
+  vector <string>::iterator iter;
+  for (iter = id_vect.begin(); iter != id_vect.end(); iter ++)
+  {
+    if (name == *iter)
+      return true;
+  }
+  return false;
+}
+
 void Symbol_table::set_sym (string name, Symbol &symbol)
 {
   m_map[name]=&symbol;

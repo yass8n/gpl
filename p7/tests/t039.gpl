@@ -18,5 +18,5 @@ on skey
     // range.  Since k is changed at run time it does not matter that 
     // k was out of range at parse time
     nums[k] = 42;
-    print("nums[k] = " + nums[k]);
+//    print("nums[k] = " + nums[k]);
 }

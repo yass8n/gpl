@@ -51,7 +51,7 @@ gpl.cpp::main() Calling window->initialize().
 gpl.cpp::main() Passing control to window->main_loop().
 
 Printing the symbol table from signal_handler()
-int i 0
+int i 20
 game_object rect
   Rectangle
   {
@@ -80,7 +80,7 @@ game_object rect
     user_string5 = string(""),
     visible = int(1),
     w = int(100),
-    x = int(0),
-    y = int(0)
+    x = int(400),
+    y = int(400)
   }
 string window_title "p7 t050.gpl -- compare to t050.jpg"

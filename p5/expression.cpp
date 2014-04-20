@@ -5,6 +5,7 @@
 # include <sstream>
 # include <string>
 # include "variable.h"
+//# include "animation_block.h"
 Expression::Expression(Gpl_type type, int x)
 {
   assert(type == 1);
@@ -26,8 +27,6 @@ Expression::Expression(Gpl_type type, double x)
   m_var = NULL;
   m_right = NULL;
   m_left= NULL;
-  int gpl_type = evaluate_type();
-  set_type_using_number(gpl_type);
   m_string_type = "T_DOUBLE_CONSTANT";
 }
 
@@ -124,7 +123,11 @@ int Expression::evaluate_type()
       else if (m_left -> evaluate_type() == 2)
         l = 2;
     }
-
+    if (m_op_type == UNARY_MINUS)
+    {
+       if (m_left -> evaluate_type() == 2)
+        l = 2;
+    }
     gpl_reference_set(left_type, l);
     gpl_reference_set(right_type, l);
   }
@@ -924,6 +927,12 @@ string Expression::get_var_name()
 {
   return m_var->get_name();
 }
+/*
+Animation_block * Expression::eval_animation_block()
+{
+  return m_var->return_animation_block();
+}
+*/
 double Expression::eval_double()
 {
   assert(m_gpl_type == 2);
@@ -1025,6 +1034,21 @@ double Expression::eval_double()
       l = m_left->eval_double();
     }
     return atan(l)*(180/M_PI);
+  }
+  if (m_op_type == UNARY_MINUS)
+  {
+    double l = 0.0;
+    assert(m_right == NULL);
+    if (m_left->evaluate_type()==1)
+    {
+      l = (double)m_left->eval_int();
+    }
+    else
+    {
+      assert(m_left->evaluate_type()==2);
+      l = m_left->eval_double();
+    }
+    return -(l);
   }
   if (m_op_type == SQRT)
   {
