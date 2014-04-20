@@ -939,11 +939,6 @@ exit_statement:
 assign_statement:
     variable T_ASSIGN expression
     {
-     if ($1->return_string_type()=="error")
-    //look at action of T_ID [] for clarification
-     {
-            Error::error(Error::VARIABLE_NOT_AN_ARRAY, $1->get_name());
-     }
       Gpl_type type_of_variable = $1->get_type();
       string type_v;
       if (type_of_variable == INT)
@@ -1109,8 +1104,11 @@ variable:
         //its in the symbol table but its stored without the brackets...its not an array
         //so return an "error" variable
       {
+	 Error::error(Error::VARIABLE_NOT_AN_ARRAY, *$1);
          $$ = new Variable(*$1, 0);
       }
+      else 
+         cout << "gpl.y:its not in the symbol table" << endl;
    }
 }
         

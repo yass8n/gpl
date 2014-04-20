@@ -1,1 +1,1 @@
-Assertion failed: (m_gpl_type == 2), function eval_double, file expression.cpp, line 936.
+Assertion failed: (m_gpl_type == 2), function eval_double, file expression.cpp, line 939.
