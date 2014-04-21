@@ -10,6 +10,7 @@ Expression::Expression(Gpl_type type, int x)
 {
   assert(type == 1);
   m_gpl_type=type;
+  m_is_var = false;
   m_int = x;
   m_var = NULL;
   m_right = NULL;
@@ -23,6 +24,7 @@ Expression::Expression(Gpl_type type, double x)
 {
   assert(type == 2);
   m_gpl_type=type;
+  m_is_var = false;
   m_double = x;
   m_var = NULL;
   m_right = NULL;
@@ -34,6 +36,7 @@ Expression::Expression(Gpl_type type, string x)
 {
   assert(type == 4);
   m_gpl_type=type;
+  m_is_var = false;
   m_string= x;
   m_var = NULL;
   m_right = NULL;
@@ -49,6 +52,7 @@ Expression::Expression(Variable *var)
   m_left = NULL;
   m_right= NULL;
   m_var = var;
+  m_is_var = true;
   m_string_type = "variable";
   int type = evaluate_type();
   set_type_using_number(type);
@@ -56,6 +60,7 @@ Expression::Expression(Variable *var)
 
 Expression::Expression(Operator_type op, Expression* left)
 {
+  m_is_var = false;
   m_op_type = op;
   m_left = left;
   m_right = NULL;
@@ -67,6 +72,7 @@ Expression::Expression(Operator_type op, Expression* left)
 
 Expression::Expression(Operator_type op, Expression* left, Expression* right)
 {
+  m_is_var = false;
   m_op_type = op;
   m_left = left;
   m_right = right;
@@ -84,6 +90,36 @@ void Expression::gpl_reference_set(Gpl_type &gpl, int x)
     gpl = DOUBLE;
   if (x==4)
     gpl = STRING;
+}
+bool Expression::has_var(Expression * exp)
+{
+  bool left;
+  bool right;
+
+  if (exp->m_is_var == true)
+  {
+    return true;
+  }
+  if (exp->m_left == NULL && exp->m_right == NULL)
+  {
+    return false;
+  }
+  if (exp->m_left != NULL)
+  {
+    left = has_var(exp->m_left);
+  }
+  if (exp->m_right != NULL)
+  {
+    right = has_var(exp->m_right);
+  }
+  if (left == true || right ==true) 
+  {
+    return true;
+  }
+  if(!left && !right)
+  {
+    return false;
+  }
 }
 int Expression::evaluate_type()
 {

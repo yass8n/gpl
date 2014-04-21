@@ -193,7 +193,6 @@ int Variable::eval_int()
   return m_sym->get_int();
 }
 
-
 string Variable::get_string_value()
 {
   Symbol_table *sym_table = Symbol_table::instance();

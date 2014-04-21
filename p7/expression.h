@@ -27,12 +27,14 @@ class Expression {
     int evaluate_type();
     void gpl_reference_set(Gpl_type & gpl, int x);
     void set_type_using_number( int type);
+    bool has_var(Expression * exp);
   private:
     string m_string_type;
     Operator_type m_op_type;
     int m_int;
     double  m_double;
     string m_string;
+    bool m_is_var;
     Variable *m_var;
     Gpl_type m_gpl_type;
     Expression* m_right;

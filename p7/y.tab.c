@@ -2693,11 +2693,11 @@ cur_ob = new Textbox();
       stringstream name;
       name << *(yyvsp[(1) - (4)].union_string) << '[' << 0 << ']';
       Symbol * s = sym_table->get(*(yyvsp[(1) - (4)].union_string));
-      if(sym_table->lookup(name.str()) )
+      if(sym_table->lookup(name.str())) 
       {
          name.str("");
          name << *(yyvsp[(1) - (4)].union_string) << '[' << index << ']';
-         if(!sym_table->lookup(name.str()) && !((yyvsp[(3) - (4)].union_expression_type)->get_string_type() =="variable"))
+         if(!sym_table->lookup(name.str()) && !((yyvsp[(3) - (4)].union_expression_type)->has_var((yyvsp[(3) - (4)].union_expression_type))))
          { 
          stringstream num;
          num << index;

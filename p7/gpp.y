@@ -1084,11 +1084,11 @@ variable:
       stringstream name;
       name << *$1 << '[' << 0 << ']';
       Symbol * s = sym_table->get(*$1);
-      if(sym_table->lookup(name.str())) 
+      if(sym_table->lookup(name.str()) )
       {
          name.str("");
          name << *$1 << '[' << index << ']';
-         if(!sym_table->lookup(name.str()) && !($3->has_var($3)))
+         if(!sym_table->lookup(name.str())&& !($3->has_var($3)))
          { 
          stringstream num;
          num << index;
@@ -1148,10 +1148,12 @@ variable:
 }
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
 {
-           if( $3->get_type()== INT)
+      if ($3->get_type()!=INT)
+         assert(false);
+      else if( $3->get_type()== INT)
               {
-                   int index = $3->eval_int();
-                   if (index < 0)
+		   int index = $3->eval_int();
+		   if (index < 0 && $3->get_string_type()!= "variable")
                    {
                      stringstream num;
                      num << index;
@@ -1190,14 +1192,7 @@ variable:
                                       cout << "member not of given type" << endl;
                                    else if (status == OK)
                                      {
-                                        if (index_is_symbol)
-                                           {
-                                              $$ = new Variable(*$1, *$6, name_of_index);
-                                           }
-                                        else
-                                           {
-                                              $$ = new Variable(name.str(), *$6);
-                                           }
+                                        $$ = new Variable(*$1, *$6, name_of_index);
                                      }
                                } 
                          }
