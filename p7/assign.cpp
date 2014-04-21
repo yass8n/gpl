@@ -10,39 +10,10 @@ Assign::Assign(Variable * v, Expression * e, string action)
 void Assign::execute()
 {
   string name_of_var = m_var->get_name_for_assign_statement();
-  Symbol_table *sym_table = Symbol_table::instance();
   stringstream name;
   name << name_of_var;
-  if (m_var->get_string_type()=="array")
-  {
-    int x = m_var->get_index_value();
-    string n = m_var->get_name();
-    stringstream id;
-    id<< n <<  '[' << x << ']';
-    stringstream index;
-    index << x ;
-    if (!sym_table->lookup(id.str()))
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n,index.str());
-      name.str("");
-      name << n << '[' << 0 << ']';
-    }
-  }
-  if (m_var->get_string_type()=="member with variable index")
-  {
-    int x = m_var->get_index_value();
-    string n = m_var->get_name_without_brackets();
-    stringstream id;
-    id<< n <<  '[' << x << ']';
-    stringstream index;
-    index << x ;
-    if (!sym_table->lookup(id.str()))
-    {
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n ,index.str());
-      name.str("");
-      name << n << '[' << 0 << ']';
-    }
-  }
+  checking_if_valid_index(name);
+  Symbol_table *sym_table = Symbol_table::instance();
   Symbol * s = sym_table->get(name.str());
   Gpl_type type = s->get_type();
 
@@ -77,7 +48,12 @@ void Assign::set_equal_object(Symbol *s, string name, Gpl_type type, Expression 
       temp_object->set_member_variable(m_var->get_param_id(), e->eval_int());
     }
     if (type == DOUBLE)
-      temp_object->set_member_variable(m_var->get_param_id(), e->eval_double());
+    {
+      if(e->get_type() == DOUBLE)
+        temp_object->set_member_variable(m_var->get_param_id(), e->eval_double());
+      if(e->get_type() == INT)
+        temp_object->set_member_variable(m_var->get_param_id(), e->eval_int());
+    }
     if (type == STRING)
       temp_object->set_member_variable(m_var->get_param_id(), e->eval_string());
     if (type == ANIMATION_BLOCK)
@@ -272,6 +248,40 @@ void Assign::set_equal(Symbol * s, string name, Gpl_type type, Expression * e)
   {
     cout << "The type of the variable was not int, double, or string" << endl;
     cout << "from equal" << endl;
+  }
+}
+void Assign::checking_if_valid_index(stringstream &name)
+{
+  Symbol_table *sym_table = Symbol_table::instance();
+  if (m_var->get_string_type()=="array")
+  {
+    int x = m_var->get_index_value();
+    string n = m_var->get_name();
+    stringstream id;
+    id<< n <<  '[' << x << ']';
+    stringstream index;
+    index << x ;
+    if (!sym_table->lookup(id.str()))
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n,index.str());
+      name.str("");
+      name << n << '[' << 0 << ']';
+    }
+  }
+  if (m_var->get_string_type()=="member with variable index")
+  {
+    int x = m_var->get_index_value();
+    string n = m_var->get_name_without_brackets();
+    stringstream id;
+    id<< n <<  '[' << x << ']';
+    stringstream index;
+    index << x ;
+    if (!sym_table->lookup(id.str()))
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n ,index.str());
+      name.str("");
+      name << n << '[' << 0 << ']';
+    }
   }
 }
 

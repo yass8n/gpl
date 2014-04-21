@@ -16,6 +16,7 @@ class Assign : public Statement
     ~Assign(){};
   private:
     Expression * m_exp;
+    void checking_if_valid_index(stringstream &name);
     string m_action;
     Variable * m_var;
     void set_equal_object(Symbol *, string, Gpl_type, Expression *, Game_object *);
