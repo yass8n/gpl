@@ -840,7 +840,7 @@ statement_block:
 statement_block_creator:
     // this goes to nothing so that you can put an action here in p7
      {
-       statement_stack.push(new Statement_block(0));
+       statement_stack.push(new Statement_block(line_count));
      }
     ;
 
@@ -1083,11 +1083,12 @@ variable:
       int index= $3->eval_int();
       stringstream name;
       name << *$1 << '[' << 0 << ']';
-      if(sym_table->lookup(name.str())) 
+      Symbol * s = sym_table->get(*$1);
+      if(sym_table->lookup(name.str()) )
       {
          name.str("");
          name << *$1 << '[' << index << ']';
-         if(!sym_table->lookup(name.str()))
+         if(!sym_table->lookup(name.str()) && !($3->get_string_type() =="variable"))
          { 
          stringstream num;
          num << index;
@@ -1164,7 +1165,7 @@ variable:
                         Symbol_table *sym_table = Symbol_table::instance();
                         string name_of_index;
                         bool index_is_symbol = false;
-                        if ($3->the_type_of_exp() == "variable")
+                        if ($3->get_string_type() == "variable")
                          {
                            index_is_symbol = true;
                            name_of_index = $3->get_var_name();
@@ -1217,11 +1218,11 @@ expression:
 }
     | expression T_OR expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1245,11 +1246,11 @@ expression:
 }
     | expression T_AND expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1273,11 +1274,11 @@ expression:
 }
     | expression T_LESS_EQUAL expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1288,11 +1289,11 @@ expression:
 }
     | expression T_GREATER_EQUAL  expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1303,11 +1304,11 @@ expression:
 }
     | expression T_LESS expression 
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1318,11 +1319,11 @@ expression:
 }
     | expression T_GREATER  expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1333,11 +1334,11 @@ expression:
 }
     | expression T_EQUAL expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1348,11 +1349,11 @@ expression:
 }
     | expression T_NOT_EQUAL expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1363,11 +1364,11 @@ expression:
 }
     | expression T_PLUS expression 
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1378,11 +1379,11 @@ expression:
 }
     | expression T_MINUS expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1407,11 +1408,11 @@ expression:
 }
     | expression T_ASTERISK expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1435,11 +1436,11 @@ expression:
 }
     | expression T_DIVIDE expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1463,11 +1464,11 @@ expression:
 }
     | expression T_MOD expression
 {
-      if ($1->the_type_of_exp() == "variable" && !$1->exp_var_included())
+      if ($1->get_string_type() == "variable" && !$1->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
-      else if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      else if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1492,7 +1493,7 @@ expression:
 
     | T_MINUS  expression %prec UNARY_OPS
 {
-      if ($2->the_type_of_exp() == "variable" && !$2->exp_var_included())
+      if ($2->get_string_type() == "variable" && !$2->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1511,7 +1512,7 @@ expression:
 }
     | T_NOT  expression %prec UNARY_OPS
 {
-      if ($2->the_type_of_exp() == "variable" && !$2->exp_var_included())
+      if ($2->get_string_type() == "variable" && !$2->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }
@@ -1530,7 +1531,7 @@ expression:
 }
        | math_operator T_LPAREN expression T_RPAREN
 {
-      if ($3->the_type_of_exp() == "variable" && !$3->exp_var_included())
+      if ($3->get_string_type() == "variable" && !$3->exp_var_included())
           {
                $$ = new Expression(INT,0); 
           }

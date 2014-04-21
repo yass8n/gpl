@@ -136,6 +136,7 @@ string Variable::get_string_type()
 }
 string Variable::get_name_for_assign_statement()
 {
+  //returns the name with the brackets
   if (m_string_type == "member with variable index")
   {
     Symbol_table *sym_table = Symbol_table::instance();
@@ -191,6 +192,7 @@ int Variable::eval_int()
   assert(m_sym->get_type() == INT);
   return m_sym->get_int();
 }
+
 
 string Variable::get_string_value()
 {

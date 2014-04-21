@@ -915,7 +915,7 @@ int Expression::eval_int()
     return m_left->eval_int() + m_right->eval_int();
   }
 }
-string Expression::the_type_of_exp()
+string Expression::get_string_type()
 {
   return m_string_type;
 }
