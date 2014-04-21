@@ -52,16 +52,14 @@ Variable::Variable(string id, Expression *exp)
 //  m_sym = sym_table->get(name.str());
   m_sym = sym_table->get(name.str());
 }
-Variable::Variable(string id1, string param, string name_of_index)
+Variable::Variable(string id1, string param, Expression *exp)
 {
   m_included = true;
-  m_exp = NULL;
+  m_exp = exp;
   Symbol_table *sym_table = Symbol_table::instance();
-  set_m_id(id1,name_of_index);
-  assert(sym_table->lookup(m_id));
+  set_m_id(id1,m_exp);
   m_param_id = param;
   m_id1 = id1;
-  m_name_of_index = name_of_index;
   m_string_type = "member with variable index";
   m_sym = sym_table->get(m_id);
   m_sym->get_member_variable_type(param, m_type);
@@ -75,6 +73,7 @@ Variable::Variable(string id1, string param)
   Symbol_table *sym_table = Symbol_table::instance();
   assert(sym_table->lookup(id1));
   m_id = id1;
+  m_id1 = id1;
   m_param_id = param;
   m_string_type = "member";
   m_sym = sym_table->get(id1);
@@ -102,12 +101,10 @@ void Variable::set_member_variable_of_this_variable(string param)
       m_sym->get_member_variable(param, m_member_variable_animation_block);
     }
   }
-  void Variable::set_m_id(string id1, string name_of_index)
+  void Variable::set_m_id(string id1, Expression * index)
   {
-    Symbol_table *sym_table = Symbol_table::instance();
-    Symbol *s = sym_table->get(name_of_index);
     stringstream id;
-    id<< id1 << '[' << s->get_int() <<']';
+    id<< id1 << '[' << index->eval_int()<<']';
     m_id = id.str();
   }
   string Variable::eval_string()
@@ -121,6 +118,10 @@ void Variable::set_member_variable_of_this_variable(string param)
     assert(m_sym != NULL);
     assert(m_sym->get_type() == STRING);
     return m_sym->get_string();
+}
+string Variable::get_name_without_brackets()
+{
+  return m_id1;
 }
 string Variable::get_name()
 {
@@ -139,10 +140,8 @@ string Variable::get_name_for_assign_statement()
   //returns the name with the brackets
   if (m_string_type == "member with variable index")
   {
-    Symbol_table *sym_table = Symbol_table::instance();
-    Symbol *s = sym_table->get(m_name_of_index);
     stringstream id;
-    id<< m_id1 << '[' << s->get_int() <<']';
+    id<< m_id1 << '[' << m_exp->eval_int() <<']';
     return id.str();
   }
   if (m_string_type == "array")    
@@ -192,20 +191,17 @@ int Variable::eval_int()
   assert(m_sym->get_type() == INT);
   return m_sym->get_int();
 }
-
 string Variable::get_string_value()
 {
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set == true)
   {
-    /*
        if ( m_string_type== "member with variable index")
        {
-       set_m_id(m_id1, m_name_of_index);
+       set_m_id(m_id1, m_exp);
        Symbol *s = sym_table->get(m_id);
        m_sym = s;
        }
-       */
     set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval string on this variable and we need it to update again...
@@ -230,14 +226,12 @@ double Variable::get_double_value()
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set ==true)
   {
-    /*
        if ( m_string_type== "member with variable index")
        {
-       set_m_id(m_id1, m_name_of_index);
+       set_m_id(m_id1, m_exp);
        Symbol *s = sym_table->get(m_id);
        m_sym = s;
        }
-       */
     set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval double on this variable and we need it to update again...
@@ -257,6 +251,11 @@ double Variable::get_double_value()
   }
   return m_sym->get_double();
 }
+int Variable::get_index_value()
+{
+  assert(m_exp);
+  return m_exp->eval_int();
+}
 int Variable::get_int_value()
 {
   Symbol_table *sym_table = Symbol_table::instance();
@@ -264,7 +263,7 @@ int Variable::get_int_value()
   {
     if ( m_string_type== "member with variable index")
     {
-      set_m_id(m_id1, m_name_of_index);
+      set_m_id(m_id1, m_exp);
       Symbol *s = sym_table->get(m_id);
       m_sym = s;
     }

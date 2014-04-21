@@ -15,10 +15,11 @@ class Variable{
     Variable();
     Variable(string id, Expression *exp);
     Variable(string id1, string param);
-    Variable(string id1, string param, string name_of_index);
+    Variable(string id1, string param, Expression *exp);
     string get_name_for_assign_statement();
     string get_string_type();
     int get_int_value();
+    int get_index_value();
     Animation_block* get_animation_block();
     double get_double_value();
     string get_string_value();
@@ -29,12 +30,13 @@ class Variable{
     int eval_int();
     string eval_string();
     double eval_double();
+    string get_name_without_brackets();
     string get_param_id();
     Symbol * get_symbol();
     Expression* get_expression();
   private:
     string m_string_type;
-    void set_m_id(string id1, string name_of_index);
+    void set_m_id(string id1, Expression *index);
     int m_member_variable_int;
     double m_member_variable_double;
     string m_param_id;

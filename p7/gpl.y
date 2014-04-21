@@ -1150,8 +1150,10 @@ variable:
 {
            if( $3->get_type()== INT)
               {
-                   int index = $3->eval_int();
-                   if (index < 0)
+                 int index = 0;
+                 if (!($3->has_var($3)))
+                    index = $3->eval_int();
+                  if (index < 0 )
                    {
                      stringstream num;
                      num << index;
@@ -1163,13 +1165,6 @@ variable:
                         string param = *$6;
                         Gpl_type gpl_type;
                         Symbol_table *sym_table = Symbol_table::instance();
-                        string name_of_index;
-                        bool index_is_symbol = false;
-                        if ($3->get_string_type() == "variable")
-                         {
-                           index_is_symbol = true;
-                           name_of_index = $3->get_var_name();
-                         }
                        if(sym_table->lookup(name.str()))
                          {
                            Symbol *temp = sym_table->get(name.str()); 
@@ -1190,14 +1185,7 @@ variable:
                                       cout << "member not of given type" << endl;
                                    else if (status == OK)
                                      {
-                                        if (index_is_symbol)
-                                           {
-                                              $$ = new Variable(*$1, *$6, name_of_index);
-                                           }
-                                        else
-                                           {
-                                              $$ = new Variable(name.str(), *$6);
-                                           }
+                                       $$ = new Variable(*$1, *$6, $3);
                                      }
                                } 
                          }

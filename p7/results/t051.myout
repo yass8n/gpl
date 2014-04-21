@@ -359,7 +359,7 @@ game_object circles[0]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
+    x = int(380),
     y = int(0)
   }
 game_object circles[1]
@@ -390,7 +390,7 @@ game_object circles[1]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
+    x = int(380),
     y = int(20)
   }
 game_object circles[2]
@@ -421,8 +421,8 @@ game_object circles[2]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(40)
   }
 game_object circles[3]
   Circle
@@ -452,8 +452,8 @@ game_object circles[3]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(60)
   }
 game_object circles[4]
   Circle
@@ -483,8 +483,8 @@ game_object circles[4]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(80)
   }
 game_object circles[5]
   Circle
@@ -514,8 +514,8 @@ game_object circles[5]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(100)
   }
 game_object circles[6]
   Circle
@@ -545,8 +545,8 @@ game_object circles[6]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(120)
   }
 game_object circles[7]
   Circle
@@ -576,8 +576,8 @@ game_object circles[7]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(140)
   }
 game_object circles[8]
   Circle
@@ -607,8 +607,8 @@ game_object circles[8]
     user_string5 = string(""),
     visible = int(1),
     w = int(20),
-    x = int(220),
-    y = int(20)
+    x = int(380),
+    y = int(160)
   }
 game_object circles[9]
   Circle

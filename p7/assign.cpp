@@ -1,4 +1,5 @@
 # include "assign.h"
+# include "error.h"
 Assign::Assign(Variable * v, Expression * e, string action)
 {
   m_var = v;
@@ -8,18 +9,52 @@ Assign::Assign(Variable * v, Expression * e, string action)
 
 void Assign::execute()
 {
-  string name = m_var->get_name_for_assign_statement();
+  string name_of_var = m_var->get_name_for_assign_statement();
   Symbol_table *sym_table = Symbol_table::instance();
-  Symbol * s = sym_table->get(name);
+  stringstream name;
+  name << name_of_var;
+  if (m_var->get_string_type()=="array")
+  {
+    int x = m_var->get_index_value();
+    string n = m_var->get_name();
+    stringstream id;
+    id<< n <<  '[' << x << ']';
+    stringstream index;
+    index << x ;
+    if (!sym_table->lookup(id.str()))
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n,index.str());
+      name.str("");
+      name << n << '[' << 0 << ']';
+    }
+  }
+  if (m_var->get_string_type()=="member with variable index")
+  {
+    int x = m_var->get_index_value();
+    string n = m_var->get_name_without_brackets();
+    stringstream id;
+    id<< n <<  '[' << x << ']';
+    stringstream index;
+    index << x ;
+    if (!sym_table->lookup(id.str()))
+    {
+      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, n ,index.str());
+      name.str("");
+      name << n << '[' << 0 << ']';
+    }
+  }
+  Symbol * s = sym_table->get(name.str());
   Gpl_type type = s->get_type();
-  if (m_var->get_string_type()!="member" && m_var->get_string_type()!= "member array" && m_var->get_string_type()!="member with variable index")
+
+
+  if (m_var->get_string_type()!="member"  && m_var->get_string_type()!="member with variable index")
   {
     if (m_action == "=")
-      set_equal(s, name, type, m_exp);
+      set_equal(s, name.str(), type, m_exp);
     if (m_action == "+=")
-      set_plus(s, name, type, m_exp);
+      set_plus(s, name.str(), type, m_exp);
     if (m_action == "-=")
-      set_minus(s, name, type, m_exp);
+      set_minus(s, name.str(), type, m_exp);
   }
   else
   {
@@ -28,11 +63,11 @@ void Assign::execute()
     Gpl_type type;
     temp_object->get_member_variable_type(m_var->get_param_id(), type);
     if (m_action == "=")
-      set_equal_object(s, name, type, m_exp, temp_object);
+      set_equal_object(s, name.str(), type, m_exp, temp_object);
     if (m_action == "+=")
-      set_plus_object(s, name, type, m_exp, temp_object);
+      set_plus_object(s, name.str(), type, m_exp, temp_object);
     if (m_action == "-=")
-      set_minus_object(s, name, type, m_exp, temp_object);
+      set_minus_object(s, name.str(), type, m_exp, temp_object);
   }
 }
 void Assign::set_equal_object(Symbol *s, string name, Gpl_type type, Expression * e, Game_object * temp_object)
