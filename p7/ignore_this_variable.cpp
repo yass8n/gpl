@@ -261,73 +261,30 @@ int Variable::get_int_value()
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set ==true)
   {
-  set_member_variable_of_this_variable(get_param_id());
     if ( m_string_type== "member with variable index")
     {
-      
       set_m_id(m_id1, m_exp);
-      if(!sym_table->lookup(m_id))
-      {
-        stringstream num;
-        num << m_exp->eval_int();
-        Error::error(Error::INVALID_ARRAY_SIZE, m_id1,num.str()); 
-        //this error is the declaration error...change it
-      }
-      string param = get_param_id();
-      Gpl_type gpl_type;
-      Symbol_table *sym_table = Symbol_table::instance();
-      if(sym_table->lookup(m_id))
-      {
-        Symbol *temp = sym_table->get(m_id);
-        if (temp->get_type() == GAME_OBJECT)
-        {
-          Status status = temp->get_game_object()->get_member_variable_type(param,gpl_type);
-          if (status == MEMBER_NOT_DECLARED)
-          {
-            Error::error(Error::UNDECLARED_MEMBER, m_id1, param);
-          }
-          else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
-            cout << "member not of given type" << endl;
-          else if (status == OK)
-          {
-            Symbol *s = sym_table->get(m_id);
-            m_sym = s;
-          }
-        }
-        set_member_variable_of_this_variable(get_param_id());
-        //calling again because when the "on print" is called,
-        //it calls eval int on this variable and we need it to update again...
-        //if the expression class got the value from the symbol table, there would 
-        //be no problem...but it does not do that
-      }
+      Symbol *s = sym_table->get(m_id);
+      m_sym = s;
     }
-      return m_member_variable_int;
+    set_member_variable_of_this_variable(get_param_id());
+    //calling again because when the "on print" is called,
+    //it calls eval int on this variable and we need it to update again...
+    //if the expression class got the value from the symbol table, there would 
+    //be no problem...but it does not do that
+    return m_member_variable_int;
   }
   if (m_sym == NULL)
     return 0;
   if (m_string_type == "array")
   {
-    int index= m_exp->eval_int();
     stringstream name;
-    name << m_id << '[' << index << ']';
-    if(!sym_table->lookup(name.str()))
-    { 
-      stringstream num;
-      num << index;
-      Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, m_id, num.str()); 
-      return 0;
-    }
-    else 
-    {
-      name.str("");
-      assert(m_exp->get_type() == INT);
-      int x = m_exp->eval_int();
-      name << m_id << '[' << x << ']';
-      m_sym = sym_table->get(name.str());
-      return m_sym->get_int();
-    }
+    assert(m_exp->get_type() == INT);
+    int x = m_exp->eval_int();
+    name << m_id << '[' << x << ']';
+    m_sym = sym_table->get(name.str());
   }
-  else if (m_string_type == "simple")
+  if (m_string_type == "simple")
     m_sym = sym_table->get(m_id);
   return m_sym->get_int();
 }

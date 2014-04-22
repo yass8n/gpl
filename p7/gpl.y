@@ -1080,37 +1080,21 @@ variable:
       }
    if ($3->get_type() == INT)
     {
-      int index= $3->eval_int();
       stringstream name;
       name << *$1 << '[' << 0 << ']';
-      Symbol * s = sym_table->get(*$1);
-      if(sym_table->lookup(name.str())) 
+      if(sym_table->lookup(name.str()))
       {
-         name.str("");
-         name << *$1 << '[' << index << ']';
-         if(!sym_table->lookup(name.str()) && !($3->has_var($3)))
-         { 
-         stringstream num;
-         num << index;
-         Error::error(Error::ARRAY_INDEX_OUT_OF_BOUNDS, *$1, num.str()); 
-         Expression *error_exp = new Expression(INT, 0);
-         $$ = new Variable(*$1, error_exp);
-         }
-         else 
-          {
            $$ = new Variable(*$1, $3);
-          }
       }
       else if(sym_table->lookup(*$1))
         //its in the symbol table but its stored without the brackets...its not an array
         //so return an "error" variable
       {
-	 Error::error(Error::VARIABLE_NOT_AN_ARRAY, *$1);
+         Error::error(Error::VARIABLE_NOT_AN_ARRAY, *$1);
          $$ = new Variable(*$1, 0);
       }
-      else 
-         cout << "gpl.y:its not in the symbol table" << endl;
-   }
+
+    }
 }
         
     | T_ID T_PERIOD T_ID
@@ -1148,53 +1132,43 @@ variable:
 }
     | T_ID T_LBRACKET expression T_RBRACKET T_PERIOD T_ID
 {
-           if( $3->get_type()== INT)
+      if ($3->get_type() == STRING)
+      {
+         Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A string expression"); 
+         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, error_exp);
+
+      }
+      if ($3->get_type() == DOUBLE)
+      {
+         Error::error(Error::ARRAY_INDEX_MUST_BE_AN_INTEGER, *$1, "A double expression"); 
+         Expression *error_exp = new Expression(INT, 0);
+         $$ = new Variable(*$1, error_exp);
+      }
+      if( $3->get_type()== INT)
+         {
+             ostringstream name;
+             name << *$1  << '[' << 0 << ']';
+             string param = *$6;
+             Gpl_type gpl_type;
+             Symbol_table *sym_table = Symbol_table::instance();
+            if(sym_table->lookup(name.str()))
               {
-                 int index = 0;
-                 if (!($3->has_var($3)))
-                    index = $3->eval_int();
-                  if (index < 0 )
+                 Symbol *temp = sym_table->get(name.str());
+                 if (temp->get_type() != GAME_OBJECT)
                    {
-                     stringstream num;
-                     num << index;
-                     Error::error(Error::INVALID_ARRAY_SIZE, *$1,num.str()); 
-                    //this error is the declaration error...change it
+                       Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *$1);
+                       $$ = new Variable(*$1, 0);
                    }
-                        ostringstream name;
-                        name << *$1  << '[' << index << ']';
-                        string param = *$6;
-                        Gpl_type gpl_type;
-                        Symbol_table *sym_table = Symbol_table::instance();
-                       if(sym_table->lookup(name.str()))
-                         {
-                           Symbol *temp = sym_table->get(name.str()); 
-                           if (temp->get_type() != GAME_OBJECT)
-                            {
-                              Error::error(Error::LHS_OF_PERIOD_MUST_BE_OBJECT, *$1);
-                              $$ = new Variable(*$1, 0);
-                              }
-                           if (temp->get_type() == GAME_OBJECT)
-                               {
-                                   Status status = temp->get_game_object()->get_member_variable_type(param,gpl_type);
-                                   if (status == MEMBER_NOT_DECLARED)
-                                    {
-                                      Error::error(Error::UNDECLARED_MEMBER, *$1, param);
-                                      $$ = new Variable(*$1,0);
-                                    }
-                                   else if (status == MEMBER_NOT_OF_GIVEN_TYPE)
-                                      cout << "member not of given type" << endl;
-                                   else if (status == OK)
-                                     {
-                                       $$ = new Variable(*$1, *$6, $3);
-                                     }
-                               } 
-                         }
-                       else 
-                         {
-                           Error::error(Error::UNDECLARED_VARIABLE, *$1);
-                           $$ = new Variable(*$1, *$6);
-                         }
+                 else
+                   $$ = new Variable(*$1, *$6, $3);
               }
+             else 
+              {
+                 Error::error(Error::UNDECLARED_VARIABLE, *$1);
+                 $$ = new Variable(*$1, *$6);
+              }
+         }
 }
     ;
 
