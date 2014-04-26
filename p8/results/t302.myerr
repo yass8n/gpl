@@ -1,0 +1,2 @@
+Semantic error on line 11: A statement block for the animation block 'bounce' has already been defined.
+Semantic error on line 13: No body was provided for animation block 'bounce' which was declared in a forward statement.
