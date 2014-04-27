@@ -175,9 +175,11 @@ vector <string> vector_of_animation_names;
 %type <union_statement_type> if_statement
 %type <union_statementblock_type> end_of_statement_block
 %type <union_statementblock_type> if_block
+%type <union_statementblock_type> animation_block
 %type <union_statementblock_type> statement_block
 %type <union_int> keystroke
 %type <union_int> object_type
+%type <union_string> check_animation_parameter
 
 %type <union_int> T_PRINT
 %type <union_int> T_EXIT
@@ -216,8 +218,8 @@ program:
         it ++)
         {
            Symbol * sym = sym_table->get(*it);
-           if (sym->get_animation_block()->empty() == true)
-               Error::error(Error::NO_BODY_PROVIDED_FOR_FORWARD, *it); 
+           if (sym == NULL || sym->get_animation_block()->is_set() == false)
+               Error::error(Error::NO_BODY_PROVIDED_FOR_FORWARD, (*it)); 
         }
 /*
       Event_manager *e_man = Event_manager::instance();
@@ -658,16 +660,16 @@ forward_declaration:
                               if (!sym_table->lookup(temp1->get_name()))//if the variable is not on the sym_table, then insert it
                                  {
                                     Animation_block *block = new Animation_block($1,$5,id);
-                                    Symbol_table *sym_table = Symbol_table::instance();
                                     Symbol *sym = new Symbol();
                                     sym_table->set_sym(temp1->get_name(), *temp1);
                                     sym->set_animation_block(id, block);
                                     sym_table->set_sym(id, *sym);
-                                    vector_of_forward_animation_names.push_back(id);
+                                    vector_of_forward_animation_names.push_back(*$3);
                                  }
                               else
                                   {
                                    Error::error(Error::ANIMATION_PARAMETER_NAME_NOT_UNIQUE, temp1->get_name());
+                                   vector_of_forward_animation_names.push_back(*$3);
                                   }
                                   
         }
@@ -707,13 +709,26 @@ animation_block:
 {
 
  Symbol_table *sym_table = Symbol_table::instance();
+ Animation_block * anim_block;
  Symbol * sym= sym_table->get(*$2);
  if (sym == NULL)
   {
+      line_count --;
       Error::error(Error::NO_FORWARD_FOR_ANIMATION_BLOCK, *$2);
-      Statement_block * anim_block;
+      line_count ++;
       statement_stack.push(anim_block);
+      $$ = anim_block;
   }
+ else if(sym->get_animation_block()->get_parameter_symbol()->get_game_object()->type() != *$4)
+ {
+        line_count --;
+      Error::error(Error::ANIMATION_PARAM_DOES_NOT_MATCH_FORWARD);
+        line_count ++;
+        anim_block = sym->get_animation_block();
+        anim_block->set_it(); //sets the "m_is_set" variable to true
+        statement_stack.push(anim_block);
+        $$ = anim_block;
+ }
  else
   {
    bool already_declared_animation = false;
@@ -724,9 +739,11 @@ animation_block:
         {
            if (*it == *$2)
              {
+               line_count --;
                Error::error(Error::PREVIOUSLY_DEFINED_ANIMATION_BLOCK, *$2); 
-               Statement_block * anim_block;
+               line_count ++;
                statement_stack.push(anim_block);
+               $$ = anim_block;
                already_declared_animation = true;
                it = vector_of_animation_names.end();
                it--;
@@ -734,8 +751,10 @@ animation_block:
         }
    if (already_declared_animation == false)
        {
-        Statement_block * anim_block = sym->get_animation_block();
+        anim_block = sym->get_animation_block();
+        anim_block->set_it(); //sets the "m_is_set" variable to true
         statement_stack.push(anim_block);
+        $$ = anim_block;
         vector_of_animation_names.push_back(*$2);
        }
   }
@@ -768,10 +787,30 @@ $$ = sym;
 //---------------------------------------------------------------------
 check_animation_parameter:
     T_TRIANGLE T_ID
+{
+  string * type = new string("Triangle");
+  $$ = type;
+}
     | T_PIXMAP T_ID
+{
+  string * type = new string("Pixmap");
+  $$ = type;
+}
     | T_CIRCLE T_ID
+{
+  string * type = new string("Circle");
+  $$ = type;
+}
     | T_RECTANGLE T_ID
+{
+  string * type = new string("Rectangle");
+  $$ = type;
+}
     | T_TEXTBOX T_ID
+{
+  string * type = new string("Textbox");
+  $$ = type;
+}
     ;
 
 //---------------------------------------------------------------------

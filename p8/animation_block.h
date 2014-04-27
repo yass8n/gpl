@@ -24,14 +24,17 @@ class Animation_block : public Statement_block
         Animation_block(int forward_line, Symbol *parameter, std::string name);
         void execute(Game_object *argument);
 
-        Symbol *get_parameter_symbol() {return m_parameter_symbol;}
         std::string name() {return m_name;}
 
         std::ostream &print(std::ostream &os) const;
 
+        bool is_set();
+        bool set_it();
+        Symbol * get_parameter_symbol();
     private:
 
         int m_forward_line;
+        bool m_is_set;
         std::string m_name;
         Symbol *m_parameter_symbol;
 
