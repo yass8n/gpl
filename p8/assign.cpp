@@ -52,7 +52,10 @@ void Assign::set_equal_object(Symbol *s, string name, Gpl_type type, Expression 
       if(e->get_type() == DOUBLE)
         temp_object->set_member_variable(m_var->get_param_id(), e->eval_double());
       if(e->get_type() == INT)
-        temp_object->set_member_variable(m_var->get_param_id(), e->eval_int());
+      {
+        double d = (double)e->eval_int();
+        temp_object->set_member_variable(m_var->get_param_id(), d);
+      }
     }
     if (type == STRING)
     {

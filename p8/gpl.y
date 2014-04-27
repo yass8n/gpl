@@ -780,6 +780,7 @@ if ($1 == T_TEXTBOX)
 cur_ob = new Textbox();
 	  Symbol * sym = new Symbol();
           sym->set_game_object(*$2, cur_ob);
+          sym->set_member_variable("visible", 0);
 $$ = sym;
 }
     ;

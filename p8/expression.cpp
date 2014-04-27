@@ -234,7 +234,7 @@ int Expression::eval_int()
   {
     Game_object * game_object1= m_left->get_variable()->get_symbol()->get_game_object();
     Game_object * game_object2 = m_right->get_variable()->get_symbol()->get_game_object();
-    if (game_object1->touches(game_object2)== true)
+    if (game_object1->touches(game_object2)== true || game_object2->touches(game_object1)==true)
       return 1;
     else
       return 0;
@@ -244,7 +244,7 @@ int Expression::eval_int()
     
     Game_object * game_object1= m_left->get_variable()->get_symbol()->get_game_object();
     Game_object * game_object2 = m_right->get_variable()->get_symbol()->get_game_object();
-    if (game_object1->near(game_object2)== true)
+    if (game_object1->near(game_object2)== true || game_object2->near(game_object1)==true)
       return 1;
     else
       return 0;

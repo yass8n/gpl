@@ -49,7 +49,6 @@ Variable::Variable(string id, Expression *exp)
   stringstream name;
   name << id << '[' << 0 << ']';
   //name << id << '[' << x << ']';
-//  m_sym = sym_table->get(name.str());
   m_sym = sym_table->get(name.str());
 }
 Variable::Variable(string id1, string param, Expression *exp)
@@ -157,6 +156,13 @@ string Variable::get_name_for_assign_statement()
 }
 Symbol * Variable::get_symbol()
 {
+  if (m_string_type == "array")
+  {
+    Symbol_table *sym_table = Symbol_table::instance();
+    stringstream name;
+    name << m_id << '[' << m_exp->eval_int() << ']';
+    m_sym = sym_table->get(name.str());
+  }
   return m_sym;
 }
 Animation_block * Variable::get_animation_block()
@@ -196,12 +202,12 @@ string Variable::get_string_value()
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set == true)
   {
-       if ( m_string_type== "member with variable index")
-       {
-       set_m_id(m_id1, m_exp);
-       Symbol *s = sym_table->get(m_id);
-       m_sym = s;
-       }
+    if ( m_string_type== "member with variable index")
+    {
+      set_m_id(m_id1, m_exp);
+      Symbol *s = sym_table->get(m_id);
+      m_sym = s;
+    }
     set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval string on this variable and we need it to update again...
@@ -226,12 +232,12 @@ double Variable::get_double_value()
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set ==true)
   {
-       if ( m_string_type== "member with variable index")
-       {
-       set_m_id(m_id1, m_exp);
-       Symbol *s = sym_table->get(m_id);
-       m_sym = s;
-       }
+    if ( m_string_type== "member with variable index")
+    {
+      set_m_id(m_id1, m_exp);
+      Symbol *s = sym_table->get(m_id);
+      m_sym = s;
+    }
     set_member_variable_of_this_variable(get_param_id());
     //calling again because when the "on print" is called,
     //it calls eval double on this variable and we need it to update again...
@@ -261,10 +267,10 @@ int Variable::get_int_value()
   Symbol_table *sym_table = Symbol_table::instance();
   if (m_game_object_member_set ==true)
   {
-  set_member_variable_of_this_variable(get_param_id());
+    set_member_variable_of_this_variable(get_param_id());
     if ( m_string_type== "member with variable index")
     {
-      
+
       set_m_id(m_id1, m_exp);
       if(!sym_table->lookup(m_id))
       {
@@ -301,7 +307,7 @@ int Variable::get_int_value()
         //be no problem...but it does not do that
       }
     }
-      return m_member_variable_int;
+    return m_member_variable_int;
   }
   if (m_sym == NULL)
     return 0;
