@@ -165,6 +165,7 @@ vector <string> vector_of_animation_names;
 %type <union_expression_type> optional_initializer
 %type <union_expression_type> parameter_list_or_empty
 %type <union_expression_type> parameter_list
+%type <union_expression_type> parameter
 %type <union_symbol_type> animation_parameter
 %type <union_variable_type> variable
 %type <union_operator_type> math_operator
@@ -554,12 +555,21 @@ object_type:
 parameter_list_or_empty :
     parameter_list
     | empty
+{
+$$ = NULL;
+}
     ;
 
 //---------------------------------------------------------------------
 parameter_list :
     parameter_list T_COMMA parameter
+{ 
+  $$ = $1;
+}
     | parameter
+{
+  $$ = $1;
+}
     ;
 
 //---------------------------------------------------------------------
@@ -717,7 +727,6 @@ animation_block:
       Error::error(Error::NO_FORWARD_FOR_ANIMATION_BLOCK, *$2);
       line_count ++;
       statement_stack.push(anim_block);
-      $$ = anim_block;
   }
  else if(sym->get_animation_block()->get_parameter_symbol()->get_game_object()->type() != *$4)
  {
@@ -727,7 +736,6 @@ animation_block:
         anim_block = sym->get_animation_block();
         anim_block->set_it(); //sets the "m_is_set" variable to true
         statement_stack.push(anim_block);
-        $$ = anim_block;
  }
  else
   {
@@ -743,7 +751,6 @@ animation_block:
                Error::error(Error::PREVIOUSLY_DEFINED_ANIMATION_BLOCK, *$2); 
                line_count ++;
                statement_stack.push(anim_block);
-               $$ = anim_block;
                already_declared_animation = true;
                it = vector_of_animation_names.end();
                it--;
@@ -754,13 +761,13 @@ animation_block:
         anim_block = sym->get_animation_block();
         anim_block->set_it(); //sets the "m_is_set" variable to true
         statement_stack.push(anim_block);
-        $$ = anim_block;
         vector_of_animation_names.push_back(*$2);
        }
   }
 }
 statement_list T_RBRACE end_of_statement_block
-
+{
+}
     ;
 
 //---------------------------------------------------------------------
