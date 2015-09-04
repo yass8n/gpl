@@ -3,6 +3,6 @@ A C++ interpreter that uses flex and bison to parse input and generate an execut
 
 To run the game 
 
-1.) "make" the executable from /p8 
+1.) 'make' the executable from /p8 
  
 2.) cd into /p8/gpl-example then run 'gpl save_ball.gpl'
