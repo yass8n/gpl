@@ -1,0 +1,475 @@
+int window_width = 600;
+int window_height = 450;
+string window_title = "Ball Saver";
+rectangle r[120];
+int paddle_inc = 25; 
+int bomb_x_inc = 2;
+int bomb_y_inc = 1;
+int ball_x_inc = 7;
+int ball_y_inc = 5;
+int shooting_ball_y_inc = 8;
+int paddle_width = 65;
+int paddle_height = 5; 
+int ball_size = 10; 
+int i;
+int j = 0;
+int big_time = 0; //Amount of time the ball is enlarged
+int paddle_time = 0; //Amount of time the paddle is extended
+int y_position = 430; 
+int rand[10];
+int random_number1;
+int random_number2;
+int random_number3;
+int random_number4;
+int random_number5;
+int random_number6;
+int random_number7;
+int random_number8;
+int random_number9;
+int random_number10;
+int random_number11;
+int animation_speed = 86;
+int starting = 0;
+int shooting = 0;
+int space_button = 0;
+int blocks = 120;
+int space_int = 0;
+int ball_fire = 0;
+int bomb_lives = 2;
+pixmap bomb(x = random(window_width), y = 200, filename = "bomb.bmp");
+forward animation bomb_fall(pixmap cur_bomb);
+forward animation ball_animate(circle cur_ball);
+forward animation shoot_animate(circle s_ball);
+circle ball(x = random(window_width), y = window_height/2-50, radius = ball_size/2, animation_block = ball_animate);
+rectangle paddle(x = window_width/2 , red = 0.5, y = window_height/10, w = paddle_width, h = paddle_height);
+rectangle gun(x = window_width/2  + (paddle_width/2)-10, red = 0, blue = 0, green = 0, y = window_height/10, w = 5, h = 10);
+textbox game_over(x = window_width/2 - 200, y = window_height/2, text = " ", size = .5);
+textbox start(x = window_width/2 - 175, y = window_height/2, text = "", size = .3);
+textbox paddles(x = window_width - 160, y = 20, text = "");
+textbox bigger_ball(x = 2, y =2, text = "");
+textbox instructions(x = 30, y =100, text = "");
+textbox blocks_display(x = 220, y =2, text = "");
+textbox shots_display(x = 2, y =20, text = "Bullets = " + ball_fire);
+textbox bomb_life(x = window_width-140, y =2, text = " Bomb Lives = " + bomb_lives);
+textbox instructions2(x = 0, y =330, text = "", size = .1);
+textbox instructions3(x = 0, y =290, text = "", size = .1);
+circle shooting_ball(x = paddle.x, y = paddle.y, radius = ball_size/5, animation_block = shoot_animate, green = 0, red = 0, blue = 0);
+
+initialization
+{
+	start.text = "Press 'A' to start";
+	instructions.text = "  Move with the left and right arrows. Dont let the ball hit the floor ";
+        instructions2.text = "               Blue=CHEAT BALL. Brown=BIG PADDLE";
+        instructions3.text = " Black = 10 RANDOM BLOCKS. Green = 3 BULLETS (FIRE WITH SPACE BAR)";
+	//picking the random blocks that will be colored 
+	//differently
+	random_number1 = random(120);
+	random_number2 = random(95) + 15;
+	random_number3 = random(30)+ 30;
+	random_number4 = random(15)+45;
+	random_number5 = random(15)+60;
+	random_number6 = random(15)+75;
+	random_number7 = random(15) + 90;
+	random_number8 = random(15) +100;
+	random_number9 = random_number8 + 5;
+	random_number10 = random (60)+20;
+	random_number11 = random (60) + 50;
+	bomb.animation_block = bomb_fall;
+	shooting_ball.visible = 0;
+
+	//placing the blocks into the game
+	for (i = 0; i < 120; i = i+1)
+	{
+		if (j == 30)
+		{
+			j = 0;
+			y_position -= 20;
+		}
+		r[i].x = j * 20;
+		r[i].y = y_position;
+		r[i].w = 20;
+		r[i].h = 20;
+		if (i == random_number1 || i == random_number9 
+				|| i == random_number5)
+			r[i].red= .5;
+		else if (i == random_number2 || i == random_number4
+				|| i == random_number6 || i == random_number7)
+		{
+			r[i].green = 0;
+			r[i].red = 0;
+			r[i].blue= 255/255.0;
+		}
+		else if (i == random_number8 || i == random_number3)
+		{
+			r[i].green = 0; 
+			r[i].red = 0; 
+			r[i].blue=0;
+		}
+		else if (i == random_number10 || i == random_number11 || i == 100)
+		{
+			r[i].red = 0; 
+			r[i].green = 128/255.0; 
+			r[i].blue = 0;
+		}
+		else
+		{
+			r[i].green = .1;
+		}
+		j = j+1;
+	}
+}
+animation shoot_animate(circle s_ball)
+{
+	if (starting == 1)
+	{
+		if (shooting == 1 || s_ball.y >= paddle.y + 2)
+		{
+			s_ball.visible = 1;
+			shots_display.text = "Bullets = " + ball_fire;
+			if (ball_fire >= 0 && space_button == 0)
+			{
+				s_ball.x = paddle.x + (paddle_width/2)-10 ;
+				s_ball.y = paddle.y;
+			}
+			if (ball_fire > -1 && space_button == 1)
+			{
+				s_ball.y += shooting_ball_y_inc;
+			}
+			for (i = 0; i < 120; i = i + 1)
+			{
+				if (r[i].visible && s_ball touches r[i])
+				{
+					space_button = 0;
+					blocks = blocks - 1;
+					r[i].visible = 0;
+					s_ball.visible = 0;
+					//You hit a blue block...make the ball bigger
+					if ( r[i].green == 0 && r[i].red == 0 && r[i].blue== 255/255.0)
+						big_time = 500 + big_time;
+
+					//You hit a brown block...make the paddle bigger
+					if (r[i].red == .5)
+						paddle_time = 500 + paddle_time;
+
+					//You hit a black block, so randomly make 10 blocks
+					//dissappear
+					if ( r[i].green == 0 && r[i].red == 0 && r[i].blue==0 )
+					{
+						rand[0]= random(60);
+						rand[1]= random(120);
+						rand[2]= random(60);
+						rand[3]= random(120);
+						rand[4]= random(60);
+						rand[5]= random(120);
+						rand[6]= random(60);
+						rand[7]= random(120);
+						rand[8]= random(60);
+						rand[9]= random(120);
+						if (r[rand[0]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[1]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[2]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[3]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[4]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[5]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[6]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[7]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[8]].visible == 1)
+							blocks = blocks -1;
+						if (r[rand[9]].visible == 1)
+							blocks = blocks -1;
+						r[rand[0]].visible = 0;
+						r[rand[1]].visible = 0;
+						r[rand[2]].visible = 0;
+						r[rand[3]].visible = 0;
+						r[rand[4]].visible = 0;
+						r[rand[5]].visible = 0;
+						r[rand[6]].visible = 0;
+						r[rand[7]].visible = 0;
+						r[rand[8]].visible = 0;
+						r[rand[9]].visible = 0;
+					}
+					if ( r[i].red == 0 && r[i].green == 128/255.0 && r[i].blue == 0)
+					{
+						ball_fire = ball_fire + 3;
+					}
+					i = 120;			
+
+				}
+				if (s_ball.y > 449 && ball_fire >0)
+				{
+					s_ball.x = paddle.x + (paddle_width/2)-10;
+					s_ball.y = paddle.y;
+					space_button = 0;
+				}
+				if (s_ball touches bomb)
+				{
+					bomb_lives = bomb_lives -1;
+					bomb.y = bomb.y+10;
+					s_ball.x = paddle.x + (paddle_width/2)-10;
+					s_ball.y = paddle.y;
+					space_button = 0;
+					bomb_life.text = " Bomb Lives = " + bomb_lives;
+					if (bomb_lives <= 0)
+					{
+						bomb_life.text = "";
+						bomb.y = 450;
+						bomb_y_inc = 0;
+						bomb_x_inc = 0;
+						bomb.visible = 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+animation ball_animate(circle cur_ball)
+{
+	if (starting == 1)
+	{
+		// if ball has reached either the left or right, reverse its direction
+		if (cur_ball.x < 0 || cur_ball.x > window_width - ball_size)
+			ball_x_inc = -ball_x_inc;
+
+		// if ball has reached either the top or bottom, reverse its direction
+		if (cur_ball.y >= window_height - ball_size - 2)
+			ball_y_inc = -ball_y_inc;
+
+		//ball has hit the floor...print game over
+		if (cur_ball.y == 0)
+		{
+			game_over.text = "Game Over";
+			paddles.text = "";
+			bigger_ball.text= "";
+			for (i = 0; i < 120; i = i + 1)
+			{
+				r[i].visible = 0;
+			}
+			paddle.visible = 0;
+			starting = 0;
+			bomb.visible = 0;
+			shooting_ball.visible = 0;
+			ball.visible = 0;
+			gun.visible = 0;
+		}
+		// if ball touches the paddle, reverse its direction
+		if (cur_ball touches paddle)
+		{
+			blocks_display.text = blocks + " blocks left";
+			ball_y_inc = -ball_y_inc;
+			ball_x_inc = ball_x_inc;
+		}
+
+		//No more blocks left...You Win!
+		if (blocks <= 0)
+		{
+			game_over.text = "       You Win";
+			paddles.text = "";
+			bigger_ball.text= "";
+			for (i = 0; i < 120; i = i + 1)
+			{
+				r[i].visible = 0;
+			}
+			paddle.visible = 0;
+			starting = 0;
+			bomb.visible = 0;
+			shooting_ball.visible = 0;
+			ball.visible = 0;
+			gun.visible = 0;
+
+		}
+		// on each step of the animation, move the ball
+		cur_ball.x += ball_x_inc;
+		cur_ball.y += ball_y_inc;
+
+		for (i = 0; i < 120; i = i + 1)
+		{
+			if (r[i].visible && cur_ball touches r[i])
+			{
+				blocks = blocks - 1;
+				r[i].visible = 0;
+				ball_y_inc = - ball_y_inc;
+
+				//You hit a blue block...make the ball bigger
+				if ( r[i].green == 0 && r[i].red == 0 && r[i].blue== 255/255.0)
+					big_time = 500 + big_time;
+
+				//You hit a brown block...make the paddle bigger
+				if (r[i].red == .5)
+					paddle_time = 500 + paddle_time;
+
+				//You hit a black block, so randomly make 10 blocks 
+				//dissappear
+				if ( r[i].green == 0 && r[i].red == 0 && r[i].blue==0 )
+				{
+					rand[0]= random(60);
+					rand[1]= random(120);
+					rand[2]= random(60);
+					rand[3]= random(120);
+					rand[4]= random(60);
+					rand[5]= random(120);
+					rand[6]= random(60);
+					rand[7]= random(120);
+					rand[8]= random(60);
+					rand[9]= random(120);
+					rand[9]= random(120);
+					if (r[rand[0]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[1]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[2]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[3]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[4]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[5]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[6]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[7]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[8]].visible == 1)
+						blocks = blocks -1;
+					if (r[rand[9]].visible == 1)
+						blocks = blocks -1;
+					r[rand[0]].visible = 0;
+					r[rand[1]].visible = 0;
+					r[rand[2]].visible = 0;
+					r[rand[3]].visible = 0;
+					r[rand[4]].visible = 0;
+					r[rand[5]].visible = 0;
+					r[rand[6]].visible = 0;
+					r[rand[7]].visible = 0;
+					r[rand[8]].visible = 0;
+					r[rand[9]].visible = 0;
+				}
+				if ( r[i].red == 0 && r[i].green == 128/255.0 && r[i].blue == 0)
+				{
+					ball_fire = ball_fire + 3;
+					shooting = 1;
+				}
+				i = 120;
+			}
+
+		}
+		if (big_time >0)
+		{
+			cur_ball.radius = 18;
+			bigger_ball.text = "CHEAT BALL " + big_time ;
+		}
+
+		else
+		{
+			bigger_ball.text = "";
+			cur_ball.radius = ball_size / 2;
+		}
+		if ( paddle_time > 0)
+		{
+			paddles.text = "   BIG PADDLE " + paddle_time;
+			paddle.w = 140;
+		}
+		else
+		{
+			paddles.text = "";
+			paddle.w = 50;
+		}
+		if (big_time >= 0 )
+			big_time = big_time - 1;
+		if (paddle_time >= 0)
+			paddle_time = paddle_time -1;
+	}
+}
+
+animation bomb_fall(pixmap cur_bomb)
+{
+	if (starting == 1)
+	{
+		if (cur_bomb touches paddle)
+
+		{
+			game_over.text = "You Lost!";
+			paddles.text = "";
+			bigger_ball.text= "";
+			for (i = 0; i < 120; i = i + 1)
+			{
+				r[i].visible = 0;
+			}
+			paddle.visible = 0;
+			starting = 0;
+			cur_bomb.visible = 0;
+			shooting_ball.visible =0;
+			ball.visible = 0;
+			gun.visible = 0;
+		}
+		for (i = 0; i < 120; i = i + 1)
+		{
+			if (r[i].visible && cur_bomb touches r[i])
+			{
+				bomb_y_inc = - bomb_y_inc;
+				i = 120;
+			}
+		}
+
+		if (cur_bomb.x < 1 || cur_bomb.x > window_width - 20)
+			bomb_x_inc = -bomb_x_inc;
+
+		if (cur_bomb.y > 599 || cur_bomb.y == 0)
+			bomb_y_inc = -bomb_y_inc;
+
+		cur_bomb.x += bomb_x_inc;
+		cur_bomb.y += bomb_y_inc;
+	}
+}
+// when the user presses the left arrow, move the paddle left
+on leftarrow
+{
+	if (starting == 1)
+	{
+		if (paddle.x > 0)
+		{
+			paddle.x -= paddle_inc;
+			gun.x -= paddle_inc;
+		}
+	}
+}
+
+// when the user presses the right arrow, move the paddle right
+on rightarrow
+{
+	if (starting == 1)
+	{
+		if (paddle.x < window_width-paddle_width)
+		{
+			paddle.x += paddle_inc;
+			gun.x += paddle_inc;
+		}
+	}
+}
+
+//User pressed space, so allow the game to start
+on akey 
+{
+	starting = 1;
+	start.text = " ";
+	instructions.text = "";
+        instructions2.text = "";
+        instructions3.text = ""; 
+}
+on space
+{
+
+	if (ball_fire >0 && (shooting_ball.x == paddle.x + (paddle_width/2)-10 ) && shooting_ball.y == paddle.y)
+	{
+		space_button = 1;
+		ball_fire = ball_fire -1;
+	}
+}
